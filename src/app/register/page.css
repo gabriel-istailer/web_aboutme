@@ -1,0 +1,76 @@
+.register-header {
+    max-width: 100%;
+    width: 100vw;
+    min-height: 100vh;
+    
+    background-image: url(/images/abstract-blue-wallpaper.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+
+.register-header-nav {
+    max-width: 100%;
+    width: 100vw;
+    height: 10vh;
+}
+
+.register-header-nav .title {
+    font-size: 42px;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.register-header-section {
+    max-width: 100%;
+    height: 80vh;
+}
+
+.register-header-section .background {
+    width: 400px;
+    height: 600px;
+    border: 2px solid #aaa;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+}
+
+.register-header-section .form {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.register-header-section .title {
+    color: #fff;
+    font-size: 36px;
+}
+
+.register-header-section .file-input-signup {
+    width: 80px;
+    height: 80px;
+    background-color: blue;
+    cursor: pointer;
+}
+
+.register-header-section .input {
+    width: 250px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 3px;
+    background-color:  rgba(255, 255, 255, 0.1);
+    border: 2px solid #fff;
+    border-radius: 5px;
+    outline: 0;
+    transition: 0.2s;
+}
+.register-header-section .input:hover, .register-header-section .input:focus {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.register-header-section .label {
+    width: 250px;
+}
+

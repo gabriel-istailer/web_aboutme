@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'Nunito';
+    src: 
+    url('/fonts/Nunito-Regular.woff') format('woff'),
+    url('/fonts/Nunito-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+.font-Nunito {
+    font-family: 'Nunito';
+}
+@font-face {
+    font-family: 'LilyScriptOne';
+    src: 
+    url('/fonts/LilyScriptOne-Regular.woff') format('woff'),
+    url('/fonts/LilyScriptOne-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+.font-LilyScriptOne {
+    font-family: 'LilyScriptOne';
+}
+@font-face {
+    font-family: 'Sanchez';
+    src: 
+    url('/fonts/Sanchez-Regular.woff') format('woff'),
+    url('/fonts/Sanchez-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+.font-Sanchez {
+    font-family: 'Sanchez';
+}

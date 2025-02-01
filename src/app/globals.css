@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito';
+}
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flex-v-center {
+    display: flex;
+    align-items: center;
+}
+.flex-h-center {
+    display: flex;
+    justify-content: center;
+}
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+.flex {
+    display: flex;
+}
+.text-center {
+    text-align: center;
+}
+.overflow-hidden {
+    overflow: hidden;
+}
