@@ -23,7 +23,7 @@ export default function Register() {
 
     useEffect(() => {
         const formSignUp = document.getElementById('formSignUp');
-        if(formSignUp) {
+        if (formSignUp) {
             formSignUp.style.transition = isFirstRender ? '0s' : '0.4s';
             formSignUp.style.marginLeft = isRegistered ? '-100%' : '0px';
         }
@@ -47,31 +47,36 @@ export default function Register() {
 
                         <form className="form signup flex-center flex-column" id='formSignUp'>
 
-                            <h1 className="title title-signup text-center">Cadastro</h1>
+                            <div className="signup-stage-1 flex-center flex-column">
 
-                            <p className="file-p-signup">Clique aqui para carregar uma foto de perfil:</p>
-                            <label htmlFor="file-input-signup" className='file-input-signup'></label>
-                            <input type="file" name="file-input-signup" id="fileInputSignUp" accept='image/*' style={{display: 'none'}}/>
+                                <h1 className="title title-signup text-center">Cadastro</h1>
 
-                            <label htmlFor="name-input-signup" className='label'>Nome:</label>
-                            <input type="text" className='input' name="name-input-signup" id="nameInputSignUp" maxLength={20} minLength={2} required/>
+                                <label htmlFor="name-input-signup" className='label'>Nome:</label>
+                                <div className="label-container-signup label-name-signup">
+                                    <input type="text" className='input input-name-signup' name="name-input-signup" id="nameInputSignUp" maxLength={20} minLength={2} required />
+                                </div>
 
-                            <label htmlFor="email-input-signup" className='label'>Email:</label>
-                            <input type="email" className='input' name="email-input-signup" id="emailInputSignUp" required/>
+                                <label htmlFor="email-input-signup" className='label'>Email:</label>
+                                <input type="email" className='input input-email-signup' name="email-input-signup" id="emailInputSignUp" required />
 
-                            <label htmlFor="password-input-signup" className='label'>Senha:</label>
-                            <input type="password" className='input' name="password-input-signup" id="passwordInputSignUp" required/>
+                                <label htmlFor="password-input-signup" className='label'>Senha:</label>
+                                <input type="password" className='input input-password-signup' name="password-input-signup" id="passwordInputSignUp" required />
 
-                            <label htmlFor="show-password-input-signup">Mostrar senha:</label>
-                            <input type="checkbox" name="show-password-input-signup" id="showPasswordInputSignUp"/>
+                                <label htmlFor="show-password-input-signup">Mostrar senha:</label>
+                                <input type="checkbox" name="show-password-input-signup" id="showPasswordInputSignUp" />
 
-                            <label htmlFor="code-input-signup" className='label'>Código de verificação de email:</label>
-                            <input type="number" className='input' name="code-input-signup" id="codeInputSignUp" required/>
-                            <button type="button">Enviar código de verificação de email</button>
+                                <button type="button">Cadastrar</button>
 
-                            <button type="submit">Cadastrar</button>
+                                <button type="button" onClick={changeRegisteredStatus}>Entrar</button>
 
-                            <button type="button" onClick={changeRegisteredStatus}>Entrar</button>
+                            </div>
+
+                            <div className="signup-stage-2">
+
+                                <h1 className="title-signup-stage-2">Verificação de Email</h1>
+
+
+                            </div>
 
                         </form>
 

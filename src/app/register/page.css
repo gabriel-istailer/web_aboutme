@@ -60,17 +60,16 @@
     font-size: 18px;
     margin-bottom: 10px;
     padding: 3px;
-    background-color:  rgba(255, 255, 255, 0.1);
-    border: 2px solid #fff;
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 2px solid #ccc;
     border-radius: 5px;
     outline: 0;
     transition: 0.2s;
 }
 .register-header-section .input:hover, .register-header-section .input:focus {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .register-header-section .label {
     width: 250px;
 }
-
