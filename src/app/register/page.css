@@ -131,7 +131,3 @@
 .register-header-section .button-go-signin:hover {
     text-decoration: underline #fff;
 }
-
-.register-header-section .signup-stage-2 {
-    display: none;
-}

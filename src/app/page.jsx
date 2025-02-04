@@ -4,8 +4,6 @@ import Link from 'next/link';
 
 export default function Home() {
 
-    const isRegistered = true;
-
     return (
         <div className='home'>
             <header className="home-header">
