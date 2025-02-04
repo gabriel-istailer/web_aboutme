@@ -48,17 +48,9 @@
     font-size: 36px;
 }
 
-.register-header-section .file-input-signup {
-    width: 80px;
-    height: 80px;
-    background-color: blue;
-    cursor: pointer;
-}
-
 .register-header-section .input {
-    width: 250px;
+    width: 300px;
     font-size: 18px;
-    margin-bottom: 10px;
     padding: 3px;
     background-color: rgba(255, 255, 255, 0.25);
     border: 2px solid #ccc;
@@ -71,5 +63,75 @@
 }
 
 .register-header-section .label {
-    width: 250px;
+    width: 300px;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.register-header-section .checkbox-show-password-signup {
+    display: none;
+}
+
+.register-header-section .label-container-checkbox-signup {
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.register-header-section .label-checkbox-signup {
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+}
+.register-header-section .label-checkbox-signup:hover {
+    text-decoration: underline #fff;
+}
+
+.register-header-section .label-checkbox-signup::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 102%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: transparent;
+}
+.register-header-section .checkbox-show-password-signup:checked + .label-checkbox-signup::after {
+    background-color: #fff;
+    border: 2px solid #999;
+}
+
+.register-header-section .button-signup {
+    width: 200px;
+    font-size: 24px;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    background-color: #fff;
+    color: #000;
+    transition: 0.2s;
+}
+.register-header-section .button-signup:hover {
+    cursor: pointer;
+    border: 2px solid #ddd;
+    background-color: #ddd;
+}
+
+.register-header-section .button-go-signin {
+    cursor: pointer;
+    font-size: 15px;
+    border: 0;
+    background-color: transparent;
+    color: #fff;
+    transition: 0.2s;
+}
+.register-header-section .button-go-signin:hover {
+    text-decoration: underline #fff;
+}
+
+.register-header-section .signup-stage-2 {
+    display: none;
 }
