@@ -46,16 +46,40 @@ export default function Register() {
     }
 
     function nextStageSignUp() {
-        setDisplaySignUpStages(false);
         const nameInputSignUp = document.getElementById('nameInputSignUp');
         const emailInputSignUp = document.getElementById('emailInputSignUp');
         const passwordInputSignUp = document.getElementById('passwordInputSignUp');
+        
+        const pMessageSignUp = document.getElementById('pMessageSignUp');
+        
+        if(nameInputSignUp.value.trim().length < 3 || nameInputSignUp.value.trim().length > 50) {
+            pMessageSignUp.textContent = 'O nome deve conter entre 3 à 50 caracteres';
+            return;
+        }
+        
+        const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if(!regex_email_validation.test(emailInputSignUp.value)){
+            pMessageSignUp.textContent = 'Email inválido';
+            return;
+        }
+        
+        if(passwordInputSignUp.value.trim().length < 6 || passwordInputSignUp.value.trim().length > 16){
+            pMessageSignUp.textContent = 'A senha deve conter entre 6 à 16 caracteres';
+            return;
+        } else if(passwordInputSignUp.value.includes(' ')) {
+            pMessageSignUp.textContent = 'A senha não pode conter espaços';
+            return;
+        }
+        
+        setDisplaySignUpStages(false);
         setSignUpData({
             name: nameInputSignUp.value,
             email: emailInputSignUp.value,
             password: passwordInputSignUp.value,
             email_code: ''
         });
+        const spanUserEmail = document.getElementById('spanUserEmail');
+        spanUserEmail.textContent = emailInputSignUp.value;
     }
 
     function backStageSignUp() {
@@ -110,12 +134,19 @@ export default function Register() {
 
                                 <button type="button" onClick={changeRegisteredStatus} className='button-go-signin'>Já tem uma conta cadastrada? Então entre por aqui.</button>
 
+                                <p className="message-signup text-center" id='pMessageSignUp'></p>
+
                             </div>
 
                             <div className="signup-stage-2 flex-center flex-column" style={displaySignUpStages ? {display: 'none'} : {display: 'flex'}}>
 
                                 <h1 className="title title-signup-stage-2">Verificação de Email</h1>
                                 
+                                <p className="advice-signup text-center">
+                                    Enviamos um email com um código de verificação para <span id='spanUserEmail'></span>. Digite o código abaixo para verificarmos seu email.
+                                </p>
+
+                                <label htmlFor="inputEmailCodeSignUp" className="label">Código de verificação:</label>
                                 <input type="number" className='input' name="inputEmailCodeSignUp" id="inputEmailCodeSignUp" required/>
 
                                 <button type='button' onClick={backStageSignUp} className="button">Voltar</button>

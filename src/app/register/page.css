@@ -123,6 +123,7 @@
 .register-header-section .button-go-signin {
     cursor: pointer;
     font-size: 15px;
+    margin-bottom: 15px;
     border: 0;
     background-color: transparent;
     color: #fff;
@@ -130,4 +131,16 @@
 }
 .register-header-section .button-go-signin:hover {
     text-decoration: underline #fff;
+}
+
+.register-header-section .message-signup {
+    width: 350px;
+    color: rgb(230, 210, 0);
+}
+
+.register-header-section .advice-signup {
+    width: 350px;
+    margin-top: 15px;
+    color: #fff;
+
 }
