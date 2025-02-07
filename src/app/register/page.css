@@ -25,7 +25,7 @@
 
 .register-header-section {
     max-width: 100%;
-    height: 80vh;
+    min-height: 80vh;
 }
 
 .register-header-section .background {
@@ -75,7 +75,6 @@
 
 .register-header-section .label-container-checkbox-signup {
     width: 300px;
-    margin-bottom: 20px;
 }
 
 .register-header-section .label-checkbox-signup {
@@ -90,8 +89,8 @@
 .register-header-section .label-checkbox-signup::after {
     content: '';
     position: absolute;
-    top: 4px;
-    left: 102%;
+    top: 4.5px;
+    left: 105%;
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -100,13 +99,13 @@
 }
 .register-header-section .checkbox-show-password-signup:checked + .label-checkbox-signup::after {
     background-color: #fff;
-    border: 2px solid #999;
+    border: 2px solid #555;
 }
 
-.register-header-section .button-signup {
+.register-header-section .button-form {
     width: 200px;
     font-size: 24px;
-    margin-bottom: 15px;
+    margin-top: 20px;
     padding: 5px;
     border-radius: 10px;
     border: 2px solid #fff;
@@ -114,23 +113,10 @@
     color: #000;
     transition: 0.2s;
 }
-.register-header-section .button-signup:hover {
+.register-header-section .button-form:hover {
     cursor: pointer;
     border: 2px solid #ddd;
     background-color: #ddd;
-}
-
-.register-header-section .button-go-signin {
-    cursor: pointer;
-    font-size: 15px;
-    margin-bottom: 15px;
-    border: 0;
-    background-color: transparent;
-    color: #fff;
-    transition: 0.2s;
-}
-.register-header-section .button-go-signin:hover {
-    text-decoration: underline #fff;
 }
 
 .register-header-section .message-signup {
@@ -140,7 +126,19 @@
 
 .register-header-section .advice-signup {
     width: 350px;
-    margin-top: 15px;
+    margin-top: 20px;
     color: #fff;
+}
 
+.register-header-section .button-simple {
+    max-width: 350px;
+    font-size: 16px;
+    margin-top: 20px;
+    color: #ddd;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+.register-header-section .button-simple:hover {
+    text-decoration: underline #ddd;
 }

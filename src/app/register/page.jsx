@@ -130,9 +130,9 @@ export default function Register() {
                                     <label htmlFor="showPasswordCheckboxSignUp" className='label-checkbox-signup'>Mostrar senha:</label>
                                 </div>
 
-                                <button type="button" onClick={nextStageSignUp} className='button-signup'>Cadastrar</button>
+                                <button type="button" onClick={nextStageSignUp} className='button-form'>Cadastrar</button>
 
-                                <button type="button" onClick={changeRegisteredStatus} className='button-go-signin'>Já tem uma conta cadastrada? Então entre por aqui.</button>
+                                <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Já tem uma conta cadastrada? Então entre por aqui.</button>
 
                                 <p className="message-signup text-center" id='pMessageSignUp'></p>
 
@@ -147,9 +147,13 @@ export default function Register() {
                                 </p>
 
                                 <label htmlFor="inputEmailCodeSignUp" className="label">Código de verificação:</label>
-                                <input type="number" className='input' name="inputEmailCodeSignUp" id="inputEmailCodeSignUp" required/>
+                                <input type="number" className='input text-center' min='0' max='999999' name="inputEmailCodeSignUp" id="inputEmailCodeSignUp" required/>
 
-                                <button type='button' onClick={backStageSignUp} className="button">Voltar</button>
+                                <button type="button" className='button-form'>Cadastrar</button>
+
+                                <button type="button" className='button-simple'>Reenviar código</button>
+
+                                <button type='button' onClick={backStageSignUp} className='button-simple'>Voltar para o cadastro</button>
 
                             </div>
 
