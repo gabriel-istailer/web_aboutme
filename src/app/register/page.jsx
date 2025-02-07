@@ -12,8 +12,9 @@ export default function Register() {
 
     const [isRegistered, setIsRegistered] = useState(false);
     const [isFirstRender, setIsFirstRender] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
-    const [displaySignUpStages, setDisplaySignUpStages] = useState(true);
+    const [showPasswordSignUp, setShowPasswordSignUp] = useState(false);
+    const [showPasswordSignIn, setShowPasswordSignIn] = useState(false);
+    const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
     const [signUpData, setSignUpData] = useState({
         name: '',
         email: '',
@@ -41,55 +42,59 @@ export default function Register() {
         setIsRegistered((prev) => !prev);
     }
 
-    function changeShowPassword() {
-        setShowPassword((prev) => !prev);
+    function changeShowPassword(isSignUp) {
+        if(isSignUp) {
+            setShowPasswordSignUp((prev) => !prev);
+        } else {
+            setShowPasswordSignIn((prev) => !prev);
+        }  
     }
 
-    function nextStageSignUp() {
-        const nameInputSignUp = document.getElementById('nameInputSignUp');
-        const emailInputSignUp = document.getElementById('emailInputSignUp');
-        const passwordInputSignUp = document.getElementById('passwordInputSignUp');
-        
+    function nextStageSignUp(isSignUp) {
+        const inputNameSignUp = document.getElementById('inputNameSignUp');
+        const inputEmailSignUp = document.getElementById('inputEmailSignUp');
+        const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
+
         const pMessageSignUp = document.getElementById('pMessageSignUp');
-        
-        if(nameInputSignUp.value.trim().length < 3 || nameInputSignUp.value.trim().length > 50) {
+
+        if (inputNameSignUp.value.trim().length < 3 || inputNameSignUp.value.trim().length > 50) {
             pMessageSignUp.textContent = 'O nome deve conter entre 3 à 50 caracteres';
             return;
         }
-        
+
         const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if(!regex_email_validation.test(emailInputSignUp.value)){
+        if (!regex_email_validation.test(inputEmailSignUp.value)) {
             pMessageSignUp.textContent = 'Email inválido';
             return;
         }
-        
-        if(passwordInputSignUp.value.trim().length < 6 || passwordInputSignUp.value.trim().length > 16){
+
+        if (inputPasswordSignUp.value.trim().length < 6 || inputPasswordSignUp.value.trim().length > 16) {
             pMessageSignUp.textContent = 'A senha deve conter entre 6 à 16 caracteres';
             return;
-        } else if(passwordInputSignUp.value.includes(' ')) {
+        } else if (inputPasswordSignUp.value.includes(' ')) {
             pMessageSignUp.textContent = 'A senha não pode conter espaços';
             return;
         }
-        
-        setDisplaySignUpStages(false);
+
+        setDisplayEmailVerification(true);
         setSignUpData({
-            name: nameInputSignUp.value,
-            email: emailInputSignUp.value,
-            password: passwordInputSignUp.value,
+            name: inputNameSignUp.value,
+            email: inputEmailSignUp.value,
+            password: inputPasswordSignUp.value,
             email_code: ''
         });
         const spanUserEmail = document.getElementById('spanUserEmail');
-        spanUserEmail.textContent = emailInputSignUp.value;
+        spanUserEmail.textContent = inputEmailSignUp.value;
     }
 
     function backStageSignUp() {
-        setDisplaySignUpStages(true);
-        const nameInputSignUp = document.getElementById('nameInputSignUp');
-        const emailInputSignUp = document.getElementById('emailInputSignUp');
-        const passwordInputSignUp = document.getElementById('passwordInputSignUp');
-        nameInputSignUp.value = '';
-        emailInputSignUp.value = '';
-        passwordInputSignUp.value = '';
+        setDisplayEmailVerification(false);
+        const inputNameSignUp = document.getElementById('inputNameSignUp');
+        const inputEmailSignUp = document.getElementById('inputEmailSignUp');
+        const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
+        inputNameSignUp.value = '';
+        inputEmailSignUp.value = '';
+        inputPasswordSignUp.value = '';
         setSignUpData({
             name: '',
             email: '',
@@ -110,59 +115,70 @@ export default function Register() {
                 <section className="register-header-section flex-center">
                     <div className='background flex-v-center overflow-hidden'>
 
-                        <form className="form signup flex-center flex-column" id='formSignUp'>
+                        <form className="form flex-center flex-column" id='formSignUp' style={displayEmailVerification ? {display: 'none'} : {display: 'flex'}}>
 
-                            <div className="signup-stage-1 flex-center flex-column" style={displaySignUpStages ? {display: 'flex'} : {display: 'none'}}>
+                            <h1 className="title-form text-center">Cadastro</h1>
 
-                                <h1 className="title title-signup text-center">Cadastro</h1>
+                            <label htmlFor="nameInputSignUp" className='label-form'>Nome:</label>
+                            <input type="text" className='input-form' name="inputNameSignUp" id="inputNameSignUp" maxLength={50} minLength={3} required />
 
-                                <label htmlFor="nameInputSignUp" className='label'>Nome:</label>
-                                <input type="text" className='input input-name-signup' name="nameInputSignUp" id="nameInputSignUp" maxLength={20} minLength={2} required />
+                            <label htmlFor="emailInputSignUp" className='label-form'>Email:</label>
+                            <input type="email" className='input-form' name="inputEmailSignUp" id="inputEmailSignUp" required />
 
-                                <label htmlFor="emailInputSignUp" className='label'>Email:</label>
-                                <input type="email" className='input input-email-signup' name="emailInputSignUp" id="emailInputSignUp" required />
+                            <label htmlFor="inputPasswordSignUp" className='label-form'>Senha:</label>
+                            <input type={showPasswordSignUp ? 'text' : 'password'} className='input-form' name="inputPasswordSignUp" id="inputPasswordSignUp" required />
 
-                                <label htmlFor="passwordInputSignUp" className='label'>Senha:</label>
-                                <input type={showPassword ? 'text' : 'password'} className='input input-password-signup' name="passwordInputSignUp" id="passwordInputSignUp" required />
-
-                                <div className="label-container-checkbox-signup flex-v-center">
-                                    <input type="checkbox" checked={showPassword} onChange={changeShowPassword} className='checkbox-show-password-signup' name="showPasswordCheckboxSignUp" id="showPasswordCheckboxSignUp" />
-                                    <label htmlFor="showPasswordCheckboxSignUp" className='label-checkbox-signup'>Mostrar senha:</label>
-                                </div>
-
-                                <button type="button" onClick={nextStageSignUp} className='button-form'>Cadastrar</button>
-
-                                <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Já tem uma conta cadastrada? Então entre por aqui.</button>
-
-                                <p className="message-signup text-center" id='pMessageSignUp'></p>
-
+                            <div className="label-container-checkbox-form flex-v-center">
+                                <input type="checkbox" checked={showPasswordSignUp} onChange={() => changeShowPassword(true)} className='checkbox-show-password-form' name="showPasswordCheckboxSignUp" id="showPasswordCheckboxSignUp" />
+                                <label htmlFor="showPasswordCheckboxSignUp" className='label-checkbox-form'>Mostrar senha:</label>
                             </div>
 
-                            <div className="signup-stage-2 flex-center flex-column" style={displaySignUpStages ? {display: 'none'} : {display: 'flex'}}>
+                            <button type="button" onClick={nextStageSignUp} className='button-form'>Cadastrar</button>
 
-                                <h1 className="title title-signup-stage-2">Verificação de Email</h1>
-                                
-                                <p className="advice-signup text-center">
-                                    Enviamos um email com um código de verificação para <span id='spanUserEmail'></span>. Digite o código abaixo para verificarmos seu email.
-                                </p>
+                            <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Já tem uma conta cadastrada? Então entre por aqui.</button>
 
-                                <label htmlFor="inputEmailCodeSignUp" className="label">Código de verificação:</label>
-                                <input type="number" className='input text-center' min='0' max='999999' name="inputEmailCodeSignUp" id="inputEmailCodeSignUp" required/>
-
-                                <button type="button" className='button-form'>Cadastrar</button>
-
-                                <button type="button" className='button-simple'>Reenviar código</button>
-
-                                <button type='button' onClick={backStageSignUp} className='button-simple'>Voltar para o cadastro</button>
-
-                            </div>
+                            <p className="message-form text-center" id='pMessageSignUp'></p>
 
                         </form>
 
-                        <form className="form signin flex-center flex-column">
-                            <h1 className="title title-signin text-center">Entrar</h1>
-                            <button type="button" onClick={changeRegisteredStatus}>Cadastrar</button>
+                        <form className="form flex-center flex-column" style={displayEmailVerification ? {display: 'none'} : {display: 'flex'}}>
+
+                            <h1 className="title-form text-center">Entrar</h1>
+
+                            <label htmlFor="inputEmailSignIn" className="label-form">Email:</label>
+                            <input type="email" className='input-form' name="inputEmailSignIn" id="inputEmailSignIn" required />
+
+                            <label htmlFor="inputPasswordSignIn" className="label-form">Senha:</label>
+                            <input type={showPasswordSignIn ? 'text' : 'password'} className='input-form' name="inputPasswordSignIn" id="inputPasswordSignIn" required />
+                            <div className="label-container-checkbox-form flex-v-center">
+                                <input type="checkbox" checked={showPasswordSignIn} onChange={() => changeShowPassword(false)} className='checkbox-show-password-form' name="showPasswordCheckboxSignIn" id="showPasswordCheckboxSignIn" />
+                                <label htmlFor="showPasswordCheckboxSignIn" className='label-checkbox-form'>Mostrar senha:</label>
+                            </div>
+
+                            <button type="button" className='button-form'>Entrar</button>
+
+                            <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Não tem uma conta cadastrada? Então cadastre-se por aqui.</button>
+
                         </form>
+
+                        <div className="flex-center flex-column" style={displayEmailVerification ? {display: 'flex'} : {display: 'none'}}>
+
+                            <h1 className="title-form">Verificação de Email</h1>
+
+                            <p className="advice-form text-center">
+                                Enviamos um email com um código de verificação para <span id='spanUserEmail'></span>. Digite o código abaixo para verificarmos seu email.
+                            </p>
+
+                            <label htmlFor="inputEmailCodeSignUp" className="label-form">Código de verificação:</label>
+                            <input type="number" className='input-form input-email-code-form text-center' min='0' max='999999' name="inputEmailCodeSignUp" id="inputEmailCodeSignUp" required />
+
+                            <button type="button" className='button-form'>Cadastrar</button>
+
+                            <button type="button" className='button-simple'>Reenviar código</button>
+
+                            <button type='button' onClick={backStageSignUp} className='button-simple'>Voltar para o cadastro</button>
+
+                        </div>
 
                     </div>
                 </section>

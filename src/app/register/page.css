@@ -43,12 +43,12 @@
     height: 100%;
 }
 
-.register-header-section .title {
+.register-header-section .title-form {
     color: #fff;
     font-size: 36px;
 }
 
-.register-header-section .input {
+.register-header-section .input-form {
     width: 300px;
     font-size: 18px;
     padding: 3px;
@@ -58,35 +58,35 @@
     outline: 0;
     transition: 0.2s;
 }
-.register-header-section .input:hover, .register-header-section .input:focus {
+.register-header-section .input-form:hover, .register-header-section .input-form:focus {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.register-header-section .label {
+.register-header-section .label-form {
     width: 300px;
     margin-top: 15px;
     font-size: 18px;
     color: #fff;
 }
 
-.register-header-section .checkbox-show-password-signup {
+.register-header-section .checkbox-show-password-form {
     display: none;
 }
 
-.register-header-section .label-container-checkbox-signup {
+.register-header-section .label-container-checkbox-form {
     width: 300px;
 }
 
-.register-header-section .label-checkbox-signup {
+.register-header-section .label-checkbox-form {
     color: #fff;
     cursor: pointer;
     position: relative;
 }
-.register-header-section .label-checkbox-signup:hover {
+.register-header-section .label-checkbox-form:hover {
     text-decoration: underline #fff;
 }
 
-.register-header-section .label-checkbox-signup::after {
+.register-header-section .label-checkbox-form::after {
     content: '';
     position: absolute;
     top: 4.5px;
@@ -97,7 +97,7 @@
     border: 2px solid #fff;
     background-color: transparent;
 }
-.register-header-section .checkbox-show-password-signup:checked + .label-checkbox-signup::after {
+.register-header-section .checkbox-show-password-form:checked + .label-checkbox-form::after {
     background-color: #fff;
     border: 2px solid #555;
 }
@@ -119,19 +119,19 @@
     background-color: #ddd;
 }
 
-.register-header-section .message-signup {
+.register-header-section .message-form {
     width: 350px;
     color: rgb(230, 210, 0);
 }
 
-.register-header-section .advice-signup {
+.register-header-section .advice-form {
     width: 350px;
     margin-top: 20px;
     color: #fff;
 }
 
 .register-header-section .button-simple {
-    max-width: 350px;
+    max-width: 250px;
     font-size: 16px;
     margin-top: 20px;
     color: #ddd;
@@ -140,5 +140,11 @@
     cursor: pointer;
 }
 .register-header-section .button-simple:hover {
-    text-decoration: underline #ddd;
+    color: #fff;
+    text-decoration: underline #fff;
+}
+
+.register-header-section .input-email-code-form::-webkit-inner-spin-button, .register-header-section .input-email-code-form::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
