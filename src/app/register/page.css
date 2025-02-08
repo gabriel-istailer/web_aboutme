@@ -99,7 +99,7 @@
 }
 .register-header-section .checkbox-show-password-form:checked + .label-checkbox-form::after {
     background-color: #fff;
-    border: 2px solid #555;
+    border: 2px solid #ccc;
 }
 
 .register-header-section .button-form {
@@ -121,6 +121,8 @@
 
 .register-header-section .message-form {
     width: 350px;
+    margin-top: 15px;
+    text-align: center;
     color: rgb(230, 210, 0);
 }
 

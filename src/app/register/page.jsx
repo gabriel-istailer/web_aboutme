@@ -50,7 +50,11 @@ export default function Register() {
         }  
     }
 
-    function nextStageSignUp(isSignUp) {
+    function inputValidations(isSignUp) {
+
+    }
+
+    function startEmailVerification(isSignUp) {
         const inputNameSignUp = document.getElementById('inputNameSignUp');
         const inputEmailSignUp = document.getElementById('inputEmailSignUp');
         const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
@@ -87,7 +91,7 @@ export default function Register() {
         spanUserEmail.textContent = inputEmailSignUp.value;
     }
 
-    function backStageSignUp() {
+    function cancelEmailVerification() {
         setDisplayEmailVerification(false);
         const inputNameSignUp = document.getElementById('inputNameSignUp');
         const inputEmailSignUp = document.getElementById('inputEmailSignUp');
@@ -133,7 +137,7 @@ export default function Register() {
                                 <label htmlFor="showPasswordCheckboxSignUp" className='label-checkbox-form'>Mostrar senha:</label>
                             </div>
 
-                            <button type="button" onClick={nextStageSignUp} className='button-form'>Cadastrar</button>
+                            <button type="button" onClick={() => startEmailVerification(true)} className='button-form'>Cadastrar</button>
 
                             <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Já tem uma conta cadastrada? Então entre por aqui.</button>
 
@@ -143,7 +147,7 @@ export default function Register() {
 
                         <form className="form flex-center flex-column" style={displayEmailVerification ? {display: 'none'} : {display: 'flex'}}>
 
-                            <h1 className="title-form text-center">Entrar</h1>
+                            <h1 className="title-form">Entrar</h1>
 
                             <label htmlFor="inputEmailSignIn" className="label-form">Email:</label>
                             <input type="email" className='input-form' name="inputEmailSignIn" id="inputEmailSignIn" required />
@@ -159,9 +163,11 @@ export default function Register() {
 
                             <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Não tem uma conta cadastrada? Então cadastre-se por aqui.</button>
 
+                            <p className="message-form" id='pMessageSignIn'></p>
+
                         </form>
 
-                        <div className="flex-center flex-column" style={displayEmailVerification ? {display: 'flex'} : {display: 'none'}}>
+                        <div className="form flex-center flex-column" style={displayEmailVerification ? {display: 'flex'} : {display: 'none'}}>
 
                             <h1 className="title-form">Verificação de Email</h1>
 
@@ -176,7 +182,9 @@ export default function Register() {
 
                             <button type="button" className='button-simple'>Reenviar código</button>
 
-                            <button type='button' onClick={backStageSignUp} className='button-simple'>Voltar para o cadastro</button>
+                            <button type='button' onClick={() => cancelEmailVerification()} className='button-simple'>Voltar para o cadastro</button>
+
+                            <p className="message-form" id='pMessageEmailVerification'></p>
 
                         </div>
 
