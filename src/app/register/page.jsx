@@ -21,6 +21,11 @@ export default function Register() {
         password: '',
         email_code: ''
     });
+    const [signInData, setSignInData] = useState({
+        email: '',
+        password: '',
+        email_code: ''
+    });
 
     useEffect(() => {
         const registeredStatus = searchParams.get('isRegistered') === 'yes';
@@ -51,60 +56,110 @@ export default function Register() {
     }
 
     function inputValidations(isSignUp) {
+        let inputEmail = null;
+        let inputPassword = null;
+        let pMessage = null;
+        if(isSignUp) {
+            const inputNameSignUp = document.getElementById('inputNameSignUp');
+            inputEmail = document.getElementById('inputEmailSignUp');
+            inputPassword = document.getElementById('inputPasswordSignUp');
+            pMessage = document.getElementById('pMessageSignUp');
+            if (inputNameSignUp.value.trim().length < 3 || inputNameSignUp.value.trim().length > 50) {
+                pMessage.textContent = 'O nome deve conter entre 3 à 50 caracteres';
+                return false;
+            }
+        } else {
+            inputEmail = document.getElementById('inputEmailSignIn');
+            inputPassword = document.getElementById('inputPasswordSignIn');
+            pMessage = document.getElementById('pMessageSignIn');
+        }
+        const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!regex_email_validation.test(inputEmail.value)) {
+            pMessage.textContent = 'Email inválido';
+            return false;
+        }
 
+        if (inputPassword.value.trim().length < 6 || inputPassword.value.trim().length > 16) {
+            pMessage.textContent = 'A senha deve conter entre 6 à 16 caracteres';
+            return false;
+        } else if (inputPassword.value.includes(' ')) {
+            pMessage.textContent = 'A senha não pode conter espaços';
+            return false;
+        }
+
+        return true;
     }
 
     function startEmailVerification(isSignUp) {
-        const inputNameSignUp = document.getElementById('inputNameSignUp');
-        const inputEmailSignUp = document.getElementById('inputEmailSignUp');
-        const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
-
-        const pMessageSignUp = document.getElementById('pMessageSignUp');
-
-        if (inputNameSignUp.value.trim().length < 3 || inputNameSignUp.value.trim().length > 50) {
-            pMessageSignUp.textContent = 'O nome deve conter entre 3 à 50 caracteres';
-            return;
+        let inputEmail = null;
+        const buttonFinishForm = document.getElementById('buttonFinishForm');
+        if(isSignUp) {
+            if(!inputValidations(true)) {
+                return;
+            }
+            const inputNameSignUp = document.getElementById('inputNameSignUp');
+            inputEmail = document.getElementById('inputEmailSignUp');
+            const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
+            setSignUpData({
+                name: inputNameSignUp.value,
+                email: inputEmail.value,
+                password: inputPasswordSignUp.value,
+                email_code: ''
+            });
+            buttonFinishForm.textContent = 'Cadastrar';
+        } else {
+            if(!inputValidations(false)) {
+                return;
+            }
+            inputEmail = document.getElementById('inputEmailSignIn');
+            const inputPasswordSignIn = document.getElementById('inputPasswordSignIn');
+            setSignInData({
+                email: inputEmail.value,
+                password: inputPasswordSignIn.value,
+                email_code: ''
+            });
+            buttonFinishForm.textContent = 'Entrar';
         }
 
-        const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!regex_email_validation.test(inputEmailSignUp.value)) {
-            pMessageSignUp.textContent = 'Email inválido';
-            return;
-        }
-
-        if (inputPasswordSignUp.value.trim().length < 6 || inputPasswordSignUp.value.trim().length > 16) {
-            pMessageSignUp.textContent = 'A senha deve conter entre 6 à 16 caracteres';
-            return;
-        } else if (inputPasswordSignUp.value.includes(' ')) {
-            pMessageSignUp.textContent = 'A senha não pode conter espaços';
-            return;
-        }
-
-        setDisplayEmailVerification(true);
-        setSignUpData({
-            name: inputNameSignUp.value,
-            email: inputEmailSignUp.value,
-            password: inputPasswordSignUp.value,
-            email_code: ''
-        });
         const spanUserEmail = document.getElementById('spanUserEmail');
-        spanUserEmail.textContent = inputEmailSignUp.value;
+        spanUserEmail.textContent = inputEmail.value;
+        setDisplayEmailVerification(true);
     }
 
     function cancelEmailVerification() {
+        let isSignUp = true;
+        const buttonFinishForm = document.getElementById('buttonFinishForm');
+        if(buttonFinishForm.textContent === 'Entrar') {
+            isSignUp = false;
+        }
+
+        if(isSignUp) {
+            const inputNameSignUp = document.getElementById('inputNameSignUp');
+            const inputEmailSignUp = document.getElementById('inputEmailSignUp');
+            const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
+            inputNameSignUp.value = '';
+            inputEmailSignUp.value = '';
+            inputPasswordSignUp.value = '';
+            setSignUpData({
+                name: '',
+                email: '',
+                password: '',
+                email_code: ''
+            });
+        } else {
+            const inputEmailSignIn = document.getElementById('inputEmailSignIn');
+            const inputPasswordSignIn = document.getElementById('inputPasswordSignIn');
+            inputEmailSignIn.value = '';
+            inputPasswordSignIn.value = '';
+            setSignInData({
+                email: '',
+                password: '',
+                email_code: ''
+            });
+        }
+
+        buttonFinishForm.textContent = '';
         setDisplayEmailVerification(false);
-        const inputNameSignUp = document.getElementById('inputNameSignUp');
-        const inputEmailSignUp = document.getElementById('inputEmailSignUp');
-        const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
-        inputNameSignUp.value = '';
-        inputEmailSignUp.value = '';
-        inputPasswordSignUp.value = '';
-        setSignUpData({
-            name: '',
-            email: '',
-            password: '',
-            email_code: ''
-        });
     }
 
     return (
@@ -159,7 +214,7 @@ export default function Register() {
                                 <label htmlFor="showPasswordCheckboxSignIn" className='label-checkbox-form'>Mostrar senha:</label>
                             </div>
 
-                            <button type="button" className='button-form'>Entrar</button>
+                            <button type="button" onClick={() => startEmailVerification(false)} className='button-form'>Entrar</button>
 
                             <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Não tem uma conta cadastrada? Então cadastre-se por aqui.</button>
 
@@ -178,11 +233,11 @@ export default function Register() {
                             <label htmlFor="inputEmailCodeSignUp" className="label-form">Código de verificação:</label>
                             <input type="number" className='input-form input-email-code-form text-center' min='0' max='999999' name="inputEmailCodeSignUp" id="inputEmailCodeSignUp" required />
 
-                            <button type="button" className='button-form'>Cadastrar</button>
+                            <button type="button" className='button-form' id='buttonFinishForm'></button>
 
                             <button type="button" className='button-simple'>Reenviar código</button>
 
-                            <button type='button' onClick={() => cancelEmailVerification()} className='button-simple'>Voltar para o cadastro</button>
+                            <button type='button' onClick={cancelEmailVerification} className='button-simple'>Voltar para o formulário</button>
 
                             <p className="message-form" id='pMessageEmailVerification'></p>
 
