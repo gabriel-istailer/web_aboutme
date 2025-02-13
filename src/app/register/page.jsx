@@ -90,7 +90,34 @@ export default function Register() {
         return true;
     }
 
-    function startEmailVerification(isSignUp) {
+    async function sendEmailVerification(isSignUp) {
+        let inputEmail = null;
+        if(isSignUp) {
+            inputEmail = document.getElementById('inputEmailSignUp');
+        } else {
+            inputEmail = document.getElementById('inputEmailSignIn');
+        }
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        try {
+            const res = await fetch(process.env.NEXT_PUBLIC_API_ROUTE_EMAIL_VERIFICATION, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: inputEmail.value, isSignUp: isSignUp})
+            });
+            if(!res.ok) {
+                console.log('Response não está ok');
+            }
+            const resData = await res.json();
+            pMessageEmailVerification.textContent = resData.message;
+        } catch(error) {
+            console.log('Erro no fetch para enviar o email de verificação: ', error);
+            pMessageEmailVerification.textContent = 'Erro ao enviar email de verificação';
+        }
+    }
+
+    async function startEmailVerification(isSignUp) {
         let inputEmail = null;
         const buttonFinishForm = document.getElementById('buttonFinishForm');
         if(isSignUp) {
@@ -124,6 +151,8 @@ export default function Register() {
         const spanUserEmail = document.getElementById('spanUserEmail');
         spanUserEmail.textContent = inputEmail.value;
         setDisplayEmailVerification(true);
+
+        await sendEmailVerification(isSignUp);
     }
 
     function cancelEmailVerification() {
