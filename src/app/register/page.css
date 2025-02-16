@@ -143,7 +143,13 @@
 }
 .register-header-section .button-simple:hover {
     color: #fff;
-    text-decoration: underline #fff;
+    text-decoration: underline;
+}
+.register-header-section .button-simple-disabled {
+    color: #aaa;
+}
+.register-header-section .button-simple-disabled:hover {
+    color: #aaa;
 }
 
 .register-header-section .input-email-code-form::-webkit-inner-spin-button, .register-header-section .input-email-code-form::-webkit-outer-spin-button {

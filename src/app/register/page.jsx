@@ -15,6 +15,7 @@ export default function Register() {
     const [showPasswordSignUp, setShowPasswordSignUp] = useState(false);
     const [showPasswordSignIn, setShowPasswordSignIn] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
+    const [resendEmailVerification, setResendEmailVerification] = useState(false);
     const [signUpData, setSignUpData] = useState({
         name: '',
         email: '',
@@ -90,13 +91,25 @@ export default function Register() {
         return true;
     }
 
-    async function sendEmailVerification(isSignUp) {
+    function noResendEmailVerification() {
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
+    }
+
+    async function sendEmailVerification() {
+        let isSignUp = true;
+        const buttonFinishForm = document.getElementById('buttonFinishForm');
+        if(buttonFinishForm.textContent === 'Entrar') {
+            isSignUp = false;
+        }
+
         let inputEmail = null;
         if(isSignUp) {
             inputEmail = document.getElementById('inputEmailSignUp');
         } else {
             inputEmail = document.getElementById('inputEmailSignIn');
         }
+        
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         try {
             const res = await fetch(process.env.NEXT_PUBLIC_API_ROUTE_EMAIL_VERIFICATION, {
@@ -111,10 +124,28 @@ export default function Register() {
             }
             const resData = await res.json();
             pMessageEmailVerification.textContent = resData.message;
+
         } catch(error) {
             console.log('Erro no fetch para enviar o email de verificação: ', error);
             pMessageEmailVerification.textContent = 'Erro ao enviar email de verificação';
         }
+
+        setResendEmailVerification(false);
+        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
+        buttonResendEmailVerification.textContent = 'Espere 2 minutos para reenviar o email de verificação';
+        buttonResendEmailVerification.classList.add('button-simple-disabled');
+        setTimeout(() => {
+            setResendEmailVerification((prev) => {
+                if(!prev) {
+                    const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
+                    buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
+                    buttonResendEmailVerification.classList.remove('button-simple-disabled');
+                    return true;
+                }
+                return prev;
+            });
+        }, 5 * 1000);
+
     }
 
     async function startEmailVerification(isSignUp) {
@@ -188,6 +219,12 @@ export default function Register() {
         }
 
         buttonFinishForm.textContent = '';
+
+        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
+        buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
+        buttonResendEmailVerification.classList.remove('button-simple-disabled');
+        setResendEmailVerification(true);
+
         setDisplayEmailVerification(false);
     }
 
@@ -256,7 +293,7 @@ export default function Register() {
                             <h1 className="title-form">Verificação de Email</h1>
 
                             <p className="advice-form text-center">
-                                Enviamos um email com um código de verificação para <span id='spanUserEmail'></span>. Digite o código abaixo para verificarmos seu email.
+                                Enviamos um email com um código de verificação para <span id='spanUserEmail'></span>. Você tem 2 minutos para digitar o código abaixo para verificarmos seu email.
                             </p>
 
                             <label htmlFor="inputEmailCodeSignUp" className="label-form">Código de verificação:</label>
@@ -264,7 +301,7 @@ export default function Register() {
 
                             <button type="button" className='button-form' id='buttonFinishForm'></button>
 
-                            <button type="button" className='button-simple'>Reenviar código</button>
+                            <button type="button" onClick={resendEmailVerification ? sendEmailVerification : noResendEmailVerification} className='button-simple' id='buttonResendEmailVerification'>Reenviar email de verificação</button>
 
                             <button type='button' onClick={cancelEmailVerification} className='button-simple'>Voltar para o formulário</button>
 
