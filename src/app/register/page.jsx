@@ -112,9 +112,6 @@ export default function Register() {
                 },
                 body: JSON.stringify({email: inputEmail.value, isSignUp: isSignUp})
             });
-            if(!res.ok) {
-                console.log('Response não está ok');
-            }
             const resData = await res.json();
             pMessageEmailVerification.textContent = resData.message;
 
@@ -171,7 +168,7 @@ export default function Register() {
                 }
                 return prev;
             });
-        }, 5 * 1000);
+        }, 15 * 1000);
 
         const spanUserEmail = document.getElementById('spanUserEmail');
         spanUserEmail.textContent = inputEmail.value;
@@ -179,7 +176,25 @@ export default function Register() {
         setDisplayEmailVerification(true);
     }
 
-    function cancelEmailVerification() {
+    async function cancelEmailVerification() {
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        pMessageEmailVerification.textContent = 'Cancelando email de verificação...';
+        try {
+            const spanUserEmail = document.getElementById('spanUserEmail');
+            const email = spanUserEmail.textContent;
+            const res = await fetch('/api/cancel-email-verification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: email})
+            });
+            const resData = await res.json();
+            pMessageEmailVerification.textContent = resData.message;
+        } catch (error) {
+            console.log('Erro no fetch para cancelar email de verificação');
+        }
+
         let isSignUp = true;
         const buttonFinishForm = document.getElementById('buttonFinishForm');
         if(buttonFinishForm.textContent === 'Entrar') {
