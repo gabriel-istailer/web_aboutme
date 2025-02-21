@@ -55,6 +55,37 @@ export default function Register() {
         }  
     }
 
+    function noResendEmailVerification() {
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
+    }
+
+    async function sendEmailVerification(isSignUp) {
+        let inputEmail = null;
+        if(isSignUp) {
+            inputEmail = document.getElementById('inputEmailSignUp');
+        } else {
+            inputEmail = document.getElementById('inputEmailSignIn');
+        }
+        
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        try {
+            const res = await fetch('/api/send-email-verification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: inputEmail.value, isSignUp: isSignUp})
+            });
+            const resData = await res.json();
+            pMessageEmailVerification.textContent = resData.message;
+
+        } catch(error) {
+            console.log('Erro no fetch para enviar o email de verificação: ', error);
+            pMessageEmailVerification.textContent = 'Erro ao enviar email de verificação';
+        }
+    }
+
     function inputValidations(isSignUp) {
         let inputEmail = null;
         let inputPassword = null;
@@ -90,47 +121,42 @@ export default function Register() {
         return true;
     }
 
-    function noResendEmailVerification() {
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
-    }
-
-    async function sendEmailVerification(isSignUp) {
-        let inputEmail = null;
+    async function startEmailVerification(isSignUp) {
+        let pMessage = null;
         if(isSignUp) {
-            inputEmail = document.getElementById('inputEmailSignUp');
+            if(!inputValidations(true)) {
+                return;
+            }
+            pMessage = document.getElementById('pMessageSignUp');
+            try {
+                const res = await fetch('/api/verify-user-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({email: document.getElementById('inputEmailSignUp').value})
+                });
+                const resData = await res.json();
+                console.log(resData);
+                if(resData.isRegistered) {
+                    pMessage.textContent = 'Este email já está cadastrado';
+                    return;
+                }
+            } catch (error) {
+                console.log('Erro no fetch de verificar se o email está já está cadastrado: ', error);
+            }
         } else {
-            inputEmail = document.getElementById('inputEmailSignIn');
+            if(!inputValidations(false)) {
+                return;
+            }
+            pMessage = document.getElementById('pMessageSignIn');
         }
-        
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        try {
-            const res = await fetch('/api/send-email-verification', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({email: inputEmail.value, isSignUp: isSignUp})
-            });
-            const resData = await res.json();
-            pMessageEmailVerification.textContent = resData.message;
-
-        } catch(error) {
-            console.log('Erro no fetch para enviar o email de verificação: ', error);
-            pMessageEmailVerification.textContent = 'Erro ao enviar email de verificação';
-        }
-    }
-
-    function startEmailVerification(isSignUp) {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Enviando email de verificação...';
         sendEmailVerification(isSignUp);
         let inputEmail = null;
         const buttonFinishForm = document.getElementById('buttonFinishForm');
         if(isSignUp) {
-            if(!inputValidations(true)) {
-                return;
-            }
             const inputNameSignUp = document.getElementById('inputNameSignUp');
             inputEmail = document.getElementById('inputEmailSignUp');
             const inputPasswordSignUp = document.getElementById('inputPasswordSignUp');
@@ -142,9 +168,6 @@ export default function Register() {
             });
             buttonFinishForm.textContent = 'Cadastrar';
         } else {
-            if(!inputValidations(false)) {
-                return;
-            }
             inputEmail = document.getElementById('inputEmailSignIn');
             const inputPasswordSignIn = document.getElementById('inputPasswordSignIn');
             setSignInData({
