@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import emailVerification from "@/lib/nodemailer";
+import emailVerification from "@/lib/middlewares/nodemailer";
 
 export async function POST(req) {
     try {

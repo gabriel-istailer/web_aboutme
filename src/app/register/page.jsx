@@ -137,7 +137,6 @@ export default function Register() {
                     body: JSON.stringify({email: document.getElementById('inputEmailSignUp').value})
                 });
                 const resData = await res.json();
-                console.log(resData);
                 if(resData.isRegistered) {
                     pMessage.textContent = 'Este email já está cadastrado';
                     return;
