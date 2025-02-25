@@ -13,7 +13,8 @@ export default function Register() {
     const [showPasswordSignUp, setShowPasswordSignUp] = useState(false);
     const [showPasswordSignIn, setShowPasswordSignIn] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
-    const [resendEmailVerification, setResendEmailVerification] = useState(false);
+    const [resendEmailVerificationButton, setResendEmailVerificationButton] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(true);
     const [signUpData, setSignUpData] = useState({
         name: '',
         email: '',
@@ -55,19 +56,39 @@ export default function Register() {
         }  
     }
 
-    function noResendEmailVerification() {
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
+    function disableResendEmailVerificationButton() {
+        setResendEmailVerificationButton(false);
+        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
+        buttonResendEmailVerification.textContent = 'Espere 2 minutos para reenviar o email de verificação';
+        buttonResendEmailVerification.classList.add('button-simple-disabled');
+        setTimeout(() => {
+            setResendEmailVerificationButton((prev) => {
+                if(!prev) {
+                    buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
+                    buttonResendEmailVerification.classList.remove('button-simple-disabled');
+                    return true;
+                }
+                return prev;
+            });
+        }, 10 * 1000);
     }
 
-    async function sendEmailVerification(isSignUp) {
+    function resendEmailVerification() {
+        if(resendEmailVerificationButton) {
+            sendEmailVerification();
+        } else {
+            const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+            pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
+        }
+    }
+
+    async function sendEmailVerification() {
         let inputEmail = null;
         if(isSignUp) {
             inputEmail = document.getElementById('inputEmailSignUp');
         } else {
             inputEmail = document.getElementById('inputEmailSignIn');
         }
-        
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         try {
             const res = await fetch('/api/send-email-verification', {
@@ -86,7 +107,7 @@ export default function Register() {
         }
     }
 
-    function inputValidations(isSignUp) {
+    function inputValidations() {
         let inputEmail = null;
         let inputPassword = null;
         let pMessage = null;
@@ -121,10 +142,10 @@ export default function Register() {
         return true;
     }
 
-    async function startEmailVerification(isSignUp) {
+    async function startEmailVerification() {
         let pMessage = null;
         if(isSignUp) {
-            if(!inputValidations(true)) {
+            if(!inputValidations()) {
                 return;
             }
             pMessage = document.getElementById('pMessageSignUp');
@@ -145,14 +166,16 @@ export default function Register() {
                 console.log('Erro no fetch de verificar se o email está já está cadastrado: ', error);
             }
         } else {
-            if(!inputValidations(false)) {
+            if(!inputValidations()) {
                 return;
             }
             pMessage = document.getElementById('pMessageSignIn');
         }
+
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Enviando email de verificação...';
-        sendEmailVerification(isSignUp);
+        sendEmailVerification();
+
         let inputEmail = null;
         const buttonFinishForm = document.getElementById('buttonFinishForm');
         if(isSignUp) {
@@ -177,20 +200,7 @@ export default function Register() {
             buttonFinishForm.textContent = 'Entrar';
         }
 
-        setResendEmailVerification(false);
-        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
-        buttonResendEmailVerification.textContent = 'Espere 2 minutos para reenviar o email de verificação';
-        buttonResendEmailVerification.classList.add('button-simple-disabled');
-        setTimeout(() => {
-            setResendEmailVerification((prev) => {
-                if(!prev) {
-                    buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
-                    buttonResendEmailVerification.classList.remove('button-simple-disabled');
-                    return true;
-                }
-                return prev;
-            });
-        }, 15 * 1000);
+        disableResendEmailVerificationButton();
 
         const spanUserEmail = document.getElementById('spanUserEmail');
         spanUserEmail.textContent = inputEmail.value;
@@ -215,12 +225,6 @@ export default function Register() {
             pMessageEmailVerification.textContent = resData.message;
         } catch (error) {
             console.log('Erro no fetch para cancelar email de verificação');
-        }
-
-        let isSignUp = true;
-        const buttonFinishForm = document.getElementById('buttonFinishForm');
-        if(buttonFinishForm.textContent === 'Entrar') {
-            isSignUp = false;
         }
 
         if(isSignUp) {
@@ -248,12 +252,13 @@ export default function Register() {
             });
         }
 
+        const buttonFinishForm = document.getElementById('buttonFinishForm');
         buttonFinishForm.textContent = '';
 
         const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
         buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
         buttonResendEmailVerification.classList.remove('button-simple-disabled');
-        setResendEmailVerification(true);
+        setResendEmailVerificationButton(true);
 
         setDisplayEmailVerification(false);
     }
@@ -288,7 +293,7 @@ export default function Register() {
                                 <label htmlFor="showPasswordCheckboxSignUp" className='label-checkbox-form'>Mostrar senha:</label>
                             </div>
 
-                            <button type="button" onClick={() => startEmailVerification(true)} className='button-form'>Cadastrar</button>
+                            <button type="button" onClick={() => {startEmailVerification(); setIsSignUp(true)}} className='button-form'>Cadastrar</button>
 
                             <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Já tem uma conta cadastrada? Então entre por aqui.</button>
 
@@ -310,7 +315,7 @@ export default function Register() {
                                 <label htmlFor="showPasswordCheckboxSignIn" className='label-checkbox-form'>Mostrar senha:</label>
                             </div>
 
-                            <button type="button" onClick={() => startEmailVerification(false)} className='button-form'>Entrar</button>
+                            <button type="button" onClick={() => {startEmailVerification(); setIsSignUp(false)}} className='button-form'>Entrar</button>
 
                             <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Não tem uma conta cadastrada? Então cadastre-se por aqui.</button>
 
@@ -331,7 +336,7 @@ export default function Register() {
 
                             <button type="button" className='button-form' id='buttonFinishForm'></button>
 
-                            <button type="button" onClick={resendEmailVerification ? sendEmailVerification : noResendEmailVerification} className='button-simple' id='buttonResendEmailVerification'>Reenviar email de verificação</button>
+                            <button type="button" onClick={resendEmailVerification} className='button-simple' id='buttonResendEmailVerification'>Reenviar email de verificação</button>
 
                             <button type='button' onClick={cancelEmailVerification} className='button-simple'>Voltar para o formulário</button>
 
