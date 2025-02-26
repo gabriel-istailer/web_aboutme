@@ -14,7 +14,7 @@ export default function Register() {
     const [showPasswordSignIn, setShowPasswordSignIn] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
     const [resendEmailVerificationButton, setResendEmailVerificationButton] = useState(false);
-    const [isSignUp, setIsSignUp] = useState(true);
+    const [isSignUp, setIsSignUp] = useState(false);
     const [signUpData, setSignUpData] = useState({
         name: '',
         email: '',
@@ -70,12 +70,15 @@ export default function Register() {
                 }
                 return prev;
             });
+            const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+            pMessageEmailVerification.textContent = 'Email de verificação expirado';
         }, 10 * 1000);
     }
 
     function resendEmailVerification() {
         if(resendEmailVerificationButton) {
             sendEmailVerification();
+            disableResendEmailVerificationButton();
         } else {
             const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
             pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
@@ -175,6 +178,7 @@ export default function Register() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Enviando email de verificação...';
         sendEmailVerification();
+        disableResendEmailVerificationButton();
 
         let inputEmail = null;
         const buttonFinishForm = document.getElementById('buttonFinishForm');
@@ -199,8 +203,6 @@ export default function Register() {
             });
             buttonFinishForm.textContent = 'Entrar';
         }
-
-        disableResendEmailVerificationButton();
 
         const spanUserEmail = document.getElementById('spanUserEmail');
         spanUserEmail.textContent = inputEmail.value;
@@ -293,7 +295,7 @@ export default function Register() {
                                 <label htmlFor="showPasswordCheckboxSignUp" className='label-checkbox-form'>Mostrar senha:</label>
                             </div>
 
-                            <button type="button" onClick={() => {startEmailVerification(); setIsSignUp(true)}} className='button-form'>Cadastrar</button>
+                            <button type="button" onClick={() => {setIsSignUp(true); setTimeout(() => {startEmailVerification()}, 100)}} className='button-form'>Cadastrar</button>
 
                             <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Já tem uma conta cadastrada? Então entre por aqui.</button>
 
@@ -315,7 +317,7 @@ export default function Register() {
                                 <label htmlFor="showPasswordCheckboxSignIn" className='label-checkbox-form'>Mostrar senha:</label>
                             </div>
 
-                            <button type="button" onClick={() => {startEmailVerification(); setIsSignUp(false)}} className='button-form'>Entrar</button>
+                            <button type="button" onClick={() => {setIsSignUp(false); setTimeout(() => {startEmailVerification()}, 100)}} className='button-form'>Entrar</button>
 
                             <button type="button" onClick={changeRegisteredStatus} className='button-simple'>Não tem uma conta cadastrada? Então cadastre-se por aqui.</button>
 
