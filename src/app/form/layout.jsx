@@ -1,4 +1,4 @@
-import './formLayout.css';
+import './layout.css';
 
 import Link from "next/link"
 
@@ -12,7 +12,7 @@ export default function formLayout({ children }) {
                 </nav>
 
                 <section className="formLayout-header-section flex-center">
-                    <div className="formLayout-background overflow-hidden flex-v-center">
+                    <div className="formLayout-background overflow-hidden flex-center">
                         {children}
                     </div>
                 </section>

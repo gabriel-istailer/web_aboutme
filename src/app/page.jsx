@@ -9,8 +9,8 @@ export default function Home() {
             <header className="home-header">
                 <nav className="home-header-nav flex-v-center">
                     <Link className='title font-LilyScriptOne' href='/'>AboutMe</Link>
-                    <Link className='link font-Sanchez' href='/register?isRegistered=no'>Cadastrar</Link>
-                    <Link className='link font-Sanchez' href='/register?isRegistered=yes'>Entrar</Link>
+                    <Link className='link font-Sanchez' href='/form/signup'>Cadastrar</Link>
+                    <Link className='link font-Sanchez' href='/form/signin'>Entrar</Link>
                 </nav>
                 <section className="home-header-section flex-center flex-column">
                     <h1 className="slogan">Cadastre-se e compartilhe-nos sua história!</h1>
