@@ -3,6 +3,7 @@
 import './page.css';
 import '../layout.css';
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function signUp() {
@@ -186,10 +187,10 @@ export default function signUp() {
 
                 <h1 className="formLayout-title text-center">Cadastro</h1>
 
-                <label htmlFor="nameInputSignUp" className='formLayout-label'>Nome:</label>
+                <label htmlFor="inputName" className='formLayout-label'>Nome:</label>
                 <input type="text" className='formLayout-input' name="inputName" id="inputName" maxLength={50} minLength={3} required />
 
-                <label htmlFor="emailInputSignUp" className='formLayout-label'>Email:</label>
+                <label htmlFor="inputEmail" className='formLayout-label'>Email:</label>
                 <input type="email" className='formLayout-input' name="inputEmail" id="inputEmail" required />
 
                 <label htmlFor="inputPassword" className='formLayout-label'>Senha:</label>
@@ -202,7 +203,7 @@ export default function signUp() {
 
                 <button type="button" onClick={() => startEmailVerification()} className='formLayout-button'>Cadastrar</button>
 
-                <button type="button" className='formLayout-button-simple'>Já tem uma conta cadastrada? Então entre por aqui.</button>
+                <Link className='formLayout-button-simple' href='/form/signin'>Já tem uma conta cadastrada? Então entre por aqui.</Link>
 
                 <p className="formLayout-message text-center" id='pMessage'></p>
 
@@ -228,6 +229,7 @@ export default function signUp() {
                 <p className="formLayout-message" id='pMessageEmailVerification'></p>
 
             </div>
+
         </div>
     );
 }
