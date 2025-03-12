@@ -53,6 +53,7 @@ export default function signUp() {
 
     async function sendEmailVerification() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        pMessageEmailVerification.textContent = 'Enviando email de verificação...';
         try {
             const res = await fetch('/api/send-email-verification', {
                 method: 'POST',
@@ -120,8 +121,6 @@ export default function signUp() {
             console.log('Erro no fetch de verificar se o email está já está cadastrado: ', error);
         }
 
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Enviando email de verificação...';
         sendEmailVerification();
         disableResendEmailVerificationButton();
 
@@ -203,7 +202,7 @@ export default function signUp() {
 
                 <button type="button" onClick={() => startEmailVerification()} className='formLayout-button'>Cadastrar</button>
 
-                <Link className='formLayout-button-simple' href='/form/signin'>Já tem uma conta cadastrada? Então entre por aqui.</Link>
+                <Link className='formLayout-button-simple text-center' href='/form/signin'>Já tem uma conta cadastrada? Então entre por aqui.</Link>
 
                 <p className="formLayout-message text-center" id='pMessage'></p>
 
