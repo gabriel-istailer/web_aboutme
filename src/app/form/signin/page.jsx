@@ -3,11 +3,12 @@
 import './page.css';
 import '../layout.css';
 
+import EmailVerification from '../../components/EmailVerification';
+
 import Link from 'next/link';
 import { useState } from 'react';
 
 export default function signIn() {
-
 
     const [showPassword, setShowPassword] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
@@ -60,7 +61,7 @@ export default function signIn() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: document.getElementById('inputEmail').value })
+                body: JSON.stringify({ email: document.getElementById('inputEmail').value, isSignUp: false })
             });
             const resData = await res.json();
             pMessageEmailVerification.textContent = resData.message;
@@ -177,25 +178,8 @@ export default function signIn() {
 
             </form>
 
-            <div className="formLayout-form flex-center flex-column" style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
-
-                <h1 className="formLayout-title">Verificação de Email</h1>
-
-                <p className="formLayout-advice text-center">
-                    Enviamos um email com um código de verificação para <span id='spanUserEmail'></span>. Você tem 2 minutos para digitar o código abaixo para verificarmos seu email.
-                </p>
-
-                <label htmlFor="inputEmailVerificationCode" className="formLayout-label">Código de verificação:</label>
-                <input type="number" className='formLayout-input formLayout-input-email-verification text-center' min='0' max='999999' name="inputEmailVerificationCode" id="inputEmailVerificationCode" required />
-
-                <button type="button" className='formLayout-button' id='buttonFinishForm'>Entrar</button>
-
-                <button type="button" onClick={resendEmailVerification} className='formLayout-button-simple' id='buttonResendEmailVerification'>Reenviar email de verificação</button>
-
-                <button type='button' onClick={cancelEmailVerification} className='formLayout-button-simple'>Voltar para o formulário</button>
-
-                <p className="formLayout-message" id='pMessageEmailVerification'></p>
-
+            <div style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
+                <EmailVerification actions={{ resendEmailVerification, cancelEmailVerification }} />
             </div>
 
         </div>
