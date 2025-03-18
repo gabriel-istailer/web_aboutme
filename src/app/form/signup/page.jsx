@@ -8,11 +8,12 @@ import EmailVerification from '../../components/EmailVerification';
 import Link from 'next/link';
 import { useState } from 'react';
 
+let timeout = null;
 export default function signUp() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
-    const [resendEmailVerificationButton, setResendEmailVerificationButton] = useState(false);
+    const [resendEmailVerification, setResendEmailVerification] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -20,44 +21,22 @@ export default function signUp() {
         email_verification_code: ''
     });
 
-    function changeShowPassword() {
-        setShowPassword((prev) => !prev);
-    }
+    function changeShowPassword() { setShowPassword((prev) => !prev); }
 
-    function disableResendEmailVerificationButton() {
-        setResendEmailVerificationButton(false);
-        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
-        buttonResendEmailVerification.textContent = 'Espere 2 minutos para reenviar o email de verificação';
-        buttonResendEmailVerification.classList.add('formLayout-button-simple-disabled');
-        setTimeout(() => {
-            setResendEmailVerificationButton((prev) => {
-                if (!prev) {
-                    buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
-                    buttonResendEmailVerification.classList.remove('formLayout-button-simple-disabled');
-                    return true;
-                }
-                return prev;
-            });
-            const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-            pMessageEmailVerification.textContent = 'Email de verificação expirado';
-        }, 10 * 1000);
-    }
-
-    function resendEmailVerification() {
-        if (resendEmailVerificationButton) {
-            sendEmailVerification();
-            disableResendEmailVerificationButton();
-        } else {
-            const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-            pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
-        }
+    function disableResendEmailVerification() {
+        setResendEmailVerification(false);
+        timeout = setTimeout(() => {
+            setResendEmailVerification(true);
+            document.getElementById('pMessageEmailVerification').textContent = 'Email de verificação expirado';
+        }, 15 * 1000);
     }
 
     async function sendEmailVerification() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Enviando email de verificação...';
+        disableResendEmailVerification();
         try {
-            const res = await fetch('/api/email-verification/send', {
+            const res = await fetch('/api/email-verifications/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -124,7 +103,6 @@ export default function signUp() {
         }
 
         sendEmailVerification();
-        disableResendEmailVerificationButton();
 
         const inputName = document.getElementById('inputName');
         const inputEmail = document.getElementById('inputEmail');
@@ -148,7 +126,7 @@ export default function signUp() {
         try {
             const spanUserEmail = document.getElementById('spanUserEmail');
             const email = spanUserEmail.textContent;
-            const res = await fetch('/api/email-verification/cancel', {
+            const res = await fetch('/api/email-verifications/cancel', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -173,12 +151,8 @@ export default function signUp() {
             password: '',
             email_verification_code: ''
         });
-
-        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
-        buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
-        buttonResendEmailVerification.classList.remove('formLayout-button-simple-disabled');
-        setResendEmailVerificationButton(true);
-
+        console.log(timeout);
+        clearTimeout(timeout);
         setDisplayEmailVerification(false);
     }
 
@@ -215,7 +189,7 @@ export default function signUp() {
             </form>
 
             <div style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
-                <EmailVerification actions={{ finishForm, resendEmailVerification, cancelEmailVerification, buttonText: 'Cadastrar' }}/>
+                <EmailVerification actions={{ finishForm, sendEmailVerification, resendEmailVerification, cancelEmailVerification, buttonText: 'Cadastrar' }}/>
             </div>
 
         </div>
