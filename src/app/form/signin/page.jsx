@@ -56,7 +56,7 @@ export default function signIn() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Enviando email de verificação...';
         try {
-            const res = await fetch('/api/send-email-verification', {
+            const res = await fetch('/api/email-verifications/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -122,7 +122,7 @@ export default function signIn() {
         try {
             const spanUserEmail = document.getElementById('spanUserEmail');
             const email = spanUserEmail.textContent;
-            const res = await fetch('/api/cancel-email-verification', {
+            const res = await fetch('/api/email-verifications/cancel', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -153,6 +153,10 @@ export default function signIn() {
         setDisplayEmailVerification(false);
     }
 
+    function finishForm() {
+
+    }
+
     return (
         <div>
 
@@ -179,7 +183,7 @@ export default function signIn() {
             </form>
 
             <div style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
-                <EmailVerification actions={{ resendEmailVerification, cancelEmailVerification }} />
+                <EmailVerification actions={{ finishForm, resendEmailVerification, cancelEmailVerification, buttonText: 'Entrar' }} />
             </div>
 
         </div>

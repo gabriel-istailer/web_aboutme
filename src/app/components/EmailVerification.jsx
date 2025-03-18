@@ -12,7 +12,7 @@ export default function EmailVerification({ actions }) {
                 <label htmlFor="inputEmailVerificationCode" className="formLayout-label">Código de verificação:</label>
                 <input type="number" className='formLayout-input formLayout-input-email-verification text-center' min='0' max='999999' name="inputEmailVerificationCode" id="inputEmailVerificationCode" required />
 
-                <button type="button" className='formLayout-button' id='buttonFinishForm'>Entrar</button>
+                <button type="button" onClick={actions.finishForm} className='formLayout-button' id='buttonFinishForm'>{actions.buttonText}</button>
 
                 <button type="button" onClick={actions.resendEmailVerification} className='formLayout-button-simple' id='buttonResendEmailVerification'>Reenviar email de verificação</button>
 

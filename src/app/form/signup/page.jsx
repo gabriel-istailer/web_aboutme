@@ -57,7 +57,7 @@ export default function signUp() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Enviando email de verificação...';
         try {
-            const res = await fetch('/api/send-email-verification', {
+            const res = await fetch('/api/email-verification/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ export default function signUp() {
         }
         const pMessage = document.getElementById('pMessage');
         try {
-            const res = await fetch('/api/verify-user-email', {
+            const res = await fetch('/api/users/verify-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ export default function signUp() {
         try {
             const spanUserEmail = document.getElementById('spanUserEmail');
             const email = spanUserEmail.textContent;
-            const res = await fetch('/api/cancel-email-verification', {
+            const res = await fetch('/api/email-verification/cancel', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -182,6 +182,10 @@ export default function signUp() {
         setDisplayEmailVerification(false);
     }
 
+    function finishForm() {
+        
+    }
+
     return (
         <div>
             <form className="formLayout-form flex-center flex-column" id='formSignUp' style={displayEmailVerification ? { display: 'none' } : { display: 'flex' }}>
@@ -211,7 +215,7 @@ export default function signUp() {
             </form>
 
             <div style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
-                <EmailVerification actions={{ resendEmailVerification, cancelEmailVerification }}/>
+                <EmailVerification actions={{ finishForm, resendEmailVerification, cancelEmailVerification, buttonText: 'Cadastrar' }}/>
             </div>
 
         </div>
