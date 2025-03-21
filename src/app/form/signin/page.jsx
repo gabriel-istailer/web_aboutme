@@ -12,65 +12,14 @@ export default function signIn() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
-    const [resendEmailVerificationButton, setResendEmailVerificationButton] = useState(false);
+    const [sendEmailVerification, setSendEmailVerification] = useState(null);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         email_code: ''
     });
 
-    function changeShowPassword() {
-        setShowPassword((prev) => !prev);
-    }
-
-    function disableResendEmailVerificationButton() {
-        setResendEmailVerificationButton(false);
-        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
-        buttonResendEmailVerification.textContent = 'Espere 2 minutos para reenviar o email de verificação';
-        buttonResendEmailVerification.classList.add('formLayout-button-simple-disabled');
-        setTimeout(() => {
-            setResendEmailVerificationButton((prev) => {
-                if (!prev) {
-                    buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
-                    buttonResendEmailVerification.classList.remove('formLayout-button-simple-disabled');
-                    return true;
-                }
-                return prev;
-            });
-            const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-            pMessageEmailVerification.textContent = 'Email de verificação expirado';
-        }, 10 * 1000);
-    }
-
-    function resendEmailVerification() {
-        if (resendEmailVerificationButton) {
-            sendEmailVerification();
-            disableResendEmailVerificationButton();
-        } else {
-            const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-            pMessageEmailVerification.textContent = 'Email de verificação já enviado, espere 2 minutos para reenviar.';
-        }
-    }
-
-    async function sendEmailVerification() {
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Enviando email de verificação...';
-        try {
-            const res = await fetch('/api/email-verifications/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: document.getElementById('inputEmail').value, isSignUp: false })
-            });
-            const resData = await res.json();
-            pMessageEmailVerification.textContent = resData.message;
-
-        } catch (error) {
-            console.log('Erro no fetch para enviar o email de verificação: ', error);
-            pMessageEmailVerification.textContent = 'Erro ao enviar email de verificação';
-        }
-    }
+    function changeShowPassword() { setShowPassword((prev) => !prev); }
 
     function inputValidations() {
         const inputEmail = document.getElementById('inputEmail');
@@ -94,13 +43,12 @@ export default function signIn() {
         return true;
     }
 
-    async function startEmailVerification() {
+    function startEmailVerification() {
         if (!inputValidations()) {
             return;
         }
 
-        sendEmailVerification();
-        disableResendEmailVerificationButton();
+        sendEmailVerification(document.getElementById('inputEmail').value);
 
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
@@ -116,25 +64,7 @@ export default function signIn() {
         setDisplayEmailVerification(true);
     }
 
-    async function cancelEmailVerification() {
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Cancelando email de verificação...';
-        try {
-            const spanUserEmail = document.getElementById('spanUserEmail');
-            const email = spanUserEmail.textContent;
-            const res = await fetch('/api/email-verifications/cancel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: email })
-            });
-            const resData = await res.json();
-            pMessageEmailVerification.textContent = resData.message;
-        } catch (error) {
-            console.log('Erro no fetch para cancelar email de verificação');
-        }
-
+    function restartForm() {
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
         inputEmail.value = '';
@@ -144,11 +74,6 @@ export default function signIn() {
             password: '',
             email_code: ''
         });
-
-        const buttonResendEmailVerification = document.getElementById('buttonResendEmailVerification');
-        buttonResendEmailVerification.textContent = 'Reenviar email de verificação';
-        buttonResendEmailVerification.classList.remove('formLayout-button-simple-disabled');
-        setResendEmailVerificationButton(true);
 
         setDisplayEmailVerification(false);
     }
@@ -183,7 +108,7 @@ export default function signIn() {
             </form>
 
             <div style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
-                <EmailVerification actions={{ finishForm, resendEmailVerification, cancelEmailVerification, buttonText: 'Entrar' }} />
+                <EmailVerification actions={{ finishForm, restartForm, setSendEmailVerification, isSignUp: false }} />
             </div>
 
         </div>

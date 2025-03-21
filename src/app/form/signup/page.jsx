@@ -8,12 +8,11 @@ import EmailVerification from '../../components/EmailVerification';
 import Link from 'next/link';
 import { useState } from 'react';
 
-let timeout = null;
 export default function signUp() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
-    const [resendEmailVerification, setResendEmailVerification] = useState(false);
+    const [sendEmailVerification, setSendEmailVerification] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -23,36 +22,7 @@ export default function signUp() {
 
     function changeShowPassword() { setShowPassword((prev) => !prev); }
 
-    function disableResendEmailVerification() {
-        setResendEmailVerification(false);
-        timeout = setTimeout(() => {
-            setResendEmailVerification(true);
-            document.getElementById('pMessageEmailVerification').textContent = 'Email de verificação expirado';
-        }, 15 * 1000);
-    }
-
-    async function sendEmailVerification() {
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Enviando email de verificação...';
-        disableResendEmailVerification();
-        try {
-            const res = await fetch('/api/email-verifications/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: document.getElementById('inputEmail').value, isSignUp: true })
-            });
-            const resData = await res.json();
-            pMessageEmailVerification.textContent = resData.message;
-
-        } catch (error) {
-            console.log('Erro no fetch para enviar o email de verificação: ', error);
-            pMessageEmailVerification.textContent = 'Erro ao enviar email de verificação';
-        }
-    }
-
-    function inputValidations() {
+    async function inputValidations() {
         const inputName = document.getElementById('inputName');
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
@@ -69,6 +39,24 @@ export default function signUp() {
             return false;
         }
 
+        try {
+            const res = await fetch('/api/users/verify-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: document.getElementById('inputEmail').value })
+            });
+            const resData = await res.json();
+            if (resData.isRegistered) {
+                pMessage.textContent = 'Este email já está cadastrado';
+                return false;
+            }
+        } catch (error) {
+            console.log('Erro no fetch de verificar se o email está já está cadastrado: ', error);
+            return false;
+        }
+
         if (inputPassword.value.trim().length < 6 || inputPassword.value.trim().length > 16) {
             pMessage.textContent = 'A senha deve conter entre 6 à 16 caracteres';
             return false;
@@ -81,28 +69,11 @@ export default function signUp() {
     }
 
     async function startEmailVerification() {
-        if (!inputValidations()) {
+        if (!await inputValidations()) {
             return;
         }
-        const pMessage = document.getElementById('pMessage');
-        try {
-            const res = await fetch('/api/users/verify-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: document.getElementById('inputEmail').value })
-            });
-            const resData = await res.json();
-            if (resData.isRegistered) {
-                pMessage.textContent = 'Este email já está cadastrado';
-                return;
-            }
-        } catch (error) {
-            console.log('Erro no fetch de verificar se o email está já está cadastrado: ', error);
-        }
 
-        sendEmailVerification();
+        sendEmailVerification(document.getElementById('inputEmail').value);
 
         const inputName = document.getElementById('inputName');
         const inputEmail = document.getElementById('inputEmail');
@@ -120,25 +91,7 @@ export default function signUp() {
         setDisplayEmailVerification(true);
     }
 
-    async function cancelEmailVerification() {
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Cancelando email de verificação...';
-        try {
-            const spanUserEmail = document.getElementById('spanUserEmail');
-            const email = spanUserEmail.textContent;
-            const res = await fetch('/api/email-verifications/cancel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: email })
-            });
-            const resData = await res.json();
-            pMessageEmailVerification.textContent = resData.message;
-        } catch (error) {
-            console.log('Erro no fetch para cancelar email de verificação');
-        }
-
+    function restartForm() {
         const inputName = document.getElementById('inputName');
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
@@ -151,8 +104,7 @@ export default function signUp() {
             password: '',
             email_verification_code: ''
         });
-        console.log(timeout);
-        clearTimeout(timeout);
+
         setDisplayEmailVerification(false);
     }
 
@@ -189,7 +141,7 @@ export default function signUp() {
             </form>
 
             <div style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
-                <EmailVerification actions={{ finishForm, sendEmailVerification, resendEmailVerification, cancelEmailVerification, buttonText: 'Cadastrar' }}/>
+                <EmailVerification actions={{ finishForm, restartForm, setSendEmailVerification, isSignUp: true }}/>
             </div>
 
         </div>
