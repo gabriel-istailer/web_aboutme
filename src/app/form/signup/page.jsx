@@ -108,8 +108,28 @@ export default function signUp() {
         setDisplayEmailVerification(false);
     }
 
-    function finishForm() {
-        
+    async function finishForm() {
+        const updatedFormData = {
+            ...formData, 
+            email_verification_code: document.getElementById('inputEmailVerificationCode').value
+        };
+        setFormData(updatedFormData);
+
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        try {
+            const res = await fetch('/api/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedFormData)
+            });
+            const resData = await res.json();
+            pMessageEmailVerification.textContent = resData.message;
+            console.log(resData.token);
+        } catch (error) {
+            console.log('Erro no fetch de finalizar cadastro: ', error);
+        }
     }
 
     return (

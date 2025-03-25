@@ -17,7 +17,7 @@ export default function EmailVerification({ actions }) {
         timeout = setTimeout(() => {
             setResendEmailVerification(true);
             document.getElementById('pMessageEmailVerification').textContent = 'Email de verificação expirado';
-        }, 15 * 1000);
+        }, 2 * 60 * 1000);
     }
 
     async function sendEmailVerification(email) {
