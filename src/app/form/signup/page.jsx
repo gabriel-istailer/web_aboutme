@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import './page.css';
 import '../layout.css';
@@ -113,7 +113,6 @@ export default function signUp() {
             ...formData, 
             email_verification_code: document.getElementById('inputEmailVerificationCode').value
         };
-        setFormData(updatedFormData);
 
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         try {
@@ -126,7 +125,7 @@ export default function signUp() {
             });
             const resData = await res.json();
             pMessageEmailVerification.textContent = resData.message;
-            console.log(resData.token);
+            localStorage.setItem('userToken', JSON.stringify(resData.token));
         } catch (error) {
             console.log('Erro no fetch de finalizar cadastro: ', error);
         }

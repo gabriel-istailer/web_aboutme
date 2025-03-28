@@ -1,8 +1,39 @@
+'use client';
+
 import './page.css';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const userToken = JSON.parse(localStorage.getItem('userToken'));
+        if(!userToken) {
+            return;
+        }
+        const fetchGetUser = async () => {
+            try {
+                const res = await fetch('/api/users/get-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token: userToken })
+                });
+    
+                const resData = await res.json();
+                console.log(resData.user);
+                setUser(resData.user);
+    
+            } catch (error) {
+                console.log('Erro no fetch de pegar o usuário no servidor:', error);
+            }
+        };
+        fetchGetUser();
+    }, []);
 
     return (
         <div className='home'>
