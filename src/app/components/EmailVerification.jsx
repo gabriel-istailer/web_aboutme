@@ -9,20 +9,20 @@ export default function EmailVerification({ actions }) {
     const [resendEmailVerification, setResendEmailVerification] = useState(false);
 
     function notResendEmailVerification() {
-        document.getElementById('pMessageEmailVerification').textContent = 'Espere 2 minutos para reenviar o email de verificação';
+        document.getElementById('pMessageEmailVerification').textContent = 'Wait 2 minutes for the verification email to be resent';
     }
 
     function disableResendEmailVerification() {
         setResendEmailVerification(false);
         timeout = setTimeout(() => {
             setResendEmailVerification(true);
-            document.getElementById('pMessageEmailVerification').textContent = 'Email de verificação expirado';
+            document.getElementById('pMessageEmailVerification').textContent = 'Verification email expired';
         }, 2 * 60 * 1000);
     }
 
     async function sendEmailVerification(email) {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Enviando email de verificação...';
+        pMessageEmailVerification.textContent = 'Sending verification email...';
         disableResendEmailVerification();
         try {
             const res = await fetch('/api/email-verifications/send', {
@@ -36,8 +36,8 @@ export default function EmailVerification({ actions }) {
             pMessageEmailVerification.textContent = resData.message;
 
         } catch (error) {
-            console.log('Erro no fetch para enviar o email de verificação: ', error);
-            pMessageEmailVerification.textContent = 'Erro ao enviar email de verificação';
+            console.log('Error fetching to send verification email:', error);
+            pMessageEmailVerification.textContent = 'Error sending verification email';
         }
     }
 
@@ -47,7 +47,7 @@ export default function EmailVerification({ actions }) {
 
     async function cancelEmailVerification() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Cancelando email de verificação...';
+        pMessageEmailVerification.textContent = 'Canceling verification email...';
         const spanUserEmail = document.getElementById('spanUserEmail');
         const email = spanUserEmail.textContent;
         spanUserEmail.textContent = '';
@@ -62,7 +62,7 @@ export default function EmailVerification({ actions }) {
             const resData = await res.json();
             pMessageEmailVerification.textContent = resData.message;
         } catch (error) {
-            console.log('Erro no fetch para cancelar email de verificação');
+            console.log('Error fetching to cancel verification email');
         }
         clearTimeout(timeout);
         actions.restartForm();
@@ -71,16 +71,17 @@ export default function EmailVerification({ actions }) {
     return (
         <div className="formLayout-form flex-center flex-column">
 
-            <h1 className="formLayout-title">Verificação de Email</h1>
+            <h1 className="formLayout-title">Email Verification</h1>
 
             <p className="formLayout-advice text-center">
-                Enviamos um email com um código de verificação para <span id='spanUserEmail'></span>. Você tem 2 minutos para digitar o código abaixo para verificarmos seu email.
+                We've sent an email with a verification code to <span id="spanUserEmail"></span>. 
+                You have 2 minutes to enter the code below and we'll verify your email.
             </p>
 
-            <label htmlFor="inputEmailVerificationCode" className="formLayout-label">Código de verificação:</label>
+            <label htmlFor="inputEmailVerificationCode" className="formLayout-label">Verification code:</label>
             <input type="number" className='formLayout-input formLayout-input-email-verification text-center' min='0' max='999999' name="inputEmailVerificationCode" id="inputEmailVerificationCode" required />
 
-            <button type="button" onClick={actions.finishForm} className='formLayout-button' id='buttonFinishForm'>{actions.isSignUp ? 'Cadastrar' : 'Entrar'}</button>
+            <button type="button" onClick={actions.finishForm} className='formLayout-button' id='buttonFinishForm'>{actions.isSignUp ? 'Sign Up' : 'Sign In'}</button>
 
             <button
                 type="button"
@@ -88,10 +89,10 @@ export default function EmailVerification({ actions }) {
                 className={resendEmailVerification ? 'formLayout-button-simple' : 'formLayout-button-simple formLayout-button-simple-disabled'}
                 id='buttonResendEmailVerification'
             >
-                {resendEmailVerification ? 'Reenviar email de verificação' : 'Espere 2 minutos para reenviar o email de verificação'}
+                {resendEmailVerification ? 'Resend verification email' : 'Wait 2 minutes for the verification email to be resent'}
             </button>
 
-            <button type='button' onClick={cancelEmailVerification} className='formLayout-button-simple'>Voltar para o formulário</button>
+            <button type='button' onClick={cancelEmailVerification} className='formLayout-button-simple'>Back to form</button>
 
             <p className="formLayout-message" id='pMessageEmailVerification'></p>
 

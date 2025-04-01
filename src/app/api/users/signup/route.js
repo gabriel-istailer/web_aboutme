@@ -6,11 +6,11 @@ export async function POST(req) {
     try {
         const body = await req.json();
         if(!await EmailVerificationController.verifyCode(body.email, body.email_verification_code)) {
-            return NextResponse.json({ message: 'Código de verificação de email incorreto' }, { status: 200 });
+            return NextResponse.json({ message: 'Incorrect email verification code' }, { status: 200 });
         }
-        return NextResponse.json({ message: 'Cadastro concluído com sucesso!', token: await UserController.createUser(body) }, { status: 201 });
+        return NextResponse.json({ message: 'Registration completed successfully!', token: await UserController.createUser(body) }, { status: 201 });
     } catch (error) {
-        console.log('Erro na API Route users/signup: ', error);
-        return NextResponse.json({ message: 'Erro na API Route do servidor' }, { status: 500 });
+        console.log('Error in API Route users/signup: ', error);
+        return NextResponse.json({ message: 'Server Route API Error' }, { status: 500 });
     }
 }

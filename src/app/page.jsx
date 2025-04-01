@@ -29,7 +29,7 @@ export default function Home() {
                 setUser(resData.user);
     
             } catch (error) {
-                console.log('Erro no fetch de pegar o usuário no servidor:', error);
+                console.log('Error fetching the user from the server: ', error);
             }
         };
         fetchGetUser();
@@ -40,14 +40,14 @@ export default function Home() {
             <header className="home-header">
                 <nav className="home-header-nav flex-v-center">
                     <Link className='title font-LilyScriptOne' href='/'>AboutMe</Link>
-                    <Link className='link font-Sanchez' href='/form/signup'>Cadastrar</Link>
-                    <Link className='link font-Sanchez' href='/form/signin'>Entrar</Link>
+                    <Link className='link font-Sanchez' href='/form/signup'>Sign Up</Link>
+                    <Link className='link font-Sanchez' href='/form/signin'>Sign In</Link>
                 </nav>
                 <section className="home-header-section flex-center flex-column">
-                    <h1 className="slogan">Cadastre-se e compartilhe-nos sua história!</h1>
+                    <h1 className="slogan">Sign up and share your story with us!</h1>
                     <p className="description text-center">
-                        O site AboutMe tem como ideia principal conectar histórias do mundo todo, compartilhando
-                        experiências e aconselhando outras pessoas a completarem suas histórias.
+                        The AboutMe website's main idea is to connect stories from all over the world, 
+                        sharing experiences and advising other people to complete their stories.
                     </p>
                 </section>
             </header>

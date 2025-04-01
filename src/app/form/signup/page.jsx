@@ -29,13 +29,13 @@ export default function signUp() {
         const pMessage = document.getElementById('pMessage');
 
         if (inputName.value.trim().length < 3 || inputName.value.trim().length > 50) {
-            pMessage.textContent = 'O nome deve conter entre 3 à 50 caracteres';
+            pMessage.textContent = 'The name must contain between 3 and 50 characters';
             return false;
         }
 
         const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!regex_email_validation.test(inputEmail.value)) {
-            pMessage.textContent = 'Email inválido';
+            pMessage.textContent = 'Invalid email';
             return false;
         }
 
@@ -45,23 +45,23 @@ export default function signUp() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: document.getElementById('inputEmail').value })
+                body: JSON.stringify({ email: inputEmail.value })
             });
             const resData = await res.json();
             if (resData.isRegistered) {
-                pMessage.textContent = 'Este email já está cadastrado';
+                pMessage.textContent = 'This email is already registered';
                 return false;
             }
         } catch (error) {
-            console.log('Erro no fetch de verificar se o email está já está cadastrado: ', error);
+            console.log('Error in fetch to check if the email is already registered: ', error);
             return false;
         }
 
         if (inputPassword.value.trim().length < 6 || inputPassword.value.trim().length > 16) {
-            pMessage.textContent = 'A senha deve conter entre 6 à 16 caracteres';
+            pMessage.textContent = 'The password must contain between 6 and 16 characters';
             return false;
         } else if (inputPassword.value.includes(' ')) {
-            pMessage.textContent = 'A senha não pode conter espaços';
+            pMessage.textContent = 'Password cannot contain spaces';
             return false;
         }
 
@@ -127,7 +127,7 @@ export default function signUp() {
             pMessageEmailVerification.textContent = resData.message;
             localStorage.setItem('userToken', JSON.stringify(resData.token));
         } catch (error) {
-            console.log('Erro no fetch de finalizar cadastro: ', error);
+            console.log('Error when fetching to complete registration: ', error);
         }
     }
 
@@ -135,25 +135,25 @@ export default function signUp() {
         <div>
             <form className="formLayout-form flex-center flex-column" id='formSignUp' style={displayEmailVerification ? { display: 'none' } : { display: 'flex' }}>
 
-                <h1 className="formLayout-title text-center">Cadastro</h1>
+                <h1 className="formLayout-title text-center">Sign Up</h1>
 
-                <label htmlFor="inputName" className='formLayout-label'>Nome:</label>
+                <label htmlFor="inputName" className='formLayout-label'>Name:</label>
                 <input type="text" className='formLayout-input' name="inputName" id="inputName" maxLength={50} minLength={3} required />
 
                 <label htmlFor="inputEmail" className='formLayout-label'>Email:</label>
                 <input type="email" className='formLayout-input' name="inputEmail" id="inputEmail" required />
 
-                <label htmlFor="inputPassword" className='formLayout-label'>Senha:</label>
+                <label htmlFor="inputPassword" className='formLayout-label'>Password:</label>
                 <input type={showPassword ? 'text' : 'password'} className='formLayout-input' name="inputPassword" id="inputPassword" required />
 
                 <div className="formLayout-label-container-checkbox-show-password flex-v-center">
                     <input type="checkbox" checked={showPassword} onChange={() => changeShowPassword()} className='formLayout-checkbox-show-password' name="checkboxShowPassword" id="checkboxShowPassword" />
-                    <label htmlFor="checkboxShowPassword" className='formLayout-label-checkbox-show-password'>Mostrar senha:</label>
+                    <label htmlFor="checkboxShowPassword" className='formLayout-label-checkbox-show-password'>Show password:</label>
                 </div>
 
-                <button type="button" onClick={() => startEmailVerification()} className='formLayout-button'>Cadastrar</button>
+                <button type="button" onClick={() => startEmailVerification()} className='formLayout-button'>Sign Up</button>
 
-                <Link className='formLayout-button-simple text-center' href='/form/signin'>Já tem uma conta cadastrada? Então entre por aqui.</Link>
+                <Link className='formLayout-button-simple text-center' href='/form/signin'>Already have an account? Then sign in here.</Link>
 
                 <p className="formLayout-message text-center" id='pMessage'></p>
 
