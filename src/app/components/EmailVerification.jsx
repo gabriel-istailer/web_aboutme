@@ -48,9 +48,9 @@ export default function EmailVerification({ actions }) {
     async function cancelEmailVerification() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Canceling verification email...';
+
         const spanUserEmail = document.getElementById('spanUserEmail');
         const email = spanUserEmail.textContent;
-        spanUserEmail.textContent = '';
         try {
             const res = await fetch('/api/email-verifications/cancel', {
                 method: 'POST',
@@ -64,6 +64,9 @@ export default function EmailVerification({ actions }) {
         } catch (error) {
             console.log('Error fetching to cancel verification email');
         }
+        spanUserEmail.textContent = '';
+        document.getElementById('inputEmailVerificationCode').value = '';
+
         clearTimeout(timeout);
         actions.restartForm();
     }
@@ -89,7 +92,7 @@ export default function EmailVerification({ actions }) {
                 className={resendEmailVerification ? 'formLayout-button-simple' : 'formLayout-button-simple formLayout-button-simple-disabled'}
                 id='buttonResendEmailVerification'
             >
-                {resendEmailVerification ? 'Resend verification email' : 'Wait 2 minutes for the verification email to be resent'}
+                Resend verification email
             </button>
 
             <button type='button' onClick={cancelEmailVerification} className='formLayout-button-simple'>Back to form</button>

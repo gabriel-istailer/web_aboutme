@@ -15,8 +15,7 @@ export default function signIn() {
     const [sendEmailVerification, setSendEmailVerification] = useState(null);
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
-        email_code: ''
+        email_verification_code: ''
     });
 
     function changeShowPassword() { setShowPassword((prev) => !prev); }
@@ -66,6 +65,7 @@ export default function signIn() {
                 body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value })
             });
             const resData = await res.json();
+            console.log(resData.isPassword);
             if(!resData.isPassword) {
                 pMessage.textContent = 'Incorrect password';
                 return false;
@@ -82,14 +82,11 @@ export default function signIn() {
             return;
         }
 
-        sendEmailVerification(document.getElementById('inputEmail').value);
-
         const inputEmail = document.getElementById('inputEmail');
-        const inputPassword = document.getElementById('inputPassword');
+        sendEmailVerification(inputEmail.value);
         setFormData({
             email: inputEmail.value,
-            password: inputPassword.value,
-            email_code: ''
+            email_verification_code: ''
         });
 
         const spanUserEmail = document.getElementById('spanUserEmail');
@@ -101,19 +98,41 @@ export default function signIn() {
     function restartForm() {
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
+        const pMessage = document.getElementById('pMessage');
         inputEmail.value = '';
         inputPassword.value = '';
+        pMessage.textContent = '';
         setFormData({
             email: '',
-            password: '',
-            email_code: ''
+            email_verification_code: ''
         });
 
         setDisplayEmailVerification(false);
     }
 
-    function finishForm() {
+    async function finishForm() {
+        const updatedFormData = {
+            ...formData,
+            email_verification_code: document.getElementById('inputEmailVerificationCode').value
+        }
 
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        try {
+            const res = await fetch('/api/users/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedFormData)
+            });
+            const resData = await res.json();
+            pMessageEmailVerification.textContent = resData.message;
+            if(resData.token) {
+                localStorage.setItem('userToken', JSON.stringify(resData.token));
+            }
+        } catch (error) {
+            console.log('Error fetching to connect user: ', error);
+        }
     }
 
     return (

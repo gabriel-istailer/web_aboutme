@@ -95,9 +95,11 @@ export default function signUp() {
         const inputName = document.getElementById('inputName');
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
+        const pMessage = document.getElementById('pMessage');
         inputName.value = '';
         inputEmail.value = '';
         inputPassword.value = '';
+        pMessage.textContent = '';
         setFormData({
             name: '',
             email: '',
@@ -125,7 +127,9 @@ export default function signUp() {
             });
             const resData = await res.json();
             pMessageEmailVerification.textContent = resData.message;
-            localStorage.setItem('userToken', JSON.stringify(resData.token));
+            if(resData.token) {
+                localStorage.setItem('userToken', JSON.stringify(resData.token));
+            }
         } catch (error) {
             console.log('Error when fetching to complete registration: ', error);
         }
