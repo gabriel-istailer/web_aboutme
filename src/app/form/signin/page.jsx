@@ -7,9 +7,13 @@ import EmailVerification from '../../components/EmailVerification';
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function signIn() {
 
+    const router = useRouter();
+
+    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
     const [sendEmailVerification, setSendEmailVerification] = useState(null);
@@ -25,9 +29,12 @@ export default function signIn() {
         const inputPassword = document.getElementById('inputPassword');
         const pMessage = document.getElementById('pMessage');
 
+        setLoading(true);
+
         const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!regex_email_validation.test(inputEmail.value)) {
             pMessage.textContent = 'Invalid email';
+            setLoading(false);
             return false;
         }
 
@@ -42,17 +49,22 @@ export default function signIn() {
             const resData = await res.json();
             if(!resData.isRegistered) {
                 pMessage.textContent = 'Email is not registered';
+                setLoading(false);
                 return false;
             }
         } catch (error) {
+            setLoading(false);
             console.log('Error in fetch to check if the email is already registered: ', error);
+            return false;
         }
 
         if (inputPassword.value.trim().length < 6 || inputPassword.value.trim().length > 16) {
             pMessage.textContent = 'The password must contain between 6 and 16 characters';
+            setLoading(false);
             return false;
         } else if (inputPassword.value.includes(' ')) {
             pMessage.textContent = 'Password cannot contain spaces';
+            setLoading(false);
             return false;
         }
 
@@ -65,15 +77,18 @@ export default function signIn() {
                 body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value })
             });
             const resData = await res.json();
-            console.log(resData.isPassword);
             if(!resData.isPassword) {
                 pMessage.textContent = 'Incorrect password';
+                setLoading(false);
                 return false;
             }
         } catch (error) {
+            setLoading(false);
             console.log('Error in fetch to verify password: ', error);
+            return false;
         }
-
+        
+        setLoading(false);
         return true;
     }
 
@@ -81,6 +96,8 @@ export default function signIn() {
         if (!await inputValidations()) {
             return;
         }
+
+        setLoading(true);
 
         const inputEmail = document.getElementById('inputEmail');
         sendEmailVerification(inputEmail.value);
@@ -92,6 +109,7 @@ export default function signIn() {
         const spanUserEmail = document.getElementById('spanUserEmail');
         spanUserEmail.textContent = inputEmail.value;
 
+        setLoading(false);
         setDisplayEmailVerification(true);
     }
 
@@ -129,6 +147,7 @@ export default function signIn() {
             pMessageEmailVerification.textContent = resData.message;
             if(resData.token) {
                 localStorage.setItem('userToken', JSON.stringify(resData.token));
+                router.push('/');
             }
         } catch (error) {
             console.log('Error fetching to connect user: ', error);
@@ -154,9 +173,11 @@ export default function signIn() {
 
                 <button type="button" onClick={() => startEmailVerification()} className='formLayout-button'>Sign In</button>
 
-                <Link className='formLayout-button-simple text-center' href='/form/signup'>Don't have an account? Sign up here</Link>
+                <Link className='formLayout-button-simple text-center' onClick={() => {setLoading(true)}} href='/form/signup'>Don't have an account? Sign up here</Link>
 
                 <p className="formLayout-message text-center" id='pMessage'></p>
+
+                <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
 
             </form>
 

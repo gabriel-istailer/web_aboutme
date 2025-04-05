@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 
 let timeout = null;
-let email = null;
 export default function EmailVerification({ actions }) {
 
+    const [loading, setLoading] = useState(false);
     const [resendEmailVerification, setResendEmailVerification] = useState(false);
 
     function notResendEmailVerification() {
@@ -13,17 +13,22 @@ export default function EmailVerification({ actions }) {
     }
 
     function disableResendEmailVerification() {
+        setLoading(true);
         setResendEmailVerification(false);
         timeout = setTimeout(() => {
             setResendEmailVerification(true);
             document.getElementById('pMessageEmailVerification').textContent = 'Verification email expired';
         }, 2 * 60 * 1000);
+        setLoading(false);
     }
 
     async function sendEmailVerification(email) {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Sending verification email...';
         disableResendEmailVerification();
+
+        setLoading(true);
+
         try {
             const res = await fetch('/api/email-verifications/send', {
                 method: 'POST',
@@ -39,15 +44,21 @@ export default function EmailVerification({ actions }) {
             console.log('Error fetching to send verification email:', error);
             pMessageEmailVerification.textContent = 'Error sending verification email';
         }
+
+        setLoading(false);
     }
 
     useEffect(() => {
+        setLoading(true);
         actions.setSendEmailVerification(() => (email) => sendEmailVerification(email));
+        setLoading(false);
     }, [actions.setSendEmailVerification]);
 
     async function cancelEmailVerification() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         pMessageEmailVerification.textContent = 'Canceling verification email...';
+
+        setLoading(true);
 
         const spanUserEmail = document.getElementById('spanUserEmail');
         const email = spanUserEmail.textContent;
@@ -69,6 +80,7 @@ export default function EmailVerification({ actions }) {
 
         clearTimeout(timeout);
         actions.restartForm();
+        setLoading(false);
     }
 
     return (
@@ -84,7 +96,7 @@ export default function EmailVerification({ actions }) {
             <label htmlFor="inputEmailVerificationCode" className="formLayout-label">Verification code:</label>
             <input type="number" className='formLayout-input formLayout-input-email-verification text-center' min='0' max='999999' name="inputEmailVerificationCode" id="inputEmailVerificationCode" required />
 
-            <button type="button" onClick={actions.finishForm} className='formLayout-button' id='buttonFinishForm'>{actions.isSignUp ? 'Sign Up' : 'Sign In'}</button>
+            <button type="button" onClick={() => {actions.finishForm(); setLoading(true);}} className='formLayout-button' id='buttonFinishForm'>{actions.isSignUp ? 'Sign Up' : 'Sign In'}</button>
 
             <button
                 type="button"
@@ -98,6 +110,8 @@ export default function EmailVerification({ actions }) {
             <button type='button' onClick={cancelEmailVerification} className='formLayout-button-simple'>Back to form</button>
 
             <p className="formLayout-message" id='pMessageEmailVerification'></p>
+
+            <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
 
         </div>
     );

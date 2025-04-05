@@ -1,0 +1,22 @@
+'use client';
+
+import Link from "next/link";
+
+export default function NotRegisteredUserPage() {
+    return (
+        <div className="NotRegisteredUserPage">
+            <nav className="home-header-nav flex-v-center">
+                <Link className='home-header-nav-title font-LilyScriptOne smooth-animation' href='/'>AboutMe</Link>
+                <Link className='home-header-nav-link font-Sanchez smooth-animation' href='/form/signup'>Sign Up</Link>
+                <Link className='home-header-nav-link font-Sanchez smooth-animation' href='/form/signin'>Sign In</Link>
+            </nav>
+            <section className="home-header-section flex-center flex-column">
+                <h1 className="home-header-section-slogan smooth-animation">Sign up and share your story with us!</h1>
+                <p className="home-header-section-description text-center smooth-animation">
+                    The AboutMe website's main idea is to connect stories from all over the world,
+                    sharing experiences and advising other people to complete their stories.
+                </p>
+            </section>
+        </div>
+    );
+}

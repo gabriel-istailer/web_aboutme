@@ -7,9 +7,13 @@ import EmailVerification from '../../components/EmailVerification';
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function signUp() {
 
+    const router = useRouter();
+
+    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
     const [sendEmailVerification, setSendEmailVerification] = useState(null);
@@ -28,14 +32,18 @@ export default function signUp() {
         const inputPassword = document.getElementById('inputPassword');
         const pMessage = document.getElementById('pMessage');
 
+        setLoading(true);
+
         if (inputName.value.trim().length < 3 || inputName.value.trim().length > 50) {
             pMessage.textContent = 'The name must contain between 3 and 50 characters';
+            setLoading(false);
             return false;
         }
 
         const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!regex_email_validation.test(inputEmail.value)) {
             pMessage.textContent = 'Invalid email';
+            setLoading(false);
             return false;
         }
 
@@ -50,21 +58,26 @@ export default function signUp() {
             const resData = await res.json();
             if (resData.isRegistered) {
                 pMessage.textContent = 'This email is already registered';
+                setLoading(false);
                 return false;
             }
         } catch (error) {
+            setLoading(false);
             console.log('Error in fetch to check if the email is already registered: ', error);
             return false;
         }
 
         if (inputPassword.value.trim().length < 6 || inputPassword.value.trim().length > 16) {
             pMessage.textContent = 'The password must contain between 6 and 16 characters';
+            setLoading(false);
             return false;
         } else if (inputPassword.value.includes(' ')) {
             pMessage.textContent = 'Password cannot contain spaces';
+            setLoading(false);
             return false;
         }
 
+        setLoading(false);
         return true;
     }
 
@@ -72,6 +85,8 @@ export default function signUp() {
         if (!await inputValidations()) {
             return;
         }
+
+        setLoading(true);
 
         sendEmailVerification(document.getElementById('inputEmail').value);
 
@@ -88,6 +103,7 @@ export default function signUp() {
         const spanUserEmail = document.getElementById('spanUserEmail');
         spanUserEmail.textContent = inputEmail.value;
 
+        setLoading(false);
         setDisplayEmailVerification(true);
     }
 
@@ -129,6 +145,7 @@ export default function signUp() {
             pMessageEmailVerification.textContent = resData.message;
             if(resData.token) {
                 localStorage.setItem('userToken', JSON.stringify(resData.token));
+                router.push('/');
             }
         } catch (error) {
             console.log('Error when fetching to complete registration: ', error);
@@ -157,9 +174,11 @@ export default function signUp() {
 
                 <button type="button" onClick={() => startEmailVerification()} className='formLayout-button'>Sign Up</button>
 
-                <Link className='formLayout-button-simple text-center' href='/form/signin'>Already have an account? Then sign in here.</Link>
+                <Link className='formLayout-button-simple text-center' onClick={() => {setLoading(true)}} href='/form/signin'>Already have an account? Then sign in here.</Link>
 
                 <p className="formLayout-message text-center" id='pMessage'></p>
+
+                <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
 
             </form>
 

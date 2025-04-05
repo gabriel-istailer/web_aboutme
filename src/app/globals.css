@@ -30,3 +30,13 @@
 .overflow-hidden {
     overflow: hidden;
 }
+
+.smooth-animation {
+    transition: all 1s ease;
+    opacity: 0;
+    transform: translateY(50px);
+}
+.smooth-animation.show-animation {
+    opacity: 1;
+    transform: translateY(0);
+}

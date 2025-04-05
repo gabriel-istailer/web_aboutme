@@ -156,3 +156,10 @@
     -webkit-appearance: none;
     margin: 0;
 }
+
+.formLayout-loading {
+    width: 350px;
+    margin-top: 20px;
+    text-align: center;
+    color: #fff;
+}
