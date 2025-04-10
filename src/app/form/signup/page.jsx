@@ -88,10 +88,22 @@ export default function signUp() {
 
         setLoading(true);
 
-        sendEmailVerification(document.getElementById('inputEmail').value);
+        const inputEmail = document.getElementById('inputEmail');
+        try {
+            await fetch('/api/email-verifications/cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: inputEmail.value })
+            });
+        } catch (error) {
+            console.log('Error fetching to cancel verification email');
+        }
+
+        sendEmailVerification(inputEmail.value);
 
         const inputName = document.getElementById('inputName');
-        const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
         setFormData({
             name: inputName.value,
@@ -146,10 +158,12 @@ export default function signUp() {
             if(resData.token) {
                 localStorage.setItem('userToken', JSON.stringify(resData.token));
                 router.push('/');
+                return true;
             }
         } catch (error) {
             console.log('Error when fetching to complete registration: ', error);
         }
+        return false;
     }
 
     return (
@@ -176,9 +190,9 @@ export default function signUp() {
 
                 <Link className='formLayout-button-simple text-center' onClick={() => {setLoading(true)}} href='/form/signin'>Already have an account? Then sign in here.</Link>
 
-                <p className="formLayout-message text-center" id='pMessage'></p>
-
                 <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
+
+                <p className="formLayout-message text-center" id='pMessage'></p>
 
             </form>
 

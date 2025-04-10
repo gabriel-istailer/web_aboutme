@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function NotRegisteredUserPage() {
     return (
-        <div className="NotRegisteredUserPage">
+        <div className="NotRegisteredUserPage" style={{maxWidth: '100%'}}>
             <nav className="home-header-nav flex-v-center">
                 <Link className='home-header-nav-title font-LilyScriptOne smooth-animation' href='/'>AboutMe</Link>
                 <Link className='home-header-nav-link font-Sanchez smooth-animation' href='/form/signup'>Sign Up</Link>

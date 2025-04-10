@@ -23,12 +23,11 @@ export default function EmailVerification({ actions }) {
     }
 
     async function sendEmailVerification(email) {
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Sending verification email...';
         disableResendEmailVerification();
-
+        
         setLoading(true);
-
+        
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
         try {
             const res = await fetch('/api/email-verifications/send', {
                 method: 'POST',
@@ -56,7 +55,6 @@ export default function EmailVerification({ actions }) {
 
     async function cancelEmailVerification() {
         const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        pMessageEmailVerification.textContent = 'Canceling verification email...';
 
         setLoading(true);
 
@@ -83,6 +81,33 @@ export default function EmailVerification({ actions }) {
         setLoading(false);
     }
 
+    async function finishEmailVerification() {
+        setLoading(true);
+
+        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
+        const code = document.getElementById('inputEmailVerificationCode').value;
+        if(isNaN(code)) {
+            pMessageEmailVerification.textContent = 'Invalid email verification code';
+            setLoading(false);
+            return;
+        } else if(code.includes(' ')) {
+            pMessageEmailVerification.textContent = 'Email verification code cannot contain spaces';
+            setLoading(false);
+            return;
+        } else if(code.trim().length > 6 || code.trim().length === 0) {
+            pMessageEmailVerification.textContent = 'Email verification code must contain 6 digits';
+            setLoading(false);
+            return;
+        }
+
+        const isFinished = await actions.finishForm();
+        if(isFinished) {
+            clearTimeout(timeout);
+        }
+
+        setLoading(false);
+    }
+
     return (
         <div className="formLayout-form flex-center flex-column">
 
@@ -96,7 +121,7 @@ export default function EmailVerification({ actions }) {
             <label htmlFor="inputEmailVerificationCode" className="formLayout-label">Verification code:</label>
             <input type="number" className='formLayout-input formLayout-input-email-verification text-center' min='0' max='999999' name="inputEmailVerificationCode" id="inputEmailVerificationCode" required />
 
-            <button type="button" onClick={() => {actions.finishForm(); setLoading(true);}} className='formLayout-button' id='buttonFinishForm'>{actions.isSignUp ? 'Sign Up' : 'Sign In'}</button>
+            <button type="button" onClick={finishEmailVerification} className='formLayout-button' id='buttonFinishForm'>{actions.isSignUp ? 'Sign Up' : 'Sign In'}</button>
 
             <button
                 type="button"
@@ -109,9 +134,9 @@ export default function EmailVerification({ actions }) {
 
             <button type='button' onClick={cancelEmailVerification} className='formLayout-button-simple'>Back to form</button>
 
-            <p className="formLayout-message" id='pMessageEmailVerification'></p>
-
             <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
+
+            <p className="formLayout-message" id='pMessageEmailVerification'></p>
 
         </div>
     );

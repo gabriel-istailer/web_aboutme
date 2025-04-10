@@ -100,7 +100,20 @@ export default function signIn() {
         setLoading(true);
 
         const inputEmail = document.getElementById('inputEmail');
+        try {
+            await fetch('/api/email-verifications/cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: inputEmail.value })
+            });
+        } catch (error) {
+            console.log('Error fetching to cancel verification email');
+        }
+
         sendEmailVerification(inputEmail.value);
+
         setFormData({
             email: inputEmail.value,
             email_verification_code: ''
@@ -148,10 +161,12 @@ export default function signIn() {
             if(resData.token) {
                 localStorage.setItem('userToken', JSON.stringify(resData.token));
                 router.push('/');
+                return true;
             }
         } catch (error) {
             console.log('Error fetching to connect user: ', error);
         }
+        return false;
     }
 
     return (
@@ -175,9 +190,9 @@ export default function signIn() {
 
                 <Link className='formLayout-button-simple text-center' onClick={() => {setLoading(true)}} href='/form/signup'>Don't have an account? Sign up here</Link>
 
-                <p className="formLayout-message text-center" id='pMessage'></p>
-
                 <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
+
+                <p className="formLayout-message text-center" id='pMessage'></p>
 
             </form>
 
