@@ -36,6 +36,16 @@ export default function signUp() {
             return false;
         }
 
+        if (password.trim().length < 6 || password.trim().length > 16) {
+            setMessage('The password must contain between 6 and 16 characters');
+            setLoading(false);
+            return false;
+        } else if(password.includes(' ')) {
+            setMessage('Password cannot contain spaces');
+            setLoading(false);
+            return false;
+        }
+
         try {
             const res = await fetch('/api/users/verify-email', {
                 method: 'POST',
@@ -56,16 +66,6 @@ export default function signUp() {
             return false;
         }
 
-        if (password.trim().length < 6 || password.trim().length > 16) {
-            setMessage('The password must contain between 6 and 16 characters');
-            setLoading(false);
-            return false;
-        } else if(password.includes(' ')) {
-            setMessage('Password cannot contain spaces');
-            setLoading(false);
-            return false;
-        }
-
         setLoading(false);
         return true;
     }
@@ -79,6 +79,7 @@ export default function signUp() {
         const res = await fetch('api/users/signup', {
 
         });
+        const resData = await res.json();
     }
 
     return (
