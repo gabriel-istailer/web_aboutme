@@ -22,13 +22,7 @@ export default function Home() {
         const fetchGetUser = async () => {
             try {
                 setLoading(true)
-                const res = await fetch('/api/users/get-user', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ token: userToken })
-                });
+                const res = await fetch(`/api/users/get?token=${userToken}`);
                 const resData = await res.json();
                 setUser(resData.user);
                 setLoading(false);

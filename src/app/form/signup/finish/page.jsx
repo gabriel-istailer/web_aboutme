@@ -26,6 +26,7 @@ export default function finishSignUp() {
                 return;
             }
         }
+        verifyToken();
     }, [token])
 
     return (

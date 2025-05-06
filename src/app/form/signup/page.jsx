@@ -3,8 +3,6 @@
 import './page.css';
 import '../layout.css';
 
-import EmailVerification from '../../components/EmailVerification';
-
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -15,8 +13,8 @@ export default function signUp() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [message, setMessage] = useState('');
 
     function changeShowPassword() { setShowPassword((prev) => !prev); }
 
@@ -47,15 +45,9 @@ export default function signUp() {
         }
 
         try {
-            const res = await fetch('/api/users/verify-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email })
-            });
+            const res = await fetch(`/api/users/get?email=${email}`);
             const resData = await res.json();
-            if (resData.isRegistered) {
+            if(resData.user) {
                 setMessage('This email is already registered');
                 setLoading(false);
                 return false;
@@ -76,10 +68,25 @@ export default function signUp() {
             return;
         }
 
-        const res = await fetch('api/users/signup', {
+        try {
+            const res = await fetch('/api/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password
+                })
+            });
+        } catch (error) {
+            console.log('Error fetching to start registration: ', error);
+            return false;
+        }
 
-        });
-        const resData = await res.json();
+
+
     }
 
     return (
@@ -111,6 +118,11 @@ export default function signUp() {
                 <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
 
             </form>
+
+            <div className="formLayout-form flex-center flex-column" id='startEmailVerification'>
+                <h1>Email Verification</h1>
+                <p>Please check your email!</p>
+            </div>
 
         </div>
     );
