@@ -111,6 +111,7 @@
     border: 2px solid #fff;
     background-color: #fff;
     color: #000;
+    text-decoration: none;
     transition: 0.2s;
 }
 .formLayout-button:hover {

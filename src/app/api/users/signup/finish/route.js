@@ -20,7 +20,7 @@ export async function GET(req) {
 
         const userToken = await UserController.create(tokenDecoded);
 
-        return NextResponse.json({ message: 'User validated and created successfully', token: userToken }, { status: 201 });
+        return NextResponse.json({ message: 'User validated and registered successfully!', token: userToken }, { status: 201 });
 
     } catch (error) {
         console.log('Error in API Route users/signup/finish: ', error);

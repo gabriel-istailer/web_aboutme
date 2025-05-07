@@ -1,6 +1,5 @@
 'use client';
 
-import './page.css';
 import '../layout.css';
 
 import Link from 'next/link';
@@ -15,6 +14,7 @@ export default function signUp() {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState('');
+    const [alertEmailVerification, setAlertEmailVerification] = useState(false);
 
     function changeShowPassword() { setShowPassword((prev) => !prev); }
 
@@ -68,6 +68,8 @@ export default function signUp() {
             return;
         }
 
+        setLoading(true);
+
         try {
             const res = await fetch('/api/users/signup', {
                 method: 'POST',
@@ -82,16 +84,19 @@ export default function signUp() {
             });
         } catch (error) {
             console.log('Error fetching to start registration: ', error);
+            setLoading(false);
             return false;
         }
 
+        setAlertEmailVerification(true);
 
+        setLoading(false);
 
     }
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="formLayout-form flex-center flex-column" id='formSignUp'>
+            <form onSubmit={handleSubmit} className="formLayout-form flex-center flex-column" id='formSignUp' style={alertEmailVerification ? {display: 'none'} : {display: 'flex'}} >
 
                 <h1 className="formLayout-title text-center">Sign Up</h1>
 
@@ -119,9 +124,13 @@ export default function signUp() {
 
             </form>
 
-            <div className="formLayout-form flex-center flex-column" id='startEmailVerification'>
-                <h1>Email Verification</h1>
-                <p>Please check your email!</p>
+            <div className="formLayout-form flex-center flex-column" style={alertEmailVerification ? {display: 'flex'} : {display: 'none'}}>
+                <h1 className='formLayout-title text-center'>Email Verification</h1>
+                <p className='formLayout-advice text-center'>
+                    We have sent a validation email to {email}. 
+                    Please follow the link in the email to complete your registration, 
+                    the link expires in 2 minutes.
+                </p>
             </div>
 
         </div>
