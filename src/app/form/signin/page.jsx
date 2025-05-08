@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function signIn() {
+export default function SignIn() {
 
     const router = useRouter();
 
@@ -40,7 +40,7 @@ export default function signIn() {
             }
         } catch (error) {
             console.log('Error in fetch to check if the email is already registered: ', error);
-            setMessage('Client Side Error');
+            setMessage('Error');
             setLoading(false);
             return false;
         }
@@ -83,7 +83,7 @@ export default function signIn() {
             }
         } catch (error) {
             console.log('Error in fetch to verify password: ', error);
-            setMessage('Client Side Error');
+            setMessage('Error');
             setLoading(false);
             return false;
         }
@@ -96,18 +96,61 @@ export default function signIn() {
         if(!await emailValidation()) {
             return;
         }
-        
+
+        setLoading(true);
+
+        try {
+            const res = await fetch(`/api/users/signin/recovery-password?email=${email}`);
+        } catch (error) {
+            console.log('Error in fetching password recovery email: ', error);
+            setMessage('Error');
+            setLoading(false);
+            return;
+        }
+
+        setShowPassword(false);
+        setAlertRecoveryPassword(true);
+        setLoading(false);
     }
 
     async function handleSubmit(e) {
         e.preventDefault();
 
+        if(!await inputValidations()) {
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const res = await fetch('/api/users/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            });
+            const resData = await res.json();
+            if(resData.token) {
+                localStorage.setItem('token', JSON.stringify(resData.token));
+                setMessage(resData.message);
+                router.push('/');
+            }
+        } catch (error) {
+            console.log('', error);
+            setMessage('Error');
+            setLoading(false);
+            return;
+        }
     }
 
     return (
         <div>
 
-            <form onSubmit={handleSubmit()} className="formLayout-form flex-center flex-column" style={alertRecoveryPassword ? { display: 'none' } : { display: 'flex' }}>
+            <form onSubmit={handleSubmit} className="formLayout-form flex-center flex-column" style={alertRecoveryPassword ? { display: 'none' } : { display: 'flex' }}>
 
                 <h1 className="formLayout-title text-center">Sign In</h1>
 
@@ -122,7 +165,7 @@ export default function signIn() {
                     <label htmlFor="checkboxShowPassword" className='formLayout-label-checkbox-show-password'>Show password:</label>
                 </div>
 
-                <button type="submit" onClick={() => startEmailVerification()} className='formLayout-button'>Sign In</button>
+                <button type="submit" className='formLayout-button'>Sign In</button>
 
                 <Link className='formLayout-button-simple text-center' onClick={() => {setLoading(true)}} href='/form/signup'>Don't have an account? Sign up here</Link>
 
@@ -133,10 +176,10 @@ export default function signIn() {
             </form>
 
             <div className="formLayout-form flex-center flex-column" style={alertRecoveryPassword ? {display: 'flex'} : {display: 'none'}}>
-                <h1 className='formLayout-title text-center'>Email Verification</h1>
+                <h1 className='formLayout-title text-center'>Recovery Password</h1>
                 <p className='formLayout-advice text-center'>
-                    We have sent a validation email to {email}. 
-                    Please follow the link in the email to complete your registration, 
+                    We have sent a password recovery email to {email}. 
+                    Please follow the link in the email to recover your password, 
                     the link expires in 2 minutes.
                 </p>
             </div>

@@ -5,7 +5,7 @@ import '../layout.css';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function signUp() {
+export default function SignUp() {
 
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState('');
