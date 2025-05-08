@@ -3,8 +3,6 @@
 import './page.css';
 import '../layout.css';
 
-import EmailVerification from '../../components/EmailVerification';
-
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,56 +12,57 @@ export default function signIn() {
     const router = useRouter();
 
     const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
-    const [sendEmailVerification, setSendEmailVerification] = useState(null);
-    const [formData, setFormData] = useState({
-        email: '',
-        email_verification_code: ''
-    });
+    const [message, setMessage] = useState('');
+    const [alertRecoveryPassword, setAlertRecoveryPassword] = useState(false);
 
     function changeShowPassword() { setShowPassword((prev) => !prev); }
 
-    async function inputValidations() {
-        const inputEmail = document.getElementById('inputEmail');
-        const inputPassword = document.getElementById('inputPassword');
-        const pMessage = document.getElementById('pMessage');
-
+    async function emailValidation() {
         setLoading(true);
 
         const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!regex_email_validation.test(inputEmail.value)) {
-            pMessage.textContent = 'Invalid email';
+        if (!regex_email_validation.test(email)) {
+            setMessage('Invalid email');
             setLoading(false);
             return false;
         }
 
         try {
-            const res = await fetch('/api/users/verify-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: inputEmail.value })
-            });
+            const res = await fetch(`/api/users/get?email=${email}`);
             const resData = await res.json();
-            if(!resData.isRegistered) {
-                pMessage.textContent = 'Email is not registered';
+            if(!resData.user) {
+                setMessage('Email is not registered');
                 setLoading(false);
                 return false;
             }
         } catch (error) {
-            setLoading(false);
             console.log('Error in fetch to check if the email is already registered: ', error);
+            setMessage('Client Side Error');
+            setLoading(false);
             return false;
         }
 
+        setLoading(false);
+        return true;
+    }
+
+    async function inputValidations() {
+        
+        if(!await emailValidation()) {
+            return false;
+        }
+
+        setLoading(true);
+        
         if (inputPassword.value.trim().length < 6 || inputPassword.value.trim().length > 16) {
-            pMessage.textContent = 'The password must contain between 6 and 16 characters';
+            setMessage('The password must contain between 6 and 16 characters');
             setLoading(false);
             return false;
         } else if (inputPassword.value.includes(' ')) {
-            pMessage.textContent = 'Password cannot contain spaces';
+            setMessage('Password cannot contain spaces');
             setLoading(false);
             return false;
         }
@@ -74,17 +73,18 @@ export default function signIn() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value })
+                body: JSON.stringify({ email, password })
             });
             const resData = await res.json();
             if(!resData.isPassword) {
-                pMessage.textContent = 'Incorrect password';
+                setMessage('Incorrect password');
                 setLoading(false);
                 return false;
             }
         } catch (error) {
-            setLoading(false);
             console.log('Error in fetch to verify password: ', error);
+            setMessage('Client Side Error');
+            setLoading(false);
             return false;
         }
         
@@ -92,112 +92,53 @@ export default function signIn() {
         return true;
     }
 
-    async function startEmailVerification() {
-        if (!await inputValidations()) {
+    async function recoveryPassword() {
+        if(!await emailValidation()) {
             return;
         }
-
-        setLoading(true);
-
-        const inputEmail = document.getElementById('inputEmail');
-        try {
-            await fetch('/api/email-verifications/cancel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: inputEmail.value })
-            });
-        } catch (error) {
-            console.log('Error fetching to cancel verification email');
-        }
-
-        sendEmailVerification(inputEmail.value);
-
-        setFormData({
-            email: inputEmail.value,
-            email_verification_code: ''
-        });
-
-        const spanUserEmail = document.getElementById('spanUserEmail');
-        spanUserEmail.textContent = inputEmail.value;
-
-        setLoading(false);
-        setDisplayEmailVerification(true);
+        
     }
 
-    function restartForm() {
-        const inputEmail = document.getElementById('inputEmail');
-        const inputPassword = document.getElementById('inputPassword');
-        const pMessage = document.getElementById('pMessage');
-        inputEmail.value = '';
-        inputPassword.value = '';
-        pMessage.textContent = '';
-        setFormData({
-            email: '',
-            email_verification_code: ''
-        });
+    async function handleSubmit(e) {
+        e.preventDefault();
 
-        setDisplayEmailVerification(false);
-    }
-
-    async function finishForm() {
-        const updatedFormData = {
-            ...formData,
-            email_verification_code: document.getElementById('inputEmailVerificationCode').value
-        }
-
-        const pMessageEmailVerification = document.getElementById('pMessageEmailVerification');
-        try {
-            const res = await fetch('/api/users/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatedFormData)
-            });
-            const resData = await res.json();
-            pMessageEmailVerification.textContent = resData.message;
-            if(resData.token) {
-                localStorage.setItem('userToken', JSON.stringify(resData.token));
-                router.push('/');
-                return true;
-            }
-        } catch (error) {
-            console.log('Error fetching to connect user: ', error);
-        }
-        return false;
     }
 
     return (
         <div>
 
-            <form className="formLayout-form flex-center flex-column" style={displayEmailVerification ? { display: 'none' } : { display: 'flex' }}>
+            <form onSubmit={handleSubmit()} className="formLayout-form flex-center flex-column" style={alertRecoveryPassword ? { display: 'none' } : { display: 'flex' }}>
 
                 <h1 className="formLayout-title text-center">Sign In</h1>
 
                 <label htmlFor="inputEmail" className="formLayout-label">Email:</label>
-                <input type="email" className='formLayout-input' name="inputEmail" id="inputEmail" required />
+                <input value={email} onChange={e => {setEmail(e.target.value)}} type="email" className='formLayout-input' name="inputEmail" id="inputEmail" required />
 
                 <label htmlFor="inputPassword " className="formLayout-label">Password:</label>
-                <input type={showPassword ? 'text' : 'password'} className='formLayout-input' name="inputPassword" id="inputPassword" required />
+                <input value={password} onChange={e => {setPassword(e.target.value)}} type={showPassword ? 'text' : 'password'} className='formLayout-input' name="inputPassword" id="inputPassword" required />
+
                 <div className="formLayout-label-container-checkbox-show-password flex-v-center">
                     <input type="checkbox" checked={showPassword} onChange={() => changeShowPassword()} className='formLayout-checkbox-show-password' name="checkboxShowPassword" id="checkboxShowPassword" />
                     <label htmlFor="checkboxShowPassword" className='formLayout-label-checkbox-show-password'>Show password:</label>
                 </div>
 
-                <button type="button" onClick={() => startEmailVerification()} className='formLayout-button'>Sign In</button>
+                <button type="submit" onClick={() => startEmailVerification()} className='formLayout-button'>Sign In</button>
 
                 <Link className='formLayout-button-simple text-center' onClick={() => {setLoading(true)}} href='/form/signup'>Don't have an account? Sign up here</Link>
 
                 <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
 
-                <p className="formLayout-message text-center" id='pMessage'></p>
+                <p className="formLayout-message text-center" id='pMessage'>{message}</p>
 
             </form>
 
-            <div style={displayEmailVerification ? { display: 'flex' } : { display: 'none' }}>
-                <EmailVerification actions={{ finishForm, restartForm, setSendEmailVerification, isSignUp: false }} />
+            <div className="formLayout-form flex-center flex-column" style={alertRecoveryPassword ? {display: 'flex'} : {display: 'none'}}>
+                <h1 className='formLayout-title text-center'>Email Verification</h1>
+                <p className='formLayout-advice text-center'>
+                    We have sent a validation email to {email}. 
+                    Please follow the link in the email to complete your registration, 
+                    the link expires in 2 minutes.
+                </p>
             </div>
 
         </div>
