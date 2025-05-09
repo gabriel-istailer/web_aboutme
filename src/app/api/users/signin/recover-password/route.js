@@ -8,7 +8,7 @@ export async function GET(req) {
 
         const email = searchParams.get('email');
 
-        const token = jwt.sign(email, process.env.JWT_SECRET);
+        const token = jwt.sign(email, process.env.JWT_SECRET, { expiresIn: '2m' });
 
         await NodemailerController.sendPasswordRecovery(token, email);
 
