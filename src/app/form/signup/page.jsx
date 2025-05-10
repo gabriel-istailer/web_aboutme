@@ -108,7 +108,7 @@ export default function SignUp() {
                 <label htmlFor="inputPassword" className='formLayout-label'>Password:</label>
                 <input value={password} onChange={e => {setPassword(e.target.value)}} type={showPassword ? 'text' : 'password'} className='formLayout-input' name="inputPassword" id="inputPassword" required />
 
-                <div className="formLayout-label-container-checkbox-show-password flex-v-center">
+                <div className="formLayout-button-container flex-v-center">
                     <input type="checkbox" checked={showPassword} onChange={() => changeShowPassword()} className='formLayout-checkbox-show-password' name="checkboxShowPassword" id="checkboxShowPassword" />
                     <label htmlFor="checkboxShowPassword" className='formLayout-label-checkbox-show-password'>Show password:</label>
                 </div>

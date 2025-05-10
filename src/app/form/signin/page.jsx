@@ -1,6 +1,5 @@
 'use client';
 
-import './page.css';
 import '../layout.css';
 
 import Link from 'next/link';
@@ -57,11 +56,11 @@ export default function SignIn() {
 
         setLoading(true);
         
-        if (inputPassword.value.trim().length < 6 || inputPassword.value.trim().length > 16) {
+        if (password.trim().length < 6 || password.trim().length > 16) {
             setMessage('The password must contain between 6 and 16 characters');
             setLoading(false);
             return false;
-        } else if (inputPassword.value.includes(' ')) {
+        } else if (password.includes(' ')) {
             setMessage('Password cannot contain spaces');
             setLoading(false);
             return false;
@@ -100,7 +99,7 @@ export default function SignIn() {
         setLoading(true);
 
         try {
-            const res = await fetch(`/api/users/signin/recovery-password?email=${email}`);
+            const res = await fetch(`/api/users/signin/recover-password?email=${email}`);
         } catch (error) {
             console.log('Error in fetching password recovery email: ', error);
             setMessage('Error');
@@ -160,9 +159,11 @@ export default function SignIn() {
                 <label htmlFor="inputPassword " className="formLayout-label">Password:</label>
                 <input value={password} onChange={e => {setPassword(e.target.value)}} type={showPassword ? 'text' : 'password'} className='formLayout-input' name="inputPassword" id="inputPassword" required />
 
-                <div className="formLayout-label-container-checkbox-show-password flex-v-center">
+                <div className="formLayout-button-container flex-v-center">
                     <input type="checkbox" checked={showPassword} onChange={() => changeShowPassword()} className='formLayout-checkbox-show-password' name="checkboxShowPassword" id="checkboxShowPassword" />
                     <label htmlFor="checkboxShowPassword" className='formLayout-label-checkbox-show-password'>Show password:</label>
+                    
+                    <button className='formLayout-forget-password text-center' onClick={recoveryPassword} type="button">Forgot your password?</button>
                 </div>
 
                 <button type="submit" className='formLayout-button'>Sign In</button>

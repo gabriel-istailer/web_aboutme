@@ -73,7 +73,7 @@
     display: none;
 }
 
-.formLayout-label-container-checkbox-show-password {
+.formLayout-button-container {
     width: 300px;
 }
 
@@ -81,6 +81,7 @@
     color: #fff;
     cursor: pointer;
     position: relative;
+    font-size: 15px;
 }
 .formLayout-label-checkbox-show-password:hover {
     text-decoration: underline #fff;
@@ -89,10 +90,10 @@
 .formLayout-label-checkbox-show-password::after {
     content: '';
     position: absolute;
-    top: 4.5px;
+    top: 4px;
     left: 105%;
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     border: 2px solid #fff;
     background-color: transparent;
@@ -163,4 +164,18 @@
     margin-top: 20px;
     text-align: center;
     color: #fff;
+}
+
+.formLayout-forget-password {
+    color: #ddd;
+    font-size: 15px;
+    margin-left: auto;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.formLayout-forget-password:hover {
+    color: #fff;
+    text-decoration: underline #fff;
 }

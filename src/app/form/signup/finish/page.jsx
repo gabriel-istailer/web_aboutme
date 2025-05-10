@@ -3,10 +3,13 @@
 import '../../layout.css';
 
 import Link from "next/link";
+import { useRouter } from 'next/router';
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function finishSignUp() {
+
+    const router = useRouter();
 
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
@@ -26,6 +29,10 @@ export default function finishSignUp() {
                 const res = await fetch(`/api/users/signup/finish?token=${token}`);
                 const resData = await res.json();
                 setMessage(resData.message);
+                if(resData.token) {
+                    localStorage.setItem('token', JSON.stringify(resData.token));
+                    router.push('/');
+                }
             } catch (error) {
                 console.log('Error in fetch to complete registration: ', error);
                 setMessage('Error');
@@ -41,8 +48,8 @@ export default function finishSignUp() {
         <div className="finishSignUp">
             <div className="formLayout-form flex-center flex-column">
                 <h1 className="formLayout-title text-center">Sign Up</h1>
-                <p className="formLayout-advice text-center">{message}</p>
                 <Link className='formLayout-button text-center' onClick={() => {setLoading(true)}} href='/'>Página inicial</Link>
+                <p className="formLayout-advice text-center">{message}</p>
                 <p className="formLayout-loading text-center" style={loading ? {display: 'block'} : {display: 'none'}} >Loading...</p>
             </div>
         </div>
