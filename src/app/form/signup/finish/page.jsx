@@ -3,11 +3,10 @@
 import '../../layout.css';
 
 import Link from "next/link";
-import { useRouter } from 'next/router';
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function finishSignUp() {
+export default function FinishSignUp() {
 
     const router = useRouter();
 
@@ -29,8 +28,9 @@ export default function finishSignUp() {
                 const res = await fetch(`/api/users/signup/finish?token=${token}`);
                 const resData = await res.json();
                 setMessage(resData.message);
+                console.log(resData);
                 if(resData.token) {
-                    localStorage.setItem('token', JSON.stringify(resData.token));
+                    localStorage.setItem('userToken', JSON.stringify(resData.token));
                     router.push('/');
                 }
             } catch (error) {

@@ -14,6 +14,7 @@ export default function Home() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        console.log(localStorage.getItem('userToken'));
         const userToken = JSON.parse(localStorage.getItem('userToken'));
         if(!userToken) {
             setUser(false);

@@ -67,7 +67,7 @@ export default function SignIn() {
         }
 
         try {
-            const res = await fetch('/api/users/verify-password', {
+            const res = await fetch('/api/users/verify/password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -134,7 +134,7 @@ export default function SignIn() {
             });
             const resData = await res.json();
             if(resData.token) {
-                localStorage.setItem('token', JSON.stringify(resData.token));
+                localStorage.setItem('userToken', JSON.stringify(resData.token));
                 setMessage(resData.message);
                 router.push('/');
             }

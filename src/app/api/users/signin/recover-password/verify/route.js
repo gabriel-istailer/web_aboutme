@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url);
-        const token = searchParams.get('token');
+        let token = searchParams.get('token');
         if(!token) {
             return NextResponse.json({ message: 'Token not found' }, { status: 404 });
         }

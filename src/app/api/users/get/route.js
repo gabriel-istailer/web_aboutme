@@ -6,6 +6,7 @@ export async function GET(req) {
         const { searchParams } = new URL(req.url);
         const token = searchParams.get('token');
         const email = searchParams.get('email');
+        
         if(!token && !email) {
             return NextResponse.json({ message: 'Data not found' }, { status: 404 });
         }
