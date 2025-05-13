@@ -1,10 +1,12 @@
 'use client';
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function RecoveryPassword() {
+
+    const router = useRouter();
 
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
@@ -75,6 +77,7 @@ export default function RecoveryPassword() {
             });
             const resData = await res.json();
             setMessage(resData.message);
+            router.push('/form/signin');
             setLoading(false);
             return;
         } catch (error) {
@@ -87,11 +90,13 @@ export default function RecoveryPassword() {
 
     return (
         <div className="RecoveryPassword">
+
             <div className="formLayout-form flex-center flex-column" style={displayForm ? {display: 'none'} : {display: 'flex'}}>
                 <h1 className='formLayout-title text-center'>Recovery Password</h1>
                 <p className="formLayout-advice text-center">{message}</p>
                 <p className="formLayout-loading text-center" style={loading ? {display: 'block'} : {display: 'none'}} >Loading...</p>
             </div>
+            
             <form onSubmit={handleSubmit} className="formLayout-form flex-center flex-column" style={displayForm ? {display: 'flex'} : {display: 'none'}}>
                 <h1 className='formLayout-title text-center'>Recovery Password</h1>
 
@@ -105,7 +110,7 @@ export default function RecoveryPassword() {
 
                 <button type="submit" className="formLayout-button">Update password</button>
 
-                <p className="formLayout-advice text-center">{message}</p>
+                <p className="formLayout-message text-center">{message}</p>
                 <p className="formLayout-loading text-center" style={loading ? {display: 'block'} : {display: 'none'}} >Loading...</p>
             </form>
         </div>

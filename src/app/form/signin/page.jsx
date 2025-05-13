@@ -24,7 +24,7 @@ export default function SignIn() {
 
         const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!regex_email_validation.test(email)) {
-            setMessage('Invalid email');
+            setMessage('Invalid email, please enter a valid email');
             setLoading(false);
             return false;
         }
@@ -170,9 +170,9 @@ export default function SignIn() {
 
                 <Link className='formLayout-button-simple text-center' onClick={() => {setLoading(true)}} href='/form/signup'>Don't have an account? Sign up here</Link>
 
-                <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
-
                 <p className="formLayout-message text-center" id='pMessage'>{message}</p>
+
+                <p className='formLayout-loading text-center flex-center' style={loading ? {display: 'flex'} : {display: 'none'}}>Loading...</p>
 
             </form>
 
