@@ -8,7 +8,16 @@ export default function RegisteredUserPage({ user }) {
             <nav className="home-header-nav flex-v-center">
                 <Link className='home-header-nav-title font-LilyScriptOne smooth-animation' href='/'>AboutMe</Link>
                 <Link className='home-header-nav-profile-image font-Sanchez smooth-animation' style={{backgroundImage: `url(${user.profile_image_path})`}} href='/'></Link>
-                <Link className='home-header-nav-link font-Sanchez smooth-animation' href='/'>Conta</Link>
+
+                <div className="home-header-nav-dropdown smooth-animation">
+                    <Link className='home-header-nav-link home-header-nav-dropdown-dad-link font-Sanchez' href='/'>Conta</Link>
+                    <div className="home-header-nav-dropdown-links">
+                        <Link className="home-header-nav-dropdown-child-link font-Sanchez" href='/'>Perfil</Link>
+                        <Link className="home-header-nav-dropdown-child-link font-Sanchez" href='/'>Sair</Link>
+                    </div>
+                </div>
+
+
             </nav>
             <section className="home-header-section flex-center flex-column">
                 <h1 className="home-header-section-slogan smooth-animation">Hello, {user.name}!</h1>
