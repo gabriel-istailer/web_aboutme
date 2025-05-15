@@ -5,7 +5,6 @@ import './page.css';
 import NotRegisteredUserPage from './components/NotRegisteredUserPage';
 import RegisteredUserPage from './components/RegisteredUserPage';
 
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        console.log(localStorage.getItem('userToken'));
         const userToken = JSON.parse(localStorage.getItem('userToken'));
         if(!userToken) {
             setUser(false);
@@ -22,7 +20,7 @@ export default function Home() {
         }
         const fetchGetUser = async () => {
             try {
-                setLoading(true)
+                setLoading(true);
                 const res = await fetch(`/api/users/get?token=${userToken}`);
                 const resData = await res.json();
                 setUser(resData.user);

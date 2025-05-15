@@ -122,6 +122,8 @@
     position: relative;
     display: inline-block;
     color: #aa0000;
+    background-color: transparent;
+    border: 0;
     font-size: 20px;
     margin: 5px;
     text-decoration: none;
@@ -129,6 +131,7 @@
 }
 .home-header-nav-dropdown-child-link:last-child:hover {
     color: #dd0000;
+    cursor: pointer;
 }
 .home-header-nav-dropdown-child-link:last-child::after {
     content: '';

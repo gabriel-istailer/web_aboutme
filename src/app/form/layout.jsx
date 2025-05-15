@@ -2,7 +2,7 @@ import './layout.css';
 
 import Link from "next/link"
 
-export default function formLayout({ children }) {
+export default function FormLayout({ children }) {
     return (
         <div className="formLayout">
             <header className="formLayout-header">

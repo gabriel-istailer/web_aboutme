@@ -3,6 +3,12 @@
 import Link from "next/link";
 
 export default function RegisteredUserPage({ user }) {
+
+    function handleLeaveAccount() {
+        localStorage.removeItem('userToken');
+        window.location.reload();
+    }
+
     return (
         <div className="RegisteredUserPage" style={{maxWidth: '100%'}}>
             <nav className="home-header-nav flex-v-center">
@@ -10,10 +16,10 @@ export default function RegisteredUserPage({ user }) {
                 <Link className='home-header-nav-profile-image font-Sanchez smooth-animation' style={{backgroundImage: `url(${user.profile_image_path})`}} href='/'></Link>
 
                 <div className="home-header-nav-dropdown smooth-animation">
-                    <Link className='home-header-nav-link home-header-nav-dropdown-dad-link font-Sanchez' href='/'>Conta</Link>
+                    <Link className='home-header-nav-link home-header-nav-dropdown-dad-link font-Sanchez' href='/account'>Conta</Link>
                     <div className="home-header-nav-dropdown-links">
                         <Link className="home-header-nav-dropdown-child-link font-Sanchez" href='/'>Perfil</Link>
-                        <Link className="home-header-nav-dropdown-child-link font-Sanchez" href='/'>Sair</Link>
+                        <button type="button" className="home-header-nav-dropdown-child-link font-Sanchez" onClick={handleLeaveAccount}>Sair</button>
                     </div>
                 </div>
 
