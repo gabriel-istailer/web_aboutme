@@ -13,8 +13,6 @@ export async function GET(req) {
         const data = token ? token : email;
         const isToken = token ? true : false;
 
-        console.log('data: ', isToken);
-
         const user = await UserController.get(data, isToken);
 
         return NextResponse.json({ message: 'User successfully verified on server', user }, { status: 200 });
