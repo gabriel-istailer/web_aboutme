@@ -26,7 +26,7 @@ export default function Home() {
                 const res = await fetch(`/api/users/get?token=${userToken}`);
                 const resData = await res.json();
                 setUser(resData.user);
-                //setLoading(false);
+                setLoading(false);
             } catch (error) {
                 console.log('Error fetching the user from the server: ', error);
             }

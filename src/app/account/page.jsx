@@ -2,13 +2,13 @@
 
 import './layout.css';
 
-import { useRouter } from 'next/navigation';
+import LoadingPage from '../components/LoadingPage';
+
+import Link from 'next/link';
 
 import { useEffect, useState } from 'react';
 
 export default function Account() {
-
-    const router = useRouter();
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -35,12 +35,15 @@ export default function Account() {
     }, []);
 
     if(loading) {
-        return <h1>Carregando...</h1>;
+        return <LoadingPage />;
     }
 
     return (
         <div className="Account">
-            <h1>{user.name}</h1>
+            <nav className="account-nav flex-center">
+                <Link className='account-nav-title font-LilyScriptOne smooth-animation' href='/'>AboutMe</Link>
+            </nav>
+            
         </div>
     );
 }

@@ -5,8 +5,8 @@ import './LoadingPage.css';
 export default function LoadingPage() {
     return (
         <div className="LoadingPage">
-            <h1 className="loading-logo flex-h-center font-LilyScriptOne smooth-animation">AboutMe</h1>
-            <h1 className="loading-message flex-center text-center font-Sanchez smooth-animation">Loading...</h1>
+            <h1 className="loading-logo font-LilyScriptOne">AboutMe</h1>
+            <h1 className="loading-message font-Sanchez">Loading...</h1>
         </div>
     );
 }
