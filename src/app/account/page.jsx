@@ -1,6 +1,7 @@
 'use client';
 
 import './layout.css';
+import './page.css'
 
 import LoadingPage from '../components/LoadingPage';
 
@@ -16,7 +17,7 @@ export default function Account() {
     useEffect(() => {
         setLoading(true);
         const userToken = JSON.parse(localStorage.getItem('userToken'));
-        if(!userToken) {
+        if (!userToken) {
             setUser(false);
             setLoading(false);
             return;
@@ -34,16 +35,63 @@ export default function Account() {
         fetchGetUser();
     }, []);
 
-    if(loading) {
+    if (loading) {
         return <LoadingPage />;
     }
 
     return (
         <div className="Account">
-            <nav className="account-nav flex-center">
+            <nav className="account-nav flex-center smooth-animation">
                 <Link className='account-nav-title font-LilyScriptOne smooth-animation' href='/'>AboutMe</Link>
             </nav>
-            
+
+            <main className="account-main flex-center smooth-animation">
+                <div className='account-main-div flex'>
+
+                    <section className="account-main-sections account-main-section-1 flex-v-center flex-column">
+                        <h1 className="account-main-section-title text-center">Profile picture:</h1>
+                        <img className="account-main-section-profile-img" src={user.profile_image_path} alt="profile_picture" />
+                        <p>500x500</p>
+                        <p>{user.name}</p>
+                    </section>
+
+                    <section className="account-main-sections account-main-section-2 flex-column">
+                        <h1 className="account-main-section-title text-center">Account information:</h1>
+
+                        <label htmlFor="pAccountMainSectionInfoName" className="account-main-section-label">Name:</label>
+                        <p className='account-main-section-info' id='pAccountMainSectionInfoName'>{user.name}</p>
+
+
+                        <label htmlFor="pAccountMainSectionInfoEmail" className="account-main-section-label">Email:</label>
+                        <p className="account-main-section-info" id="pAccountMainSectionInfoEmail">{user.email}</p>
+
+
+                        <label htmlFor="pAccountMainSectionInfoGender" className="account-main-section-label">Gender:</label>
+                        <p className="account-main-section-info" id="pAccountMainSectionInfoGender">{user.gender ? user.gender : 'undefined'}</p>
+
+
+                        <label htmlFor="pAccountMainSectionInfoBirthDate" className="account-main-section-label">Date of birth:</label>
+                        <p className="account-main-section-info" id="pAccountMainSectionInfoBirthDate">{user.birth_date ? user.birth_date : 'undefined'}</p>
+
+                        <label htmlFor="pAccountMainSectionInfoAge" className="account-main-section-label">Age:</label>
+                        <p className="account-main-section-info" id="pAccountMainSectionInfoAge">{user.age ? user.age : 'undefined'}</p>
+
+                        <label htmlFor="pAccountMainSectionInfoProfession" className='account-main-section-label'>Profession:</label>
+                        <p className="account-main-section-info" id="pAccountMainSectionInfoProfession">{user.profession ? user.profession : 'undefined'}</p>
+
+                        <label htmlFor="pAccountMainSectionInfoHobbies" className="account-main-section-label">Hobbies:</label>
+                        <p className="account-main-section-info" id='pAccountMainSectionInfoHobbies'>{user.hobbies ? user.hobbies : 'undefined'}</p>
+                        {/* Descompactar hobbies aqui */}
+
+                        <label htmlFor="pAccountMainSectionInfoBiography" className="account-main-section-label">Biography:</label>
+                        <p className="account-main-section-info" id='pAccountMainSectionInfoBiography'>{user.biography ? user.biography : 'undefined'}</p>
+
+
+                    </section>
+
+                </div>
+            </main>
+
         </div>
     );
 }

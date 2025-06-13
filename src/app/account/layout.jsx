@@ -4,8 +4,15 @@ import './layout.css';
 
 export default function AccountLayout({ children }) {
     return (
-        <div className="AccountLayout">
-            {children}
-        </div>
+        <html lang="pt-br">
+            <head>
+                <title>AboutMe | Account</title>
+            </head>
+            <body>
+                <div className="AccountLayout">
+                    {children}
+                </div>
+            </body>
+        </html>
     );
 }

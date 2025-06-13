@@ -1,0 +1,75 @@
+.Account {
+    max-width: 100%;
+    width: 100vw;
+    height: 100vh;
+}
+
+.account-nav {
+    max-width: 100%;
+    width: 100vw;
+    height: 10vh;
+    border-bottom: 3px solid #008fff;
+}
+
+.account-nav-title {
+    font-size: 42px;
+    padding: 10px;
+    text-decoration: none;
+    color: #008fff;
+}
+
+.account-main {
+    margin-top: 10vh;
+}
+
+.account-main-div {
+    width: 75%;
+    height: 70vh;
+    border: 2px solid #008fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.account-main-sections {
+    width: 50%;
+}
+
+.account-main-section-1 {
+    border-right: 1px solid #008fff;
+}
+
+.account-main-section-2 {
+    border-left: 1px solid #008fff;
+    overflow: scroll;
+}
+
+.account-main-section-title {
+    margin-top: 20px;
+}
+
+.account-main-section-profile-img {
+    width: 500px;
+    height: 500px;
+    margin-top: 20px;
+    border: 2px solid #008fff;
+    border-radius: 20px;
+}
+
+.account-main-section-label, .account-main-section-info {
+    margin-left: 40px;
+}
+
+.account-main-section-label {
+    position: relative;
+    font-size: 20px;
+    padding-left: 5px;
+    color: #222;
+    border-left: 3px solid #008fff;
+    border-radius: 3px;
+}
+
+.account-main-section-info {
+    font-size: 22px;
+    padding-left: 5px;
+    margin-bottom: 20px
+}
