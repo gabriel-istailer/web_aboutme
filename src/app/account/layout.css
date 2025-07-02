@@ -1,0 +1,13 @@
+.account-nav {
+    max-width: 100%;
+    width: 100vw;
+    height: 10vh;
+    border-bottom: 3px solid #008fff;
+}
+
+.account-nav-title {
+    font-size: 42px;
+    padding: 10px;
+    text-decoration: none;
+    color: #008fff;
+}
