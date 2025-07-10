@@ -29,6 +29,7 @@ export default function Home() {
                 setLoading(false);
             } catch (error) {
                 console.log('Error fetching the user from the server: ', error);
+                setLoading(false);
             }
         };
         fetchGetUser();

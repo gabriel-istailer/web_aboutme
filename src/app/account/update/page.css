@@ -1,5 +1,5 @@
 .account-update-main {
-    margin-top: 10vh;
+    margin-top: 5vh;
 }
 
 .account-update-main-form {
@@ -11,7 +11,7 @@
 
 .account-update-main-form-title {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .account-update-main-form-select {
@@ -23,3 +23,4 @@
     border: 2px solid #000;
     border-radius: 5px;
 }
+
