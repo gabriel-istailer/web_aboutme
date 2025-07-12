@@ -63,23 +63,23 @@ export default function UpdateAccount() {
     return (
         <div className='UpdateAccount'>
             <main className='account-update-main flex-center'>
-                <form className="account-update-main-form smooth-animation flex-center flex-column">
-                    <h1 className="account-update-main-form-title">Update your account</h1>
-                    <label className='account-update-main-form-label' htmlFor="selectUserDataOptions">Select the account information you want to change:</label>
-                    <select className='account-update-main-form-select' onChange={e => { setSelectToUpdate(e.target.value) }} name="selectUserDataOptions" id="selectUserDataOptions">
-                        <option className='account-update-main-form-option' value="profile_image">Profile Image</option>
-                        <option className='account-update-main-form-option' value="name">Name</option>
-                        <option className='account-update-main-form-option' value="email">Email</option>
-                        <option className='account-update-main-form-option' value="gender">Gender</option>
-                        <option className='account-update-main-form-option' value="birth_date">Date of Birth</option>
-                        <option className='account-update-main-form-option' value="profession">Profession</option>
-                        <option className='account-update-main-form-option' value="hobbies">Hobbies</option>
-                        <option className='account-update-main-form-option' value="biography">Biography</option>
+                <div className="account-update-main-div smooth-animation flex-center flex-column">
+                    <h1 className="account-update-main-div-title">Update your account</h1>
+                    <label className='account-update-main-div-label' htmlFor="selectUserDataOptions">Select the account information you want to change:</label>
+                    <select className='account-update-main-div-select' onChange={e => { setSelectToUpdate(e.target.value) }} name="selectUserDataOptions" id="selectUserDataOptions">
+                        <option className='account-update-main-div-option' value="profile_image">Profile Image</option>
+                        <option className='account-update-main-div-option' value="name">Name</option>
+                        <option className='account-update-main-div-option' value="email">Email</option>
+                        <option className='account-update-main-div-option' value="gender">Gender</option>
+                        <option className='account-update-main-div-option' value="birth_date">Date of Birth</option>
+                        <option className='account-update-main-div-option' value="profession">Profession</option>
+                        <option className='account-update-main-div-option' value="hobbies">Hobbies</option>
+                        <option className='account-update-main-div-option' value="biography">Biography</option>
                     </select>
 
                     {renderSelectedComponent()}
 
-                </form>
+                </div>
             </main>
         </div>
     );

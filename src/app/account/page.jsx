@@ -46,10 +46,10 @@ export default function Account() {
 
                 <div className='account-main-div flex'>
 
-                    <section className="account-main-sections account-main-section-1 flex-v-center flex-column">
+                    <section className="account-main-sections account-main-section-1 flex-center flex-column">
                         <h1 className="account-main-section-title text-center">Profile picture:</h1>
-                        <img className="account-main-section-profile-img" src={user.profile_image_path} alt="profile_picture" />
-                        <p>500x500</p>
+                        <img className="account-main-section-profile-img" src={user.profile_image_path} width='300px' height='300px' alt="profile_picture" />
+                        <p>300x300</p>
                         <p>{user.name}</p>
                     </section>
 

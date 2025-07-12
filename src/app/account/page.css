@@ -10,16 +10,14 @@
     overflow: hidden;
 }
 
-.account-main-sections {
-    width: 50%;
-}
-
 .account-main-section-1 {
     border-right: 1px solid #008fff;
+    width: 35%;
 }
 
 .account-main-section-2 {
     border-left: 1px solid #008fff;
+    width: 65%;
 }
 
 .account-main-section-scroll-area {
@@ -31,11 +29,10 @@
 }
 
 .account-main-section-profile-img {
-    width: 500px;
-    height: 500px;
     margin-top: 20px;
     border: 2px solid #008fff;
     border-radius: 20px;
+    object-fit: cover;
 }
 
 .account-main-section-label, .account-main-section-info {

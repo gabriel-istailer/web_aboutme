@@ -5,6 +5,7 @@
 .profileImageUpdate-user-profile-img {
     border-radius: 5px;
     border: 2px solid #008fff;
+    object-fit: cover;
 }
 
 .profileImageUpdate-input-file {

@@ -7,7 +7,7 @@ export async function PATCH(req) {
         await UserController.updatePassword(body.password, body.email, body.isToken);
         return NextResponse.json({ message: 'User password updated successfully' }, { status: 201 });
     } catch (error) {
-        console.log('Error in API Route users/update/password', error);
+        console.log('Error in API Route users/update/password: ', error);
         return NextResponse.json({ message: 'Server Route API Error' }, { status: 500 });
     }
 }
