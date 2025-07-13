@@ -26,7 +26,7 @@ export default function ProfileImageUpdate({ user }) {
                 body: formData
             });
             const resData = await res.json();
-            console.log(resData?.message);
+            setMessage(resData?.message)
             setLoading(false);
         } catch (error) {
             console.log('Error fetching to update profile picture: ', error);
@@ -50,7 +50,7 @@ export default function ProfileImageUpdate({ user }) {
             <img src={previewUserProfile} alt="user_profile" width='300px' height='300px' className="profileImageUpdate-user-profile-img" />
             <p>300x300</p>
             <form onSubmit={handleSubmit} className="profileImageUpdate-form flex-center flex-column">
-                <input type="file" accept="image/*" onChange={handleFileChange} className="profileImageUpdate-input-file" name="profile_user" id="inputUserProfileImage" />
+                <input type="file" accept="image/*" onChange={handleFileChange} className="profileImageUpdate-input-file" name="file" id="inputUserProfileImage" />
                 <label htmlFor="inputUserProfileImage" className="profileImageUpdate-label-file">Escolher Imagem</label>
                 <p className="profileImageUpdate-file-display"></p>
                 <button type="submit" className="profileImageUpdate-submit">Update Profile Image</button>

@@ -6,6 +6,7 @@ export async function PATCH(req) {
         const formData = await req.formData();
         const email = formData.get('email');
         const file = formData.get('file');
+        
         await UserController.updateProfileImage(email, file);
         return NextResponse.json({ message: 'User profile picture updated successfully' }, { status: 201 });
     } catch (error) {
