@@ -45,18 +45,38 @@ export default function ProfileImageUpdate({ user }) {
         }
     }
 
+    async function handleSetDefaultProfileImage() {
+        try {
+            const res = await fetch('/users-profiles/default-profile.jpg');
+            const blob = await res.blob();
+            const file = new File(
+                [blob],
+                'default-profile.jpg',
+                {
+                    type: blob.type,
+                    lastModified: Date.now(),
+                }
+            );
+
+            setFileUserProfile(file);
+            setPreviewUserProfile(URL.createObjectURL(file));
+        } catch (error) {
+            console.log('Error fetching the default image from the server: ', error);
+        }
+    }
+
     return (
         <div className="ProfileImageUpdate flex-center flex-column">
             <img src={previewUserProfile} alt="user_profile" width='300px' height='300px' className="profileImageUpdate-user-profile-img" />
             <p>300x300</p>
             <form onSubmit={handleSubmit} className="profileImageUpdate-form flex-center flex-column">
                 <input type="file" accept="image/*" onChange={handleFileChange} className="profileImageUpdate-input-file" name="file" id="inputUserProfileImage" />
+                <button type="button" onClick={handleSetDefaultProfileImage} className="profileImageUpdate-default-profile-btn">Use default image?</button>
                 <label htmlFor="inputUserProfileImage" className="profileImageUpdate-label-file">Escolher Imagem</label>
-                <p className="profileImageUpdate-file-display"></p>
-                <button type="submit" className="profileImageUpdate-submit">Update Profile Image</button>
+                <button type="submit" className="profileImageUpdate-submit">Save Profile Image</button>
             </form>
-            <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
             <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
+            <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
         </div>
     );
 }
