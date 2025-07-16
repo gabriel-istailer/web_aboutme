@@ -9,6 +9,7 @@ import NameUpdate from '../../components/NameUpdate';
 import { useState, useEffect } from 'react';
 import LoadingPage from '../../components/LoadingPage';
 import { useRouter } from 'next/navigation';
+import EmailUpdate from '../../components/EmailUpdate';
 
 export default function UpdateAccount() {
 
@@ -48,7 +49,10 @@ export default function UpdateAccount() {
                 return <ProfileImageUpdate user={user} />;
                 break;
             case 'name':
-                return <NameUpdate />;
+                return <NameUpdate user={user} />;
+                break;
+            case 'email':
+                return <EmailUpdate user={user} />;
                 break;
             default:
                 return <ProfileImageUpdate user={user} />;
