@@ -14,6 +14,13 @@ export default function EmailUpdate({ user }) {
     async function inputValidations() {
 
         setLoading(true);
+        
+        const currentEmail = user?.email;
+        if(email === currentEmail) {
+            setMessage('This email is already your current email');
+            setLoading(false);
+            return false;
+        }
 
         const regex_email_validation = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!regex_email_validation.test(email)) {
@@ -45,6 +52,7 @@ export default function EmailUpdate({ user }) {
         if(!await inputValidations()) {
             return;
         }
+
     }
 
     return (
@@ -52,12 +60,12 @@ export default function EmailUpdate({ user }) {
             <form onSubmit={handleSubmit} className="emailUpdate-form flex-center flex-column" style={displayEmailVerification ? {display: 'none'} : {display: 'flex'}}>
                 <label htmlFor="emailUpdateInput" className="emailUpdate-label">Your new email:</label>
                 <input type="email" className="emailUpdate-input" onChange={(e) => { setEmail(e.target.value) }} name="newEmail" id="emailUpdateInput" />
-                <button type="submit" className="emailUpdate-submit">Check new email</button>
+                <button type="submit" className="emailUpdate-submit">Verify new email</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
                 <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
             </form>
             <div className="emailUpdate-verification-email flex-center flex-column" style={displayEmailVerification ? {display: 'flex'} : {display: 'none'}}>
-                <h1>nothing</h1>
+                <p>We sent a verification email to {email}, please check your new email in 2 minutes to update it.</p>
             </div>
         </div>
     );
