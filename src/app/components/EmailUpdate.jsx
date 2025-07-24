@@ -11,7 +11,7 @@ export default function EmailUpdate({ user }) {
     const [message, setMessage] = useState('');
     const [displayEmailVerification, setDisplayEmailVerification] = useState(false);
 
-    async function inputValidations() {
+    async function emailValidations() {
 
         setLoading(true);
         
@@ -49,7 +49,18 @@ export default function EmailUpdate({ user }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        if(!await inputValidations()) {
+        if(!await emailValidations()) {
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            await fetch(`/api/users/update/email?email=${email}`);
+        } catch (error) {
+            console.log('Error fetching the verification email to the new email: ', error);
+            setMessage('Error');
+            setLoading(false);
             return;
         }
 

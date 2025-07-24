@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import NodemailerController from "@/lib/controllers/NodemailerController";
-import jwt from 'jsonwebtoken';
 
 export async function GET(req) {
     try {
@@ -8,12 +7,11 @@ export async function GET(req) {
 
         const email = searchParams.get('email');
 
-        await NodemailerController.sendPasswordRecovery(email);
+        await NodemailerController.sendEmailVerificationToUpdate(email);
 
-        return NextResponse.json({ message: 'Password recovery sent to user by email' }, { status: 201 });
-
+        return NextResponse.json({ message: 'Verification email sent to new email' }, { status: 201 });
     } catch (error) {
-        console.log('Erro in API Route users/signin/recover-password: ', error);
+        console.log('Error in API Route users/update/email: ', error);
         return NextResponse.json({ message: 'Server Route API Error' }, { status: 500 });
     }
 }

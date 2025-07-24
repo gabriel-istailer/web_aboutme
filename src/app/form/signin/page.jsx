@@ -99,7 +99,7 @@ export default function SignIn() {
         setLoading(true);
 
         try {
-            const res = await fetch(`/api/users/signin/recover-password?email=${email}`);
+            await fetch(`/api/users/signin/recover-password?email=${email}`);
         } catch (error) {
             console.log('Error in fetching password recovery email: ', error);
             setMessage('Error');
