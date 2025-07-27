@@ -35,7 +35,7 @@ export default function FinishSignUp() {
                 }
             } catch (error) {
                 console.log('Error in fetch to complete registration: ', error);
-                setMessage('Error');
+                setMessage('Client Error');
                 setLoading(false);
                 return;
             }
