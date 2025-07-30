@@ -1,5 +1,7 @@
 'use client';
 
+import './page.css';
+
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -23,19 +25,23 @@ export default function finishEmailUpdate() {
                 const res = await fetch(`/api/users/update/email/finish?token=${token}`);
                 const resData = await res.json();
                 setMessage(resData.message);
-
             } catch (error) {
                 console.log('Error fetching to complete user email update: ', error);
                 setMessage('Client Error');
                 setLoading(false);
                 return;
             }
+            setLoading(false);
         }
+        verifyToken();
     }, [token]);
 
     return (
-        <div className="finishEmailUpdate">
-
+        <div className="finishEmailUpdate flex-center flex-column">
+            <div className="finishEmailUpdate-display-message flex-center flex-column smooth-animation">
+                <h1 className="finishEmailUpdate-title">Completing the email update</h1>
+                <p className="finishEmailUpdate-message">{message}</p>
+            </div>
         </div>
     );
 }

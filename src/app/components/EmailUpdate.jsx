@@ -56,7 +56,16 @@ export default function EmailUpdate({ user }) {
         setLoading(true);
 
         try {
-            await fetch(`/api/users/update/email?email=${email}`);
+            await fetch('/api/users/update/email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    newEmail: email,
+                    currentEmail: user?.email
+                })
+            });
         } catch (error) {
             console.log('Error fetching the verification email to the new email: ', error);
             setMessage('Error');
@@ -64,6 +73,8 @@ export default function EmailUpdate({ user }) {
             return;
         }
 
+        setDisplayEmailVerification(true);
+        setLoading(false);
     }
 
     return (
@@ -76,7 +87,7 @@ export default function EmailUpdate({ user }) {
                 <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
             </form>
             <div className="emailUpdate-verification-email flex-center flex-column" style={displayEmailVerification ? {display: 'flex'} : {display: 'none'}}>
-                <p>We sent a verification email to {email}, please check your new email in 2 minutes to update it.</p>
+                <p className='text-center'>We sent a verification email to {email}, please check your new email in 2 minutes to update it.</p>
             </div>
         </div>
     );

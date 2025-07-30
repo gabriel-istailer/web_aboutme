@@ -35,3 +35,7 @@
 .emailUpdate-submit:hover {
     background-color: #00afff;
 }
+
+.emailUpdate-verification-email {
+    margin-top: 20px;
+}

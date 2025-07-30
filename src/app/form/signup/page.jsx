@@ -70,7 +70,7 @@ export default function SignUp() {
         setLoading(true);
 
         try {
-            const res = await fetch('/api/users/signup', {
+            await fetch('/api/users/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -1,0 +1,17 @@
+.finishEmailUpdate-display-message {
+    width: 500px;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    padding: 20px;
+    border: 2px solid #008fff;
+    border-radius: 5px;
+}
+
+.finishEmailUpdate-title {
+    margin-top: 20px;
+}
+
+.finishEmailUpdate-message {
+    font-size: 20px;
+    margin-top: 20px;
+}
