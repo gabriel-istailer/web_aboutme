@@ -18,8 +18,9 @@ export async function GET(req) {
         }
 
         await UserController.updateEmail(token.newEmail, token.currentEmail);
+        const newToken = await UserController.createToken(token.newEmail);
 
-        return NextResponse.json({ message: 'Your email has been updated successfully!' }, { status: 201 });
+        return NextResponse.json({ message: 'Your email has been updated successfully!', token: newToken }, { status: 201 });
     } catch (error) {
         console.log('Error in API Route users/update/email/finish: ', error);
         return NextResponse.json({ message: 'Server Route API Error' }, { status: 500});

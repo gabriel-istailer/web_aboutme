@@ -24,6 +24,7 @@ export default function finishEmailUpdate() {
             try {
                 const res = await fetch(`/api/users/update/email/finish?token=${token}`);
                 const resData = await res.json();
+                localStorage.setItem('userToken', JSON.stringify(resData.token));
                 setMessage(resData.message);
             } catch (error) {
                 console.log('Error fetching to complete user email update: ', error);
@@ -41,6 +42,7 @@ export default function finishEmailUpdate() {
             <div className="finishEmailUpdate-display-message flex-center flex-column smooth-animation">
                 <h1 className="finishEmailUpdate-title">Completing the email update</h1>
                 <p className="finishEmailUpdate-message">{message}</p>
+                <p className="finishEmailUpdate-loading" style={loading ? {display: "flex"} : {display: "none"}}>Loading...</p>
             </div>
         </div>
     );
