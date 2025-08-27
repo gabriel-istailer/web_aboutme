@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import './components.css';
 import './ProfileImageUpdate.css';
 
 export default function ProfileImageUpdate({ user }) {
@@ -73,7 +74,7 @@ export default function ProfileImageUpdate({ user }) {
                 <input type="file" accept="image/*" onChange={handleFileChange} className="profileImageUpdate-input-file" name="file" id="inputUserProfileImage" />
                 <button type="button" onClick={handleSetDefaultProfileImage} className="profileImageUpdate-default-profile-btn">Use default image?</button>
                 <label htmlFor="inputUserProfileImage" className="profileImageUpdate-label-file">Escolher Imagem</label>
-                <button type="submit" className="profileImageUpdate-submit">Save Profile Image</button>
+                <button type="submit" className="components-btn-submit">Save Profile Image</button>
             </form>
             <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
             <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>

@@ -1,6 +1,6 @@
 'use client';
 
-import './NameUpdate.css';
+import './components.css';
 
 import { useState } from 'react';
 
@@ -39,10 +39,10 @@ export default function NameUpdate() {
 
     return (
         <div className="NameUpdate">
-            <form onSubmit={handleSubmit} className="nameUpdate-form flex-center flex-column">
-                <label htmlFor="nameUpdateInput" className="nameUpdate-label">Your new name:</label>
-                <input type="email" className="nameUpdate-input" onChange={(e) => { setName(e.target.value) }} name="newName" id="nameUpdateInput" />
-                <button type="submit" className="nameUpdate-submit">Update name</button>
+            <form onSubmit={handleSubmit} className="flex-center flex-column">
+                <label htmlFor="nameUpdateInput" className="components-label">Your new name:</label>
+                <input type="email" className="components-input" onChange={(e) => { setName(e.target.value) }} name="newName" id="nameUpdateInput" />
+                <button type="submit" className="components-btn-submit">Update name</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
                 <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
             </form>

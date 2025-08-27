@@ -1,5 +1,6 @@
 'use client';
 
+import './components.css';
 import './EmailUpdate.css';
 
 import { useState } from 'react';
@@ -79,10 +80,10 @@ export default function EmailUpdate({ user }) {
 
     return (
         <div className="EmailUpdate">
-            <form onSubmit={handleSubmit} className="emailUpdate-form flex-center flex-column" style={displayEmailVerification ? {display: 'none'} : {display: 'flex'}}>
-                <label htmlFor="emailUpdateInput" className="emailUpdate-label">Your new email:</label>
-                <input type="email" className="emailUpdate-input" onChange={(e) => { setEmail(e.target.value) }} name="newEmail" id="emailUpdateInput" />
-                <button type="submit" className="emailUpdate-submit">Verify new email</button>
+            <form onSubmit={handleSubmit} className="flex-center flex-column" style={displayEmailVerification ? {display: 'none'} : {display: 'flex'}}>
+                <label htmlFor="emailUpdateInput" className="components-label">Your new email:</label>
+                <input type="email" className="components-input" onChange={(e) => { setEmail(e.target.value) }} name="newEmail" id="emailUpdateInput" />
+                <button type="submit" className="components-btn-submit">Verify new email</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
                 <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
             </form>
