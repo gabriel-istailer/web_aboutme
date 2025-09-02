@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import LoadingPage from '../../components/LoadingPage';
 import { useRouter } from 'next/navigation';
 import EmailUpdate from '../../components/EmailUpdate';
+import ProfessionUpdate from '../../components/ProfessionUpdate';
 
 export default function UpdateAccount() {
 
@@ -53,6 +54,9 @@ export default function UpdateAccount() {
                 break;
             case 'email':
                 return <EmailUpdate user={user} setUser={setUser} />;
+                break;
+            case 'profession':
+                return <ProfessionUpdate user={user} setUser={setUser} />;
                 break;
             default:
                 return <ProfileImageUpdate user={user} setUser={setUser} />;
