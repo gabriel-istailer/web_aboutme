@@ -81,6 +81,8 @@ export default function EmailUpdate({ user }) {
     return (
         <div className="EmailUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column" style={displayEmailVerification ? {display: 'none'} : {display: 'flex'}}>
+                <label htmlFor="currentEmail" className='components-label'>Current email:</label>
+                <p className='components-data'>{user.email}</p>
                 <label htmlFor="emailUpdateInput" className="components-label">Your new email:</label>
                 <input type="email" className="components-input" onChange={(e) => { setEmail(e.target.value) }} name="newEmail" id="emailUpdateInput" />
                 <button type="submit" className="components-btn-submit">Verify new email</button>

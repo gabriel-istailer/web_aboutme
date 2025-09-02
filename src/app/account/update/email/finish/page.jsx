@@ -24,7 +24,9 @@ export default function finishEmailUpdate() {
             try {
                 const res = await fetch(`/api/users/update/email/finish?token=${token}`);
                 const resData = await res.json();
-                localStorage.setItem('userToken', JSON.stringify(resData.token));
+                if(resData.status === 201) {
+                    localStorage.setItem('userToken', JSON.stringify(resData.token));
+                }
                 setMessage(resData.message);
             } catch (error) {
                 console.log('Error fetching to complete user email update: ', error);

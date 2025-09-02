@@ -29,6 +29,7 @@ export default function ProfileImageUpdate({ user }) {
             const resData = await res.json();
             setMessage(resData?.message)
             setLoading(false);
+            window.location.reload();
         } catch (error) {
             console.log('Error fetching to update profile picture: ', error);
             setMessage('Client Error');

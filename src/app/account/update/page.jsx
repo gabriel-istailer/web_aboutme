@@ -46,16 +46,16 @@ export default function UpdateAccount() {
     function renderSelectedComponent() {
         switch (selectToUpdate) {
             case 'profile_image':
-                return <ProfileImageUpdate user={user} />;
+                return <ProfileImageUpdate user={user} setUser={setUser} />;
                 break;
             case 'name':
-                return <NameUpdate user={user} />;
+                return <NameUpdate user={user} setUser={setUser} />;
                 break;
             case 'email':
-                return <EmailUpdate user={user} />;
+                return <EmailUpdate user={user} setUser={setUser} />;
                 break;
             default:
-                return <ProfileImageUpdate user={user} />;
+                return <ProfileImageUpdate user={user} setUser={setUser} />;
                 break;
         }
     }
