@@ -4,7 +4,6 @@ import UserController from "@/lib/controllers/UserController";
 export async function PATCH(req) {
     try {
         const body = await req.json();
-        console.log("Hobbies API: ", body.hobbies);
         await UserController.updateHobbies(body.hobbies, body.email);
         return NextResponse.json({ message: 'Your hobbies has been updated successfully' }, { status: 201 });
     } catch (error) {

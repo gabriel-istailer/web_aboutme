@@ -71,7 +71,37 @@ export default function HobbiesUpdate({ user }) {
                 body: JSON.stringify({hobbies: updatedHobbies.join(', '), email: user.email})
             });
             const resData = await res.json();
-            if(resData.status === 201) {
+            if(resData.status === '201') {
+                setMessage(resData.message);
+            }
+        } catch (error) {
+            console.log('Error fetching to update hobbies: ', error);
+            setMessage('Error');
+        }
+
+        document.getElementById('hobbyAddInput').value = '';
+
+        setLoading(false);
+        //window.location.reload();
+    }
+
+    async function handleDeleteHobby(deletedHobby) {
+        setLoading(true);
+
+        const updatedHobbies = hobbies.filter(h => h !== deletedHobby);
+
+        setHobbies(updatedHobbies);
+
+        try {
+            const res = await fetch('/api/users/update/hobbies', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({hobbies: updatedHobbies.join(', '), email: user.email})
+            });
+            const resData = await res.json();
+            if(resData.status === '201') {
                 setMessage(resData.message);
             }
         } catch (error) {
@@ -80,16 +110,16 @@ export default function HobbiesUpdate({ user }) {
         }
 
         setLoading(false);
-        //window.location.reload();
     }
 
     return (
         <div className="HobbiesUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
                 <label htmlFor="currentEmail" className='components-label'>Current hobbies:</label>
-                {hobbies ? hobbies.map(hobby => (
-                    <div key={hobby} className='components-object-data'>
-                        <p>{hobby}</p>
+                {hobbies && hobbies.length > 0 ? hobbies.map(currentHobby => (
+                    <div key={currentHobby} className='components-object-data flex'>
+                        <p>{currentHobby}</p>
+                        <button className='components-btn-delete' onClick={() => handleDeleteHobby(currentHobby)}>Remover</button>
                     </div>
                 )) : <p className='components-data'>undefined</p>}
                 <label htmlFor="hobbyAddInput" className="components-label">Your new hobby:</label>

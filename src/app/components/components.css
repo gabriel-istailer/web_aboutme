@@ -48,10 +48,26 @@
 }
 
 .components-object-data {
+    font-size: 18px;
     margin-right: auto;
     margin-top: 5px;
-    padding: 3px;
+    padding: 5px;
     border: 2px solid #008fff;
     border-radius: 5px;
     width: 300px;
+}
+
+.components-btn-delete {
+    cursor: pointer;
+    margin-left: auto;
+    padding: 2px;
+    background-color: #ff0000bb;
+    border: 2px solid #ff0000ff;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+.components-btn-delete:hover {
+    color: #fff;
+    text-decoration: underline #fff;
+    background-color: #ff0000ff;
 }
