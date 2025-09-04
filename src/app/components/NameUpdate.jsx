@@ -63,7 +63,7 @@ export default function NameUpdate({ user }) {
     return (
         <div className="NameUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
-                <label htmlFor="currentEmail" className='components-label'>Current name:</label>
+                <label htmlFor="currentName" className='components-label'>Current name:</label>
                 <p className='components-data'>{user.name}</p>
                 <label htmlFor="nameUpdateInput" className="components-label">Your new name:</label>
                 <input type="text" className="components-input" onChange={(e) => { setName(e.target.value) }} name="newName" id="nameUpdateInput" />

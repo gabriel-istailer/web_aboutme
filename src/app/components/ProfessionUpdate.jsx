@@ -63,7 +63,7 @@ export default function ProfessionUpdate({ user }) {
     return (
         <div className="ProfessionUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
-                <label htmlFor="currentEmail" className='components-label'>Current profession:</label>
+                <label htmlFor="currentProfession" className='components-label'>Current profession:</label>
                 <p className='components-data'>{user.profession ? user.profession : "undefined"}</p>
                 <label htmlFor="professionUpdateInput" className="components-label">Your new profession:</label>
                 <input type="text" className="components-input" onChange={(e) => { setProfession(e.target.value) }} name="newProfession" id="professionUpdateInput" />
