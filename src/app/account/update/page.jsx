@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import EmailUpdate from '../../components/EmailUpdate';
 import ProfessionUpdate from '../../components/ProfessionUpdate';
 import HobbiesUpdate from '../../components/HobbiesUpdate';
+import GenderUpdate from '../../components/GenderUpdate';
 
 export default function UpdateAccount() {
 
@@ -61,6 +62,9 @@ export default function UpdateAccount() {
                 break;
             case 'hobbies':
                 return <HobbiesUpdate user={user} setUser={setUser} />;
+                break;
+            case 'gender':
+                return <GenderUpdate user={user} setUser={setUser} />;
                 break;
             default:
                 return <ProfileImageUpdate user={user} setUser={setUser} />;

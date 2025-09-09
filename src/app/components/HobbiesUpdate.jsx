@@ -82,7 +82,6 @@ export default function HobbiesUpdate({ user }) {
         document.getElementById('hobbyAddInput').value = '';
 
         setLoading(false);
-        //window.location.reload();
     }
 
     async function handleDeleteHobby(deletedHobby) {
