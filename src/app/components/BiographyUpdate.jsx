@@ -4,25 +4,25 @@ import './components.css';
 
 import { useState } from 'react';
 
-export default function ProfessionUpdate({ user }) {
+export default function BiographyUpdate({ user }) {
 
-    const [profession, setProfession] = useState('');
+    const [biography, setBiography] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
-    async function professionValidations() {
+    async function biographyValidations() {
 
         setLoading(true);
         
-        const currentProfession = user?.profession;
-        if(profession === currentProfession) {
-            setMessage('This profession is already your current profession');
+        const currentBiography = user?.biography;
+        if(biography === currentBiography) {
+            setMessage('This biography is already your current biography');
             setLoading(false);
             return false;
         }
 
-        if(profession.trim().length < 3 || profession.trim().length > 50) {
-            setMessage('The profession must contain between 3 and 50 characters');
+        if(biography.length < 3 || biography.length > 4000) {
+            setMessage('The biography must contain between 3 and 4000 characters');
             setLoading(false);
             return false;
         }
@@ -33,19 +33,19 @@ export default function ProfessionUpdate({ user }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        if(!await professionValidations()) {
+        if(!await biographyValidations()) {
             return;
         }
 
         setLoading(true);
 
         try {
-            const res = await fetch('/api/users/update/profession', {
+            const res = await fetch('/api/users/update/biography', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({profession, email: user.email})
+                body: JSON.stringify({biography, email: user.email})
             });
             const resData = await res.json();
             if(resData.status === 201) {
@@ -58,20 +58,20 @@ export default function ProfessionUpdate({ user }) {
 
         setUser(prev => ({
             ...prev, 
-            profession
+            biography
         }));
 
         setLoading(false);
     }
 
     return (
-        <div className="ProfessionUpdate">
+        <div className="BiographyUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
-                <label htmlFor="currentProfession" className='components-label'>Current profession:</label>
-                <p className='components-data'>{user.profession ? user.profession : "undefined"}</p>
-                <label htmlFor="professionUpdateInput" className="components-label">Your new profession:</label>
-                <input type="text" className="components-input" onChange={(e) => { setProfession(e.target.value) }} name="newProfession" id="professionUpdateInput" />
-                <button type="submit" className="components-btn-submit">Update profession</button>
+                <label htmlFor="currentBiography" className='components-label'>Current biography:</label>
+                <p className='components-data'>{user.biography ? user.biography : "undefined"}</p>
+                <label htmlFor="biographyUpdateInput" className="components-label">Your new biography:</label>
+                <input type="text" className="components-input" onChange={(e) => { setBiography(e.target.value) }} name="newBiography" id="biographyUpdateInput" />
+                <button type="submit" className="components-btn-submit">Update biography</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
                 <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
             </form>
