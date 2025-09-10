@@ -13,6 +13,7 @@ import EmailUpdate from '../../components/EmailUpdate';
 import ProfessionUpdate from '../../components/ProfessionUpdate';
 import HobbiesUpdate from '../../components/HobbiesUpdate';
 import GenderUpdate from '../../components/GenderUpdate';
+import BirthDateUpdate from '../../components/BirthDateUpdate';
 
 export default function UpdateAccount() {
 
@@ -65,6 +66,9 @@ export default function UpdateAccount() {
                 break;
             case 'gender':
                 return <GenderUpdate user={user} setUser={setUser} />;
+                break;
+            case 'birth_date':
+                return <BirthDateUpdate user={user} setUser={setUser} />
                 break;
             default:
                 return <ProfileImageUpdate user={user} setUser={setUser} />;

@@ -84,3 +84,13 @@
 .components-select:focus {
     border: 2px solid #008fff;
 }
+
+.components-date {
+    font-size: 18px;
+    margin-right: auto;
+    margin-top: 5px;
+    padding: 3px;
+    border: 2px solid #008fff;
+    border-radius: 5px;
+    width: 300px;
+}

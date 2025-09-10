@@ -4,7 +4,7 @@ import './components.css';
 
 import { useState } from 'react';
 
-export default function NameUpdate({ user }) {
+export default function NameUpdate({ user, setUser }) {
 
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
@@ -56,8 +56,12 @@ export default function NameUpdate({ user }) {
             setMessage('Error');
         }
 
+        setUser(prev => ({
+            ...prev, 
+            name
+        }));
+
         setLoading(false);
-        window.location.reload();
     }
 
     return (

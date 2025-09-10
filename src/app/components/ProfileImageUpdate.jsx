@@ -5,7 +5,7 @@ import { useState } from "react";
 import './components.css';
 import './ProfileImageUpdate.css';
 
-export default function ProfileImageUpdate({ user }) {
+export default function ProfileImageUpdate({ user, setUser }) {
 
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
@@ -28,8 +28,11 @@ export default function ProfileImageUpdate({ user }) {
             });
             const resData = await res.json();
             setMessage(resData?.message)
+            setUser(prev => ({
+                ...prev,
+                profile_image_path: resData?.profile_image_path
+            }));
             setLoading(false);
-            window.location.reload();
         } catch (error) {
             console.log('Error fetching to update profile picture: ', error);
             setMessage('Client Error');

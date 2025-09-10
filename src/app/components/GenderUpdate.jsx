@@ -4,7 +4,7 @@ import './components.css';
 
 import { useState } from 'react';
 
-export default function GenderUpdate({ user }) {
+export default function GenderUpdate({ user, setUser}) {
 
     const [gender, setGender] = useState('');
     const [loading, setLoading] = useState(false);
@@ -50,6 +50,11 @@ export default function GenderUpdate({ user }) {
             setMessage('Error');
         }
 
+        setUser(prev => ({
+            ...prev,
+            gender
+        }));
+
         setLoading(false);
     }
 
@@ -60,8 +65,8 @@ export default function GenderUpdate({ user }) {
                 <p className='components-data'>{user.gender ? user.gender : "undefined"}</p>
                 <label htmlFor="genderUpdateSelect" className="components-label">Select your new gender:</label>
                 <select className="components-select" onChange={e => { setGender(e.target.value) }} name="genderUpdateSelect" id="genderUpdateSelect">
-                    <option className='components-option' value="masculine">Masculine</option>
-                    <option className='components-option' value="feminine">Feminine</option>
+                    <option className='components-option' value="masculine">masculine</option>
+                    <option className='components-option' value="feminine">feminine</option>
                 </select>
                 <button type="submit" className="components-btn-submit">Update gender</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>

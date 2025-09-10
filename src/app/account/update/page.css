@@ -26,8 +26,9 @@
 }
 
 .account-update-message {
+    width: 300px;
     color: #008fff;
     text-decoration: underline #008fff;
-    margin-top: 20px;
+    text-align: center;
 }
 
