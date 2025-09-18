@@ -4,7 +4,7 @@ import './components.css';
 
 import { useState } from 'react';
 
-export default function BiographyUpdate({ user }) {
+export default function BiographyUpdate({ user, setUser }) {
 
     const [biography, setBiography] = useState('');
     const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ export default function BiographyUpdate({ user }) {
                 setMessage(resData.message);
             }
         } catch (error) {
-            console.log('Error fetching to update user profession: ', error);
+            console.log('Error fetching to update user biography: ', error);
             setMessage('Error');
         }
 
@@ -68,9 +68,9 @@ export default function BiographyUpdate({ user }) {
         <div className="BiographyUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
                 <label htmlFor="currentBiography" className='components-label'>Current biography:</label>
-                <p className='components-data'>{user.biography ? user.biography : "undefined"}</p>
+                <textarea className="components-input components-textarea" defaultValue={user.biography ? user.biography : "undefined"} rows={8} cols={50} name="currentBiography" id="currentBiography" readOnly></textarea>
                 <label htmlFor="biographyUpdateInput" className="components-label">Your new biography:</label>
-                <input type="text" className="components-input" onChange={(e) => { setBiography(e.target.value) }} name="newBiography" id="biographyUpdateInput" />
+                <textarea className="components-input components-textarea" onChange={(e) => { setBiography(e.target.value) }} minLength={3} maxLength={4000} rows={8} cols={50} name="newBiography" id="biographyUpdateInput" required></textarea>
                 <button type="submit" className="components-btn-submit">Update biography</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
                 <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>

@@ -14,6 +14,7 @@ import ProfessionUpdate from '../../components/ProfessionUpdate';
 import HobbiesUpdate from '../../components/HobbiesUpdate';
 import GenderUpdate from '../../components/GenderUpdate';
 import BirthDateUpdate from '../../components/BirthDateUpdate';
+import BiographyUpdate from '../../components/BiographyUpdate';
 
 export default function UpdateAccount() {
 
@@ -69,6 +70,9 @@ export default function UpdateAccount() {
                 break;
             case 'birth_date':
                 return <BirthDateUpdate user={user} setUser={setUser} />
+                break;
+            case 'biography':
+                return <BiographyUpdate user={user} setUser={setUser} />
                 break;
             default:
                 return <ProfileImageUpdate user={user} setUser={setUser} />;

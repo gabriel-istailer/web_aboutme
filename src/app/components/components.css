@@ -94,3 +94,7 @@
     border-radius: 5px;
     width: 300px;
 }
+
+.components-textarea {
+    resize: none;
+}
