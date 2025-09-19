@@ -7,6 +7,7 @@ import { useState } from 'react';
 export default function BiographyUpdate({ user, setUser }) {
 
     const [biography, setBiography] = useState('');
+    const [counter, setCounter] = useState('0 / 4000');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -70,7 +71,12 @@ export default function BiographyUpdate({ user, setUser }) {
                 <label htmlFor="currentBiography" className='components-label'>Current biography:</label>
                 <textarea className="components-input components-textarea" defaultValue={user.biography ? user.biography : "undefined"} rows={8} cols={50} name="currentBiography" id="currentBiography" readOnly></textarea>
                 <label htmlFor="biographyUpdateInput" className="components-label">Your new biography:</label>
-                <textarea className="components-input components-textarea" onChange={(e) => { setBiography(e.target.value) }} minLength={3} maxLength={4000} rows={8} cols={50} name="newBiography" id="biographyUpdateInput" required></textarea>
+                <textarea className="components-input components-textarea" onChange={(e) => { 
+                    setBiography(e.target.value) 
+                    setCounter(e.target.value.length + " / 4000");
+                }}
+                    minLength={3} maxLength={4000} rows={8} cols={50} name="newBiography" id="biographyUpdateInput" required></textarea>
+                <span className='components-text-counter'>{counter}</span>
                 <button type="submit" className="components-btn-submit">Update biography</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
                 <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>

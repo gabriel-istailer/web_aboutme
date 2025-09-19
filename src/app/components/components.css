@@ -98,3 +98,7 @@
 .components-textarea {
     resize: none;
 }
+
+.components-text-counter {
+    margin-right: auto;
+}
