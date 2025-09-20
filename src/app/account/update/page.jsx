@@ -15,6 +15,7 @@ import HobbiesUpdate from '../../components/HobbiesUpdate';
 import GenderUpdate from '../../components/GenderUpdate';
 import BirthDateUpdate from '../../components/BirthDateUpdate';
 import BiographyUpdate from '../../components/BiographyUpdate';
+import PasswordUpdate from '../../components/PasswordUpdate';
 
 export default function UpdateAccount() {
 
@@ -74,6 +75,9 @@ export default function UpdateAccount() {
             case 'biography':
                 return <BiographyUpdate user={user} setUser={setUser} />
                 break;
+            case 'password':
+                return <PasswordUpdate user={user} setUser={setUser} />
+                break;
             default:
                 return <ProfileImageUpdate user={user} setUser={setUser} />;
                 break;
@@ -94,6 +98,7 @@ export default function UpdateAccount() {
                         <option className='account-update-main-div-option' value="profile_image">Profile Image</option>
                         <option className='account-update-main-div-option' value="name">Name</option>
                         <option className='account-update-main-div-option' value="email">Email</option>
+                        <option className='account-update-main-div-option' value="password">Password</option>
                         <option className='account-update-main-div-option' value="gender">Gender</option>
                         <option className='account-update-main-div-option' value="birth_date">Date of Birth</option>
                         <option className='account-update-main-div-option' value="profession">Profession</option>

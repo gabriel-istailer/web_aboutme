@@ -2,10 +2,10 @@
 
 import './LoadingPage.css';
 
-export default function LoadingPage() {
+export default function LoadingPage({ title }) {
     return (
         <div className="LoadingPage">
-            <h1 className="loading-logo font-LilyScriptOne">AboutMe</h1>
+            <h1 className="loading-logo font-LilyScriptOne" style={title ? {display: 'flex'} : {display: 'none'}}>AboutMe</h1>
             <h1 className="loading-message font-Sanchez">Loading</h1>
         </div>
     );

@@ -36,7 +36,7 @@ export default function Home() {
     }, []);
 
     if(loading) {
-        return <LoadingPage />;
+        return <LoadingPage title={true} />;
     }
 
     return (
