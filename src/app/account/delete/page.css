@@ -54,3 +54,10 @@
 .btn-submit:hover {
     background-color: #f00000;
 }
+
+.message {
+    color: #008fff;
+    text-decoration: underline #008fff;
+    text-align: center;
+    margin-bottom: 20px;
+}

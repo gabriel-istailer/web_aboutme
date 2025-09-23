@@ -2,7 +2,6 @@
 
 import '../../layout.css';
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -28,7 +27,6 @@ export default function FinishSignUp() {
                 const res = await fetch(`/api/users/signup/finish?token=${token}`);
                 const resData = await res.json();
                 setMessage(resData.message);
-                console.log(resData);
                 if(resData.token) {
                     localStorage.setItem('userToken', JSON.stringify(resData.token));
                     router.push('/');
@@ -48,7 +46,6 @@ export default function FinishSignUp() {
         <div className="finishSignUp">
             <div className="formLayout-form flex-center flex-column">
                 <h1 className="formLayout-title text-center">Sign Up</h1>
-                <Link className='formLayout-button text-center' onClick={() => {setLoading(true)}} href='/'>Página inicial</Link>
                 <p className="formLayout-advice text-center">{message}</p>
                 <p className="formLayout-loading text-center" style={loading ? {display: 'block'} : {display: 'none'}} >Loading...</p>
             </div>
