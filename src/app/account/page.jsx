@@ -96,6 +96,7 @@ export default function Account() {
 
                     </section>
 
+                    <Link className='back' href="/">&lt;back</Link>
                 </div>
 
             </main>

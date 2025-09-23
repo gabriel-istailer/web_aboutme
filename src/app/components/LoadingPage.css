@@ -13,10 +13,26 @@
     font-size: 50px;
 }
 
-.loading-message {
+.loader {
+    display: block;
+    width: 64px;
+    height: 64px;
+    border: 5px solid #008fff;
+    border-bottom-color: #fff;
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: loader-rotation 1s linear infinite;
+
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 50px;
+}
+@keyframes loader-rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

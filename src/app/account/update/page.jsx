@@ -3,12 +3,13 @@
 import '../layout.css';
 import './page.css';
 
-import ProfileImageUpdate from '../../components/ProfileImageUpdate';
-import NameUpdate from '../../components/NameUpdate';
-
-import { useState, useEffect } from 'react';
-import LoadingPage from '../../components/LoadingPage';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+import NameUpdate from '../../components/NameUpdate';
+import ProfileImageUpdate from '../../components/ProfileImageUpdate';
+import LoadingPage from '../../components/LoadingPage';
 import EmailUpdate from '../../components/EmailUpdate';
 import ProfessionUpdate from '../../components/ProfessionUpdate';
 import HobbiesUpdate from '../../components/HobbiesUpdate';
@@ -108,6 +109,7 @@ export default function UpdateAccount() {
 
                     {renderSelectedComponent()}
 
+                    <Link className='back' href="/account">&lt;back</Link>
                 </div>
             </main>
         </div>
