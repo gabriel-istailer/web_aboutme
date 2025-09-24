@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 export default function Account() {
 
     const [user, setUser] = useState(null);
+    const [hobbies, setHobbies] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -34,6 +35,13 @@ export default function Account() {
         };
         fetchGetUser();
     }, []);
+
+    useEffect(() => {
+        if (!user?.hobbies) {
+            return;
+        }
+        setHobbies(user?.hobbies.split(', '));
+    }, [user]);
 
     if (loading) {
         return <LoadingPage />;
@@ -81,8 +89,13 @@ export default function Account() {
                             <p className="account-main-section-info" id="pAccountMainSectionInfoProfession">{user.profession ? user.profession : 'undefined'}</p>
 
                             <label htmlFor="pAccountMainSectionInfoHobbies" className="account-main-section-label">Hobbies:</label>
-                            <p className="account-main-section-info" id='pAccountMainSectionInfoHobbies'>{user.hobbies ? user.hobbies : 'undefined'}</p>
-                            {/* Descompactar hobbies aqui */}
+                            <div>
+                                {hobbies && hobbies.length > 0 ? hobbies.map(hobby => (
+                                    <div key={hobby} className='account-main-section-object'>
+                                        <p className='account-main-section-object-info'>{hobby}</p>
+                                    </div>
+                                )) : <p className='account-main-section-info'>undefined</p>}
+                            </div>
 
                             <label htmlFor="pAccountMainSectionInfoBiography" className="account-main-section-label">Biography:</label>
                             <p className="account-main-section-info" id='pAccountMainSectionInfoBiography'>{user.biography ? user.biography : 'undefined'}</p>

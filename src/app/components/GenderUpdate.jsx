@@ -70,7 +70,7 @@ export default function GenderUpdate({ user, setUser}) {
                 </select>
                 <button type="submit" className="components-btn-submit">Update gender</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
-                <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
+                <p style={loading ? { display: 'flex' } : { display: 'none' }} className="account-update-loading">Loading...</p>
             </form>
         </div>
     );

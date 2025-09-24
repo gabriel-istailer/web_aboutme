@@ -73,7 +73,7 @@ export default function ProfessionUpdate({ user }) {
                 <input type="text" className="components-input" onChange={(e) => { setProfession(e.target.value) }} name="newProfession" id="professionUpdateInput" />
                 <button type="submit" className="components-btn-submit">Update profession</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
-                <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
+                <p style={loading ? { display: 'flex' } : { display: 'none' }} className="account-update-loading">Loading...</p>
             </form>
         </div>
     );

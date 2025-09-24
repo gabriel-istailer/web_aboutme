@@ -125,7 +125,7 @@ export default function HobbiesUpdate({ user }) {
                 <input type="text" className="components-input" onChange={(e) => { setHobby(e.target.value) }} name="newHobby" id="hobbyAddInput" />
                 <button type="submit" className="components-btn-submit">Add hobby</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
-                <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
+                <p style={loading ? { display: 'flex' } : { display: 'none' }} className="account-update-loading">Loading...</p>
             </form>
         </div>
     );

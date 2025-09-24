@@ -7,19 +7,30 @@ import { useState } from 'react';
 export default function PasswordUpdate({ user }) {
 
     const [password, setPassword] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
-    async function passwordValidations() {
+    async function passwordsValidations() {
 
         setLoading(true);
 
-        if (password.trim().length < 6 || password.trim().length > 16) {
+        if(currentPassword.trim().length < 6 || currentPassword.trim().length > 16) {
+            setMessage('The current password must contain between 6 and 16 characters');
+            setLoading(false);
+            return false;
+        } else if (currentPassword.includes(' ')) {
+            setMessage('The current password cannot contain spaces');
+            setLoading(false);
+            return false;
+        }
+
+        if(password.trim().length < 6 || password.trim().length > 16) {
             setMessage('The password must contain between 6 and 16 characters');
             setLoading(false);
             return false;
         } else if (password.includes(' ')) {
-            setMessage('Password cannot contain spaces');
+            setMessage('The password cannot contain spaces');
             setLoading(false);
             return false;
         }
@@ -30,10 +41,23 @@ export default function PasswordUpdate({ user }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: user?.email, password })
+                body: JSON.stringify({ email: user?.email, password: currentPassword })
             });
             const resData = await res.json();
-            if(resData.isPassword) {
+            if(!resData.isPassword) {
+                setMessage('Current password incorrect');
+                setLoading(false);
+                return false;
+            }
+            const res2 = await fetch('/api/users/verify/password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: user?.email, password })
+            });
+            const resData2 = await res2.json();
+            if(resData2.isPassword) {
                 setMessage('This password is already your current password');
                 setLoading(false);
                 return false;
@@ -51,7 +75,7 @@ export default function PasswordUpdate({ user }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        if(!await passwordValidations()) {
+        if(!await passwordsValidations()) {
             return;
         }
 
@@ -80,11 +104,13 @@ export default function PasswordUpdate({ user }) {
     return (
         <div className="PasswordUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
+                <label htmlFor="currentPasswordUpdateInput" className="components-label">Your current password:</label>
+                <input type="password" className="components-input" onChange={(e) => { setCurrentPassword(e.target.value) }} name="currentPassword" id="currentPasswordUpdateInput" />
                 <label htmlFor="passwordUpdateInput" className="components-label">Your new password:</label>
                 <input type="text" className="components-input" onChange={(e) => { setPassword(e.target.value) }} name="newPassword" id="passwordUpdateInput" />
                 <button type="submit" className="components-btn-submit">Update password</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
-                <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
+                <p style={loading ? { display: 'flex' } : { display: 'none' }} className="account-update-loading">Loading...</p>
             </form>
         </div>
     );

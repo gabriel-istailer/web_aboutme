@@ -43,6 +43,7 @@
 .account-main-section-label {
     position: relative;
     font-size: 20px;
+    margin-bottom: 5px;
     padding-left: 5px;
     color: #222;
     border-left: 3px solid #008fff;
@@ -53,6 +54,22 @@
     font-size: 22px;
     padding-left: 5px;
     margin-bottom: 20px
+}
+
+.account-main-section-object {
+    width: 300px;
+    margin-left: 40px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid #008fff;
+}
+.account-main-section-object:last-child {
+    margin-bottom: 40px;
+}
+
+.account-main-section-object-info {
+    font-size: 22px;
 }
 
 .account-main-section-1-buttons {

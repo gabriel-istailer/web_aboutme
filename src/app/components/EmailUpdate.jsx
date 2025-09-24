@@ -87,7 +87,7 @@ export default function EmailUpdate({ user }) {
                 <input type="email" className="components-input" onChange={(e) => { setEmail(e.target.value) }} name="newEmail" id="emailUpdateInput" />
                 <button type="submit" className="components-btn-submit">Verify new email</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
-                <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
+                <p style={loading ? { display: 'flex' } : { display: 'none' }} className="account-update-loading">Loading...</p>
             </form>
             <div className="emailUpdate-verification-email flex-center flex-column" style={displayEmailVerification ? {display: 'flex'} : {display: 'none'}}>
                 <p className='text-center'>We sent a verification email to {email}, please check your new email in 2 minutes to update it.</p>

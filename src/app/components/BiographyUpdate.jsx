@@ -79,7 +79,7 @@ export default function BiographyUpdate({ user, setUser }) {
                 <span className='components-text-counter'>{counter}</span>
                 <button type="submit" className="components-btn-submit">Update biography</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
-                <p style={loading ? { display: 'flex' } : { display: 'none' }}>Loading...</p>
+                <p style={loading ? { display: 'flex' } : { display: 'none' }} className="account-update-loading">Loading...</p>
             </form>
         </div>
     );
