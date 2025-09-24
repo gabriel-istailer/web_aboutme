@@ -90,9 +90,7 @@ export default function PasswordUpdate({ user }) {
                 body: JSON.stringify({password, email: user.email, isToken: false})
             });
             const resData = await res.json();
-            if(resData.status === 201) {
-                setMessage(resData.message);
-            }
+            setMessage(resData.message);
         } catch (error) {
             console.log('Error fetching to update user password: ', error);
             setMessage('Error');

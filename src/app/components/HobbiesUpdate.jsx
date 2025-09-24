@@ -100,9 +100,7 @@ export default function HobbiesUpdate({ user }) {
                 body: JSON.stringify({hobbies: updatedHobbies.join(', '), email: user.email})
             });
             const resData = await res.json();
-            if(resData.status === '201') {
-                setMessage(resData.message);
-            }
+            setMessage(resData.message);
         } catch (error) {
             console.log('Error fetching to update hobbies: ', error);
             setMessage('Error');

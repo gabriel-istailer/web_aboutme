@@ -48,9 +48,7 @@ export default function NameUpdate({ user, setUser }) {
                 body: JSON.stringify({name, email: user.email})
             });
             const resData = await res.json();
-            if(resData.status === 201) {
-                setMessage(resData.message);
-            }
+            setMessage(resData.message);
         } catch (error) {
             console.log('Error fetching to update username: ', error);
             setMessage('Error');

@@ -42,9 +42,7 @@ export default function BirthDateUpdate({ user, setUser}) {
                 body: JSON.stringify({birthDate, email: user.email})
             });
             const resData = await res.json();
-            if(resData.status === 201) {
-                setMessage(resData.message);
-            }
+            setMessage(resData.message);
             setUser(prev => ({
                 ...prev,
                 birth_date: birthDate,

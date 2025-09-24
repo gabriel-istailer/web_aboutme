@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 export default function GenderUpdate({ user, setUser}) {
 
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState('Masculine');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -42,9 +42,7 @@ export default function GenderUpdate({ user, setUser}) {
                 body: JSON.stringify({gender, email: user.email})
             });
             const resData = await res.json();
-            if(resData.status === 201) {
-                setMessage(resData.message);
-            }
+            setMessage(resData.message);
         } catch (error) {
             console.log('Error fetching to update user gender: ', error);
             setMessage('Error');
@@ -62,11 +60,11 @@ export default function GenderUpdate({ user, setUser}) {
         <div className="GenderUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
                 <label htmlFor="currentGender" className='components-label'>Current gender:</label>
-                <p className='components-data'>{user.gender ? user.gender : "undefined"}</p>
+                <p className='components-data'>{user.gender ?? "undefined"}</p>
                 <label htmlFor="genderUpdateSelect" className="components-label">Select your new gender:</label>
                 <select className="components-select" onChange={e => { setGender(e.target.value) }} name="genderUpdateSelect" id="genderUpdateSelect">
-                    <option className='components-option' value="masculine">masculine</option>
-                    <option className='components-option' value="feminine">feminine</option>
+                    <option className='components-option' value="Masculine">Masculine</option>
+                    <option className='components-option' value="Feminine">Feminine</option>
                 </select>
                 <button type="submit" className="components-btn-submit">Update gender</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>

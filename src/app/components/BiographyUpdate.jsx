@@ -49,9 +49,7 @@ export default function BiographyUpdate({ user, setUser }) {
                 body: JSON.stringify({biography, email: user.email})
             });
             const resData = await res.json();
-            if(resData.status === 201) {
-                setMessage(resData.message);
-            }
+            setMessage(resData.message);
         } catch (error) {
             console.log('Error fetching to update user biography: ', error);
             setMessage('Error');
@@ -69,7 +67,7 @@ export default function BiographyUpdate({ user, setUser }) {
         <div className="BiographyUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
                 <label htmlFor="currentBiography" className='components-label'>Current biography:</label>
-                <textarea className="components-input components-textarea" defaultValue={user.biography ? user.biography : "undefined"} rows={8} cols={50} name="currentBiography" id="currentBiography" readOnly></textarea>
+                <textarea className="components-input components-textarea" value={user.biography ? user.biography : "undefined"} rows={8} cols={50} name="currentBiography" id="currentBiography" readOnly></textarea>
                 <label htmlFor="biographyUpdateInput" className="components-label">Your new biography:</label>
                 <textarea className="components-input components-textarea" onChange={(e) => { 
                     setBiography(e.target.value) 

@@ -4,7 +4,7 @@ import './components.css';
 
 import { useState } from 'react';
 
-export default function ProfessionUpdate({ user }) {
+export default function ProfessionUpdate({ user, setUser }) {
 
     const [profession, setProfession] = useState('');
     const [loading, setLoading] = useState(false);
@@ -48,9 +48,7 @@ export default function ProfessionUpdate({ user }) {
                 body: JSON.stringify({profession, email: user.email})
             });
             const resData = await res.json();
-            if(resData.status === 201) {
-                setMessage(resData.message);
-            }
+            setMessage(resData.message);
         } catch (error) {
             console.log('Error fetching to update user profession: ', error);
             setMessage('Error');
