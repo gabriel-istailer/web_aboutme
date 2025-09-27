@@ -6,11 +6,17 @@ export async function GET(req) {
         const { searchParams } = new URL(req.url);
         const token = searchParams.get('token');
         const email = searchParams.get('email');
+        const id = searchParams.get('id');
         
-        if(!token && !email) {
+        if(!token && !email && !id) {
             return NextResponse.json({ message: 'Data not found' }, { status: 404 });
         }
-        const data = token ? token : email;
+        let data = token ? token : email;
+        if(!data) {
+            data = id;
+            const user = await UserController.getById(data);
+            return NextResponse.json({ message: 'User successfully verified on server', user }, { status: 200 });
+        }
         const isToken = token ? true : false;
 
         const user = await UserController.get(data, isToken);

@@ -13,6 +13,8 @@ export default function DeleteAccount() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);    
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState('');
 
@@ -115,10 +117,16 @@ export default function DeleteAccount() {
                     <input type="email" onChange={(e) => {setEmail(e.target.value)}} name='inputEmail' id="inputEmail" className='input' required />
 
                     <label htmlFor="inputPassword" className='label'>Your password:</label>
-                    <input type="password" onChange={(e) => {setPassword(e.target.value)}} name='inputPassword' id="inputPassword" className='input' required />
+                    <input type={showPassword1 ? 'text' : 'password'} onChange={(e) => {setPassword(e.target.value)}} name='inputPassword' id="inputPassword" className='input' required />
+
+                    <label htmlFor="showPassword1" className={showPassword1 ? 'show-password' : 'hide-password'}>Show password:</label>
+                    <input type="checkbox" onChange={() => { setShowPassword1(prev => !prev) }} name="showPassword1" id="showPassword1" style={{display: 'none'}}/>                
 
                     <label htmlFor="inputConfirmPassword" className='label'>Confirm your password:</label>
-                    <input type="password" onChange={(e) => {setConfirmPassword(e.target.value)}} name='inputConfirmPassword' id="inputConfirmPassword" className='input' required />
+                    <input type={showPassword2 ? 'text' : 'password'} onChange={(e) => {setConfirmPassword(e.target.value)}} name='inputConfirmPassword' id="inputConfirmPassword" className='input' required />
+
+                    <label htmlFor="showPassword2" className={showPassword2 ? 'show-password' : 'hide-password'}>Show password:</label>
+                    <input type="checkbox" onChange={() => { setShowPassword2(prev => !prev) }} name="showPassword2" id="showPassword2" style={{display: 'none'}}/>
 
                     <button type="submit" className='btn-submit'>Delete Account</button>
                     <p style={message ? {display: 'flex'} : {display: 'none'}} className='message'>{message}</p>

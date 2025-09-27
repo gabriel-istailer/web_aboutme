@@ -8,6 +8,8 @@ export default function PasswordUpdate({ user }) {
 
     const [password, setPassword] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -103,9 +105,17 @@ export default function PasswordUpdate({ user }) {
         <div className="PasswordUpdate">
             <form onSubmit={handleSubmit} className="flex-center flex-column">
                 <label htmlFor="currentPasswordUpdateInput" className="components-label">Your current password:</label>
-                <input type="password" className="components-input" onChange={(e) => { setCurrentPassword(e.target.value) }} name="currentPassword" id="currentPasswordUpdateInput" />
+                <input type={showPassword1 ? 'text' : 'password'} className="components-input" onChange={(e) => { setCurrentPassword(e.target.value) }} name="currentPassword" id="currentPasswordUpdateInput" />
+
+                <label htmlFor="showPassword1" className={showPassword1 ? 'components-checkbox-show-password' : 'components-checkbox-hide-password'}>Show password:</label>
+                <input type="checkbox" onChange={() => { setShowPassword1(prev => !prev) }} name="showPassword1" id="showPassword1" style={{display: 'none'}}/>
+
                 <label htmlFor="passwordUpdateInput" className="components-label">Your new password:</label>
-                <input type="text" className="components-input" onChange={(e) => { setPassword(e.target.value) }} name="newPassword" id="passwordUpdateInput" />
+                <input type={showPassword2 ? 'text' : 'password'} className="components-input" onChange={(e) => { setPassword(e.target.value) }} name="newPassword" id="passwordUpdateInput" />
+
+                <label htmlFor="showPassword2" className={showPassword2 ? 'components-checkbox-show-password' : 'components-checkbox-hide-password'}>Show password:</label>
+                <input type="checkbox" onChange={() => { setShowPassword2(prev => !prev) }} name="showPassword2" id="showPassword2" style={{display: 'none'}}/>
+
                 <button type="submit" className="components-btn-submit">Update password</button>
                 <p style={message ? { display: 'flex' } : { display: 'none' }} className="account-update-message">{message}</p>
                 <p style={loading ? { display: 'flex' } : { display: 'none' }} className="account-update-loading">Loading...</p>

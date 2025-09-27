@@ -19,7 +19,7 @@ export default function RegisteredUserPage({ user }) {
                     <Link className='home-header-nav-link home-header-nav-dropdown-dad-link font-Sanchez' href='/account'>Account</Link>
                     <div className="home-header-nav-dropdown-links">
                         <Link className="home-header-nav-dropdown-child-link font-Sanchez" href='/account'>Account</Link>
-                        <Link className="home-header-nav-dropdown-child-link font-Sanchez" href='/'>Profile</Link>
+                        <Link className="home-header-nav-dropdown-child-link font-Sanchez" href={'/profile?id='+user.id_users}>Profile</Link>
                         <button type="button" className="home-header-nav-dropdown-child-link font-Sanchez" onClick={handleLeaveAccount}>Leave</button>
                     </div>
                 </div>

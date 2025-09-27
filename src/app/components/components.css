@@ -102,3 +102,46 @@
 .components-text-counter {
     margin-right: auto;
 }
+
+.components-checkbox-hide-password {
+    position: relative;
+    margin-right: auto;
+    cursor: pointer;
+}
+.components-checkbox-hide-password:hover {
+    text-decoration: underline #000;
+}
+.components-checkbox-hide-password::after {
+    position: absolute;
+    content: '';
+    left: 103%;
+    top: 6px;
+    width: 6px;
+    height: 6px;
+    outline: 2px solid #000;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+.components-checkbox-show-password {
+    position: relative;
+    margin-right: auto;
+    cursor: pointer;
+}
+.components-checkbox-show-password:hover {
+    text-decoration: underline #000;
+}
+.components-checkbox-show-password::after {
+    position: absolute;
+    content: '';
+    left: 103%;
+    top: 6px;
+    width: 6px;
+    height: 6px;
+    outline: 2px solid #222;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #00afff;
+    transition: 0.2s;
+}
